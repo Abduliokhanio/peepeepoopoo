@@ -26,6 +26,7 @@ module.exports = {
     'plugin:react/recommended',
   ],
   rules: {
+    'react/no-children-prop': [0],
     "react/prop-types": "off",
     "consistent-return": 2,
     "indent": [1, 2],
