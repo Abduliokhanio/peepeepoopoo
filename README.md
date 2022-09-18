@@ -5,6 +5,10 @@
 * npm install
 * npm run start
 
+
+Categories = Menus
+Products = Menu Items
+
 ## Local
 brew services start postgresql 
 supabase start
