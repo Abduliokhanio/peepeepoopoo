@@ -4,8 +4,7 @@ import CircleIcon from './CircleIcon';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 
-
-export default function OrderLoadingBox() {
+export default function OrderLoadingBox({props}) {
 
   return (
     <div>
@@ -13,7 +12,7 @@ export default function OrderLoadingBox() {
         <Box borderWidth='1px' borderRadius='lg' overflow='' bg='#D9D9D9' w='94.5%' p={4} color='black'>
           <div className = "title of button" >
             <Center>
-              <p style = {{fontSize : "1.2em"}}>{`Order #${props.order_id}`}</p><br/>
+              <p style = {{fontSize : '1.2em'}}>{`Order #${props.order_id}`}</p><br/>
             </Center>
           </div>
           <div className = "loading circles" >
@@ -28,7 +27,7 @@ export default function OrderLoadingBox() {
             <Spacer/>
             <Link to={`/orders/${props.order_id}/edit`}>
               <Center>
-                <p style = {{fontSize : ".6em"}}>{"View Detail"}</p>
+                <p style = {{fontSize : '.6em'}}>{'View Detail'}</p>
                 <ChevronRightIcon/>
               </Center>
             </Link>

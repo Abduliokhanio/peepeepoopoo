@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports = {
   env: {
     browser: true,
@@ -13,25 +14,31 @@ module.exports = {
     },
     ecmaVersion: 'latest',
     requireConfigFile: false,
-    sourceType: "module",
+    sourceType: 'module',
     allowImportExportEverywhere: true,
     babelOptions: {
       babelrc: false,
       configFile: false,
-      presets: ["@babel/preset-env", "@babel/preset-react"],
-      plugins: ["@babel/plugin-proposal-class-properties"]
+      presets: ['@babel/preset-env', '@babel/preset-react'],
+      plugins: ['@babel/plugin-proposal-class-properties']
     },
   },
   extends: [
     'plugin:react/recommended',
+    'eslint:recommended'
   ],
   rules: {
     'react/no-children-prop': [0],
-    "react/prop-types": "off",
-    "consistent-return": 2,
-    "indent": [1, 2],
-    "no-else-return": 1,
-    "semi": [1, "always"],
-    "space-unary-ops": 2,
+    'react/prop-types': 'off',
+    'react/jsx-props-no-multi-spaces': [1],
+    'consistent-return': 2,
+    'no-unused-vars': 0,
+    'indent': [1, 2],
+    'no-else-return': 1,
+    'semi': [1, 'always'],
+    'space-unary-ops': 2,
+    'no-unexpected-multiline': [1],
+    'no-multiple-empty-lines': [1, { max: 1, maxEOF: 1 }],
+    'quotes': [2, 'single', { 'avoidEscape': true }]
   },
 };
