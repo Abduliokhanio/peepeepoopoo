@@ -6,9 +6,9 @@ import {
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import MenuDrawer from './MenuDrawer';
 
-function navButton(nav) {
+function navButton(showBackButton) {
   const navigate = useNavigate();
-  if (nav !== 'menu') {
+  if (showBackButton) {
     return (
       <Box onClick={() => navigate(-1)}>
         <ChevronLeftIcon />
@@ -20,13 +20,13 @@ function navButton(nav) {
   );
 }
 
-export default function NavBar({ title, navType }) {
+export default function NavBar({ title, showBackButton }) {
   return (
     <nav>
       <Flex px="6" h="20" alignItems="center">
-        {navButton(navType)}
+        {navButton(showBackButton)}
         <Spacer />
-        <Heading fontSize="xl">{title}</Heading>
+        <Heading fontSize="sm">{title}</Heading>
         <Spacer />
       </Flex>
     </nav>

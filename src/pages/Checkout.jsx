@@ -5,7 +5,6 @@ import {
 import { Link as ReachLink } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ModifierModal from '../components/ModifierModal';
-import MenuItem from '../components/MenuItem';
 import TipOptions from '../components/TipOptions';
 
 export default function CheckoutPage() {
@@ -32,14 +31,14 @@ export default function CheckoutPage() {
         align="stretch"
         px="6"
       >
-        <MenuItem
+        {/* <MenuItem
           onClick={onOpen}
           qty={menuItem.qty}
           title={menuItem.title}
           desc={menuItem.desc}
           price={menuItem.formattedPrice}
           page={menuItem.page}
-        />
+        /> */}
         <Stack>
           <Flex>
             <Text>Subtotal</Text>
