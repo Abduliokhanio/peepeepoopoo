@@ -2,29 +2,30 @@ import React from 'react';
 import {
   Box, Flex, Heading, Text, Spacer, Link,
 } from '@chakra-ui/react';
-import { Link as ReachLink } from 'react-router-dom';
 
+export default function CheckoutButton({brandColor}) {
 
-export default function CheckoutButton() {
   return (
-    <Link as={ReachLink} to="/checkout">
+    <Flex pos="fixed"
+      bottom="0" 
+      bg="RGBA(255, 255, 255, 0.90)" 
+      py="4" 
+      blur="40%" w="100%" justifyContent="center">
       <Box
-        pos="absolute"
-        bottom="0"
-        width="100vw"
-        py="6"
-        backgroundColor="#60cb7b"
+        mx="6"
+        w="100%"
+        py="5"
+        borderRadius="md"
+        backgroundColor={brandColor}
       >
-        <Flex justifyContent="center" alignItems="center">
-          <Spacer />
-          <Text>3</Text>
-          <Spacer />
-          <Heading size="lg">View Order</Heading>
-          <Spacer />
-          <Text>$6.50</Text>
-          <Spacer />
+        <Flex justifyContent='space-around' alignItems="center">
+          <Box px="3" py="1" bg="#ffffff3d" borderRadius="md">
+            <Text fontWeight="bold">3</Text>
+          </Box>
+          <Heading fontWeight='semibold' size="md">View order</Heading>
+          <Text mt="1" fontSize='1.1em' fontWeight='semibold'>$6.50</Text>
         </Flex>
       </Box>
-    </Link>
+    </Flex>
   );
 }

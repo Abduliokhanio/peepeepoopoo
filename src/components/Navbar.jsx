@@ -20,13 +20,13 @@ function navButton(showBackButton) {
   );
 }
 
-export default function NavBar({ title, showBackButton }) {
+export default function NavBar({ title, showBackButton, brandColor }) {
   return (
     <nav>
-      <Flex px="6" h="20" alignItems="center">
+      <Flex px="6" h="16" alignItems="center" bg={brandColor}>
         {navButton(showBackButton)}
         <Spacer />
-        <Heading fontSize="sm">{title}</Heading>
+        <Heading fontSize="lg">{title}</Heading>
         <Spacer />
       </Flex>
     </nav>

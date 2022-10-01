@@ -6,9 +6,9 @@ import ModifierModal from '../components/ModifierModal';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
 import {
-  Stack, VStack, useEditableControls, Text, EditableInput, StackDivider, useDisclosure, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup
+  Stack, VStack, useEditableControls, Text, EditableInput, StackDivider, useDisclosure, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
 } from '@chakra-ui/react';
-import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons';
+import { CheckIcon, EditIcon } from '@chakra-ui/icons';
 
 export default function CategoriesPage() {
 
@@ -18,8 +18,10 @@ export default function CategoriesPage() {
   const QRCodeTableNumber = '2';
 
   const [menuOptions, setMenuOptions] = useState([]);
+  const [menuLoadList, setMenuLoadList] = useState([]);
   const [merchantName, setMerchantName] = useState('');
   const [tableNumber, setTableNumber] = useState('');
+  const [brandColor, setBrandColor] = useState('');
 
   useEffect(() => {
     fetchMenu();
@@ -29,30 +31,42 @@ export default function CategoriesPage() {
   const fetchMenu = async () => { 
     const fetchMerchant = await supabase
       .from('merchants')
-      .select('id, name, url_path').match({url_path: QRCodePath});
-    console.log(fetchMerchant);
+      .select('id, name, url_path, brand_color').match({url_path: QRCodePath});
+
+    // console.log(fetchMerchant);
     setMerchantName(fetchMerchant.data[0].name);
+    setBrandColor(fetchMerchant.data[0].brand_color);
     const merchantId = fetchMerchant.data[0].id;
 
     const fetchMenus = await supabase
       .from('categories')
       .select().match({merchant_id: merchantId});
+  
+    setMenuLoadList(menuOptions.slice(0, 5));
 
-    setMenuOptions(fetchMenus.data);
+    if (fetchMerchant.error) {
+      throw fetchMerchant.error;
+    } else {
+      setMenuOptions(fetchMenus.data);
+    }
+  };
 
-    // if (error) {
-    //   throw error;
-    // }
+  const fetchMoreData = () => {
+    setTimeout(() => {
+      setMenuLoadList(menuLoadList.concat(menuOptions.from({ length: 5 })));
+    }, 1500);
   };
 
   const displayMenus = () => {
-    console.log(menuOptions);
+
+    console.log(menuLoadList);
+   
     return(
-      menuOptions.map((menuOption, index) => (<MenuItem
+      menuLoadList.map((menu, index) => (<MenuItem
         key={index}
         onClick={onOpen}
-        title={menuOption.name}
-        desc={menuOption.description}
+        title={menu.name}
+        desc={menu.description}
       />)));
   };
 
@@ -60,7 +74,6 @@ export default function CategoriesPage() {
     const {
       isEditing,
       getSubmitButtonProps,
-      getCancelButtonProps,
       getEditButtonProps,
     } = useEditableControls();
 
@@ -78,37 +91,46 @@ export default function CategoriesPage() {
   const bannerImage = 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80';
 
   return (
-    <Flex direction="column" minH="100vh">
-      <ModifierModal isOpen={isOpen} onClose={onClose} modifierType="new" />
-      <Navbar title={merchantName} showBackButton={false} />
-      <VStack py="16" backgroundImage={bannerImage} objectFit="cover" mb="8">
-        <Editable
-          textAlign='center'
-          defaultValue={tableNumber}
-          fontSize='md'
-          isPreviewFocusable={false}
-        >
-          <Flex bg="white" px="5" py="3" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
-            <Flex alignItems='center'>
-              <Text fontSize="mg" fontWeight='semibold'>Table</Text>
-              <Input w='100%' mx="2" maxW="14" as={EditableInput} defaultValue={QRCodeTableNumber} />
-              <EditablePreview fontSize="md" fontWeight='semibold' ml="1" mr="3"/>
+    <Box>
+      <Flex direction="column">
+        <ModifierModal isOpen={isOpen} onClose={onClose} modifierType="new" />
+        <Navbar title={merchantName} showBackButton={false} brandColor={brandColor} />
+        <VStack py="16" backgroundImage={bannerImage} objectFit="cover" mb="8">
+          <Editable
+            textAlign='center'
+            fontSize='md'
+            value={tableNumber}
+            isPreviewFocusable={false}
+          >
+            <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
+              <Flex alignItems='center'>
+                <Text fontSize="mg" fontWeight='semibold'>Table</Text>
+                <Input w='100%' mx="2" maxW="14" as={EditableInput} />
+                <EditablePreview fontSize="md" fontWeight='semibold' ml="1" mr="3"/>
+              </Flex>
+              <EditableControls />
             </Flex>
-            <EditableControls />
-          </Flex>
-        </Editable>
-      </VStack>
-      <Stack px="6" bg="#F9FBFC">
-        <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
-        <VStack
-          spacing='6'
-          align="stretch"
-        >
-          {menuOptions.length === 0 ? null : displayMenus()}
+          </Editable>
         </VStack>
-      </Stack>
-      <Spacer />
-      <CheckoutButton />
-    </Flex>
+
+        <Stack pb='100' px="6" bg="#F9FBFC">
+          <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
+          <InfiniteScroll
+            dataLength={menuLoadList.length} 
+            next={fetchMoreData}
+            hasMore={menuOptions.length !== menuLoadList.length}
+          >
+            <VStack
+              spacing='6'
+              align="stretch"
+            >
+              {menuLoadList.length === 0 ? null : displayMenus()}
+            </VStack>
+          </InfiniteScroll>;
+        </Stack>
+        <Spacer />
+      </Flex>
+      <CheckoutButton brandColor={brandColor} />
+    </Box>
   );
 }

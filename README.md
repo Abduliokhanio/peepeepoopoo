@@ -1,5 +1,7 @@
 # For Developers
 
+ios simulator: open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
+
 * use nvm
   * or at least make sure you know the .nvmrc and run the same
 * npm install

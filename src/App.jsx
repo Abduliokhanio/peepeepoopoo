@@ -8,6 +8,7 @@ import Checkout from './pages/Checkout';
 import CreateAccount from './pages/CreateAccount';
 import ClosedTab from './pages/ClosedTab';
 import OrderConfirmed from './pages/OrderConfirmed';
+import Products from './pages/Products';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path="/">
               <Route index element={<Categories />} />
+              <Route path="products" element={<Products />} />
               <Route path="orders" element={<Orders />} />
               <Route path="checkout" element={<Checkout />} />
               <Route path="signup" element={<CreateAccount />} />
