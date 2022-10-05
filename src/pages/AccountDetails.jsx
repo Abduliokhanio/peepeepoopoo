@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from '../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
 import {
@@ -86,6 +87,7 @@ export default function BusinessInformationForm({setCurrentForm}) {
 
   return (
     <Box>
+      <Navbar title="Edit account details" showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
       <VStack spacing={6} textAlign="left">
         <FormControl>
           <FormLabel fontSize='sm' mb='2'>Full name</FormLabel>
