@@ -6,10 +6,12 @@ import { AuthProvider } from './context/Auth';
 import Categories from './pages/Categories';
 import Orders from './pages/Orders';
 import Checkout from './pages/Checkout';
-import CreateAccount from './pages/CreateAccount';
 import ClosedTab from './pages/ClosedTab';
 import OrderConfirmed from './pages/OrderConfirmed';
 import Products from './pages/Products';
+import Account from './pages/Account';
+import AccountDetails from './pages/AccountDetails';
+import Login from './pages/Login';
 
 function App() {
 
@@ -24,8 +26,10 @@ function App() {
                 <Route path="products" element={<Products />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="checkout" element={<Checkout />} />
-                <Route path="signup" element={<CreateAccount />} />
                 <Route path="closed-tab" element={<ClosedTab />} />
+                <Route path="login" element={<Login />} />
+                <Route path="account" element={<Account />} />
+                <Route path="account-details" element={<AccountDetails />} />
                 <Route path="order-confirmed" element={<OrderConfirmed />} />
               </Route>
             </Routes>
