@@ -1,8 +1,8 @@
 import React, { useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../services/supabaseClient';
 import Navbar from '../components/Navbar';
-import MenuItem from '../components/MenuCard';
-import ModifierModal from '../components/ModifierModal';
+import MenuCard from '../components/MenuCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
 import {
@@ -16,9 +16,9 @@ export default function CategoriesPage() {
   const QRCodeURL = 'https://www.orderahead.io/';
   const QRCodePath = 'nu-wood-fire-grill';
   const QRCodeTableNumber = '2';
-
+  const navigate = useNavigate();
+  
   const [menuOptions, setMenuOptions] = useState([]);
-  const [menuLoadList, setMenuLoadList] = useState([]);
   const [merchantName, setMerchantName] = useState('');
   const [tableNumber, setTableNumber] = useState('');
   const [brandColor, setBrandColor] = useState('');
@@ -26,45 +26,52 @@ export default function CategoriesPage() {
   useEffect(() => {
     fetchMenu();
     setTableNumber(QRCodeTableNumber);
+    localStorage.setItem('tableNumber', QRCodeTableNumber);
   }, [false]);
+
+  const handleMenuSelect = (menuId, menuName) => { 
+    console.log('menu selected', menuName, menuId);
+    localStorage.setItem('categoryName', menuName);
+    localStorage.setItem('categoryID', menuId);
+    navigate('/products');
+  };
 
   const fetchMenu = async () => { 
     const fetchMerchant = await supabase
       .from('merchants')
       .select('id, name, url_path, brand_color').match({url_path: QRCodePath});
 
-    // console.log(fetchMerchant);
     setMerchantName(fetchMerchant.data[0].name);
+    localStorage.setItem('merchantName', fetchMerchant.data[0].name);
     setBrandColor(fetchMerchant.data[0].brand_color);
+    localStorage.setItem('brandColor', fetchMerchant.data[0].brand_color);
+    
     const merchantId = fetchMerchant.data[0].id;
+    localStorage.setItem('merchantID', merchantId);
 
     const fetchMenus = await supabase
       .from('categories')
       .select().match({merchant_id: merchantId});
-  
-    setMenuLoadList(menuOptions.slice(0, 5));
-
+      
     if (fetchMerchant.error) {
       throw fetchMerchant.error;
     } else {
       setMenuOptions(fetchMenus.data);
+      localStorage.setItem('menuOptions', fetchMenus.data);
     }
   };
 
   const fetchMoreData = () => {
     setTimeout(() => {
-      setMenuLoadList(menuLoadList.concat(menuOptions.from({ length: 5 })));
+      menuOptions(menuOptions.concat(menuOptions.from({ length: 5 })));
     }, 1500);
   };
 
   const displayMenus = () => {
-
-    console.log(menuLoadList);
-   
     return(
-      menuLoadList.map((menu, index) => (<MenuItem
+      menuOptions.map((menu, index) => (<MenuCard
         key={index}
-        onClick={onOpen}
+        onClick={() => handleMenuSelect(menu.id, menu.name)}
         title={menu.name}
         desc={menu.description}
       />)));
@@ -93,7 +100,6 @@ export default function CategoriesPage() {
   return (
     <Box>
       <Flex direction="column">
-        <ModifierModal isOpen={isOpen} onClose={onClose} modifierType="new" />
         <Navbar title={merchantName} showBackButton={false} brandColor={brandColor} />
         <VStack py="16" backgroundImage={bannerImage} objectFit="cover" mb="8">
           <Editable
@@ -113,18 +119,17 @@ export default function CategoriesPage() {
           </Editable>
         </VStack>
 
-        <Stack pb='100' px="6" bg="#F9FBFC">
+        <Stack pb='115' px="6" bg="#F9FBFC">
           <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
           <InfiniteScroll
-            dataLength={menuLoadList.length} 
+            dataLength={menuOptions.length} 
             next={fetchMoreData}
-            hasMore={menuOptions.length !== menuLoadList.length}
           >
             <VStack
               spacing='6'
               align="stretch"
             >
-              {menuLoadList.length === 0 ? null : displayMenus()}
+              {menuOptions.length === 0 ? null : displayMenus()}
             </VStack>
           </InfiniteScroll>;
         </Stack>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import './App.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/Auth';
 import Categories from './pages/Categories';
 import Orders from './pages/Orders';
 import Checkout from './pages/Checkout';
@@ -16,17 +17,19 @@ function App() {
     <ChakraProvider>
       <BrowserRouter>
         <div className="App">
-          <Routes>
-            <Route path="/">
-              <Route index element={<Categories />} />
-              <Route path="products" element={<Products />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="checkout" element={<Checkout />} />
-              <Route path="signup" element={<CreateAccount />} />
-              <Route path="closed-tab" element={<ClosedTab />} />
-              <Route path="order-confirmed" element={<OrderConfirmed />} />
-            </Route>
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="/">
+                <Route index element={<Categories />} />
+                <Route path="products" element={<Products />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="checkout" element={<Checkout />} />
+                <Route path="signup" element={<CreateAccount />} />
+                <Route path="closed-tab" element={<ClosedTab />} />
+                <Route path="order-confirmed" element={<OrderConfirmed />} />
+              </Route>
+            </Routes>
+          </AuthProvider>
         </div>
       </BrowserRouter>
     </ChakraProvider>
