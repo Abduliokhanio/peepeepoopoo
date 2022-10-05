@@ -100,7 +100,7 @@ export default function CategoriesPage() {
   return (
     <Box>
       <Flex direction="column">
-        <Navbar title={merchantName} showBackButton={false} brandColor={brandColor} />
+        <Navbar title={merchantName} showBackButton={false} showAccountButton={true} brandColor={brandColor} />
         <VStack py="16" backgroundImage={bannerImage} objectFit="cover" mb="8">
           <Editable
             textAlign='center'
