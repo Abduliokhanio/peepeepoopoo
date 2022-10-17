@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import { supabase } from '../services/supabaseClient';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  Heading, HStack, useToast, Text, FormControl, Flex, Stack, 
+  HStack, Text, Flex, Stack, 
 } from '@chakra-ui/react';
 import { Icon, ChevronRightIcon } from '@chakra-ui/icons';
 import { MdOutlineReceiptLong, MdOutlineAccountCircle } from 'react-icons/md';

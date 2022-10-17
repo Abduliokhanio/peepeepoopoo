@@ -39,12 +39,12 @@ export default function CategoriesPage() {
   const fetchMenu = async () => { 
     const fetchMerchant = await supabase
       .from('merchants')
-      .select('id, name, url_path, brand_color').match({url_path: QRCodePath});
+      .select('id, name, url_path, brand_primary_color').match({url_path: QRCodePath});
 
     setMerchantName(fetchMerchant.data[0].name);
     localStorage.setItem('merchantName', fetchMerchant.data[0].name);
-    setBrandColor(fetchMerchant.data[0].brand_color);
-    localStorage.setItem('brandColor', fetchMerchant.data[0].brand_color);
+    setBrandColor(fetchMerchant.data[0].brand_primary_color);
+    localStorage.setItem('brandColor', fetchMerchant.data[0].brand_primary_color);
     
     const merchantId = fetchMerchant.data[0].id;
     localStorage.setItem('merchantID', merchantId);

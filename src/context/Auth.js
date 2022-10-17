@@ -30,15 +30,7 @@ export const AuthProvider = ({ children }) => {
     signUp: data => supabase.auth.signUp(data),
     loginIn: (data) => supabase.auth.signInWithPassword(data),
     signOut: () => supabase.auth.signOut(),
-    user,
-    selection: {
-      categoryName: null,
-      categoryID: null
-    },
-    brand: {
-      brandName: null,
-      brandColor: null
-    }
+    user
   };
 
   // use a provider to pass down the value
