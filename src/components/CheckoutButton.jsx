@@ -20,10 +20,10 @@ export default function CheckoutButton({brandColor}) {
       >
         <Flex justifyContent='space-around' alignItems="center">
           <Box px="3" py="1" bg="#ffffff3d" borderRadius="md">
-            <Text fontWeight="bold">3</Text>
+            <Text color="#1F1F1F" fontWeight="bold">3</Text>
           </Box>
-          <Heading fontWeight='semibold' size="md">View order</Heading>
-          <Text mt="1" fontSize='1.1em' fontWeight='semibold'>$6.50</Text>
+          <Heading color="#1F1F1F" fontWeight='semibold' size="md">View order</Heading>
+          <Text color="#1F1F1F" mt="1" fontSize='1.1em' fontWeight='semibold'>$6.50</Text>
         </Flex>
       </Box>
     </Flex>

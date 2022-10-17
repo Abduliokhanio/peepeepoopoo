@@ -11,7 +11,7 @@ export default function MenuDrawer() {
   return (
     <>
       <Box onClick={onOpen}>
-        <HamburgerIcon mb="0.5" h="6" w="6"/>
+        <HamburgerIcon color="#1F1F1F" mb="0.5" h="6" w="6"/>
       </Box>
       <Drawer
         isOpen={isOpen}

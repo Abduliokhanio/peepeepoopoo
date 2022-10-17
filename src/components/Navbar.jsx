@@ -27,7 +27,7 @@ export default function NavBar({ title, showBackButton, brandColor, showAccountB
     if (showAccountButton) {
       return (
         <Box onClick={() => navigate('account')}>
-          <Icon mt="1.5" h="8" w="8" as={MdOutlineAccountCircle} />
+          <Icon color="#1F1F1F" mt="1.5" h="8" w="8" as={MdOutlineAccountCircle} />
         </Box>
       );
     }
@@ -41,7 +41,7 @@ export default function NavBar({ title, showBackButton, brandColor, showAccountB
       <Flex px="6" h="16" alignItems="center" bg={brandColor}>
         {navButton(showBackButton)}
         <Spacer />
-        <Heading fontSize="lg">{title}</Heading>
+        <Heading color="#1F1F1F" fontSize="lg">{title}</Heading>
         <Spacer />
         {rightNavButton(showAccountButton)}
       </Flex>
