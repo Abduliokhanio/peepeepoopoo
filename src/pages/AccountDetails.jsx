@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import { useAuth } from '../../context/AuthContext';
-import { supabase } from '../../services/supabaseClient';
+import { useAuth } from '../context/Auth';
+import { supabase } from '../services/supabaseClient';
 import {
   Progress, FormControl, InputGroup, InputLeftAddon, useToast, FormLabel, Box, VStack, Input, Text, Divider, Button, Flex, Spacer, HStack, Badge, Heading
 } from '@chakra-ui/react';

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Box, Flex, Heading, Text, Spacer, Link,
+  Box, Flex, Heading, Text
 } from '@chakra-ui/react';
 
 export default function CheckoutButton({brandColor}) {

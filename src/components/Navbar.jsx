@@ -14,7 +14,7 @@ export default function NavBar({ title, showBackButton, brandColor, showAccountB
     if (showBackButton) {
       return (
         <Box onClick={() => navigate(-1)}>
-          <ChevronLeftIcon h="5" w="5"/>
+          <ChevronLeftIcon h="7" w="7"/>
         </Box>
       );
     }
