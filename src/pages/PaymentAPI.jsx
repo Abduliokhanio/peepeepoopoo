@@ -36,6 +36,7 @@ export default function PostPayment() {
 
   const postPayment = async () => {
     const requestOptions = {
+      mode: 'no-cors',
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
