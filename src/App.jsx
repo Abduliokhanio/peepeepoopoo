@@ -12,6 +12,7 @@ import Products from './pages/Products';
 import Account from './pages/Account';
 import AccountDetails from './pages/AccountDetails';
 import Login from './pages/Login';
+import Payment from './pages/PaymentAPI';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
                 <Route path="closed-tab" element={<ClosedTab />} />
                 <Route path="login" element={<Login />} />
                 <Route path="account" element={<Account />} />
+                <Route path="payment" element={<Payment />} />
                 <Route path="account-details" element={<AccountDetails />} />
                 <Route path="order-confirmed" element={<OrderConfirmed />} />
               </Route>
