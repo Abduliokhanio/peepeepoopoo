@@ -22,7 +22,7 @@ function App() {
         <div className="App">
           <AuthProvider>
             <Routes>
-              <Route exact path="/" element={<LandingPage />}/>
+              <Route exact path="/" />
               <Route path="/menu/:merchant" element={<Categories />} />
               <Route path="products" element={<Products />} />
               <Route path="orders" element={<Orders />} />

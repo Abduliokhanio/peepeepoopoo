@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import React, {useState} from 'react';
 import { supabasePrivate } from '../services/supabasePrivate';
+import { useNavigate } from 'react-router-dom';
 import {
   VStack, Stack, useToast, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
 } from '@chakra-ui/react';
@@ -13,6 +14,7 @@ import queryStringToJSON from '../tools/queryStringToJSON';
 export default function CheckoutPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [orderSentSuccessfully, setOrderSentSuccessfully] = useState(false);
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
