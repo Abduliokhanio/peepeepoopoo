@@ -1,68 +1,62 @@
 /* eslint-disable no-undef */
-import React from 'react';
+import React, {useState} from 'react';
 import { supabasePrivate } from '../services/supabasePrivate';
 import {
-  VStack, Stack, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
+  VStack, Stack, useToast, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
 } from '@chakra-ui/react';
 import Navbar from '../components/Navbar';
 import ModifierModal from '../components/ModifierModal';
 import TipOptions from '../components/TipOptions';
+import jsonToQueryString from '../tools/jsonToQueryString';
+import queryStringToJSON from '../tools/queryStringToJSON';
 
 export default function CheckoutPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
+  const [orderSentSuccessfully, setOrderSentSuccessfully] = useState(false);
+  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+
   const roomId = 'nu-wood-fire-grill';
   const userId = 'user1';
 
   supabasePrivate
     .channel('private:orders')
-    .on('postgres_changes', { event: 'INSERT', schema: 'private', table: 'orders', filter: `room_id=eq.${roomId}`, }, payload => handleOrderInsert(payload))
+    .on('postgres_changes', { event: 'INSERT', schema: 'private', table: 'orders' }, payload => handleOrderInsert(payload))
     .subscribe();
 
   const handleOrderInsert = (payload) => {
     console.log('INSERT', payload);
+    setOrderSentSuccessfully(true);
   };
 
-  const handleOrder = async (order) => {
+  const handleSendOrder = async () => {
     const res = await supabasePrivate.from('orders').insert({
       room_id: roomId,
       user_id: userId,
-      message: 'dddd!'
+      message: '0rr!'
     });
-    console.log('INSERT SUCCESS', res);
-  };
 
-  const handlePlaceOrder = async () => {
-  };
+    console.log(res);
 
-  function jsonToQueryString(json) {
-    return '?' + 
-        Object.keys(json).map(function(key) {
-          return encodeURIComponent(key) + '=' +
-                encodeURIComponent(json[key]);
-        }).join('&');
-  }
+    if (res.status !== 201) {
+      showAlert('Error placing order', 'error');
+      setOrderSentSuccessfully(false);
+      throw `${err}: Error placing order`;
+    }
+  };
 
   const handlePayment = async () => {
 
     const data = {
+      'security_key': process.env.REACT_APP_STC_SK,
       'type': 'sale',
-      'amount': 102303.00,
+      'amount': 1233.10,
       'ccnumber': 4111111111111111,
       'ccexp': 1025,
       'cvv': 999,
       // 'first_name': 'Test',
-      // 'last_name': 'User',
-      // 'address1': '888 Main St',
-      // 'city': 'New York',
-      // 'state': 'NY',
-      // 'zip' : '77777',
-      // 'shipping_first_name': 'User',
-      // 'shipping_last_name': 'Test',
-      // 'shipping_address1': '987 State St',
-      // 'shipping_city': 'Los Angeles',
-      // 'shipping_state': 'CA',
-      // 'shipping_zip' : '98765',
-      'security_key': process.env.REACT_APP_STC_SK
+      // 'last_name': 'User'
     };
   
     const options = {
@@ -71,15 +65,34 @@ export default function CheckoutPage() {
 
     fetch(`https://cors-anywhere.herokuapp.com/https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(data)}`, options)
       .then(response => {
-        response.text().then((s) => {
-          console.log(s);
+        response.text().then((query) => {
+          const jsonQuery = queryStringToJSON(query);
+          if (jsonQuery.response_code !== '100') {
+            showAlert('Error making payment', 'error');
+            setPaymentSuccessful(false);
+            throw `${jsonQuery.responsetext}: Error making payment`;
+          }
+          setPaymentSuccessful(true);
         });
+      });
+  };
 
-      })
-      .then((data, err) => {
-        console.log(JSON.stringify(data));
-        console.log(err);
-      });   
+  const handlePlaceOrder = async () => {
+    setLoading(true);
+    await handlePayment();
+    await handleSendOrder();
+
+    if (orderSentSuccessfully && paymentSuccessful) navigate('/order-confirmed');
+    setLoading(false);
+  };
+
+  const showAlert = (message, status) => {
+    toast({
+      title: `${message}`,
+      status: `${status}`,
+      isClosable: true,
+      position: 'top'
+    });
   };
 
   return (
@@ -129,7 +142,7 @@ export default function CheckoutPage() {
             <Text>$2.10</Text>
           </Flex>
         </Stack>
-        <Button onClick={handlePlaceOrder} mt="4" width="100%" bg="black" size="lg" color="white">Place Order</Button>
+        <Button onClick={handlePlaceOrder} mt="4" isLoading={loading} width="100%" bg="black" size="lg" color="white">Place Order</Button>
       </VStack>
     </div>
   );
