@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/Auth';
-import { supabase } from '../services/supabaseClient';
+import { supabasePublic } from '../services/supabasePublic';
 import {
   Progress, FormControl, InputGroup, InputLeftAddon, useToast, FormLabel, Box, VStack, Input, Text, Divider, Button, Flex, Spacer, HStack, Badge, Heading
 } from '@chakra-ui/react';
@@ -44,7 +44,7 @@ export default function BusinessInformationForm({setCurrentForm}) {
 
   const setPreviousRecord = async (e) => {
 
-    const querySavedData = await supabase
+    const querySavedData = await supabasePublic
       .from('customers')
       .select('*')
       .eq('id', user.id);
@@ -65,7 +65,7 @@ export default function BusinessInformationForm({setCurrentForm}) {
     setLoading(true);
 
     if (hasRecord) {
-      const { error } = await supabase
+      const { error } = await supabasePublic
         .from('customers')
         .update({ 
           full_name: fullName, 

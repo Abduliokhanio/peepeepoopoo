@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../services/supabaseClient';
+import { supabasePublic } from '../services/supabasePublic';
 import Navbar from '../components/Navbar';
 import MenuCard from '../components/MenuCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -37,7 +37,7 @@ export default function CategoriesPage() {
   };
 
   const fetchMenu = async () => { 
-    const fetchMerchant = await supabase
+    const fetchMerchant = await supabasePublic
       .from('merchants')
       .select('id, name, url_path, brand_primary_color').match({url_path: QRCodePath});
 
@@ -49,7 +49,7 @@ export default function CategoriesPage() {
     const merchantId = fetchMerchant.data[0].id;
     localStorage.setItem('merchantID', merchantId);
 
-    const fetchMenus = await supabase
+    const fetchMenus = await supabasePublic
       .from('categories')
       .select().match({merchant_id: merchantId});
       

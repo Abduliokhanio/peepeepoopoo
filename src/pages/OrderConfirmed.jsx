@@ -1,4 +1,5 @@
 import React from 'react';
+import { supabasePrivate } from '../services/supabasePrivate';
 import {
   Link, Flex, Heading, VStack, Text, Button, Box,
 } from '@chakra-ui/react';

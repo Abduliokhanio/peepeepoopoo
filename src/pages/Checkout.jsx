@@ -1,25 +1,40 @@
 import React from 'react';
+import { supabasePrivate } from '../services/supabasePrivate';
 import {
-  VStack, Link, Stack, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
+  VStack, Stack, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
 } from '@chakra-ui/react';
-import { Link as ReachLink } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ModifierModal from '../components/ModifierModal';
 import TipOptions from '../components/TipOptions';
 
 export default function CheckoutPage() {
-  // TODO: DYNAMIC MENU ITEM
-  const menuItem = {
-    imageUrl: 'https://bit.ly/2Z4KKcF',
-    imageAlt: 'Rear view of modern home with pool',
-    title: 'Dumplings',
-    qty: 2,
-    desc: 'Steamed or fried dumplings',
-    formattedPrice: '$6.50',
-    page: 'checkout',
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const roomId = 'nu-wood-fire-grill';
+  const userId = 'user1';
+
+  supabasePrivate
+    .channel('private:orders')
+    .on('postgres_changes', { event: 'INSERT', schema: 'private', table: 'orders', filter: `room_id=eq.${roomId}`, }, payload => handleOrderInsert(payload))
+    .subscribe();
+
+  const handleOrderInsert = (payload) => {
+    console.log('INSERT', payload);
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleOrder = async (order) => {
+    const res = await supabasePrivate.from('orders').insert({
+      room_id: roomId,
+      user_id: userId,
+      message: 'dddd!'
+    });
+    console.log('INSERT SUCCESS', res);
+  };
+
+  const handleCheckout = async () => {
+  };
+
+  const handlePayment = async () => {
+  };
 
   return (
     <div>
@@ -67,9 +82,7 @@ export default function CheckoutPage() {
             <Text>$2.10</Text>
           </Flex>
         </Stack>
-        <Link as={ReachLink} to="/signup">
-          <Button mt="4" width="100%" colorScheme="blue">Place Order</Button>
-        </Link>
+        <Button onClick={handleCheckout} mt="4" width="100%" colorScheme="blue">Place Order</Button>
       </VStack>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { supabase } from '../services/supabaseClient';
+import {supabasePublic} from '../services/supabasePublic';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   HStack, Text, Flex, Stack, 

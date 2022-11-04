@@ -1,36 +1,52 @@
 import React, { useContext, useState, useEffect, createContext } from 'react';
-import { supabase } from '../services/supabaseClient';
+import { supabasePublic } from '../services/supabasePublic';
+import { supabasePrivate } from '../services/supabasePrivate';
 
 // create a context for authentication
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
+  const [userPrivate, setUserPrivate] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const session = supabase.auth.getSession();
+    const session = supabasePublic.auth.getSession();
+    const sessionPrivate = supabasePrivate.auth.getSession();
 
     setUser(session?.user ?? null);
+    setUserPrivate(sessionPrivate?.user ?? null);
+
     setLoading(false);
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabasePublic.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       setLoading(false);
     });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
+    supabasePublic.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    supabasePrivate.auth.getSession().then(({ data: { session } }) => {
+      setUserPrivate(session?.user ?? null);
+      setLoading(false);
+    });
+
+    supabasePrivate.auth.onAuthStateChange((_event, session) => {
+      setUserPrivate(session?.user ?? null);
       setLoading(false);
     });
   }, []);
 
   // create signUp, signIn, signOut functions
   const value = {
-    signUp: data => supabase.auth.signUp(data),
-    loginIn: (data) => supabase.auth.signInWithPassword(data),
-    signOut: () => supabase.auth.signOut(),
-    user
+    signUp: data => supabasePublic.auth.signUp(data),
+    loginIn: (data) => supabasePublic.auth.signInWithPassword(data),
+    signOut: () => supabasePublic.auth.signOut(),
+    user,
+    userPrivate
   };
 
   // use a provider to pass down the value
@@ -44,4 +60,4 @@ export const AuthProvider = ({ children }) => {
 // export the useAuth hook
 export const useAuth = () => {
   return useContext(AuthContext);
-}; 
+};

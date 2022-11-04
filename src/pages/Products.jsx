@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { supabase } from '../services/supabaseClient';
+import { supabasePublic } from '../services/supabasePublic';
 import { useAuth } from '../context/Auth';
 import Navbar from '../components/Navbar';
 import ProductItem from '../components/ProductCard';
@@ -21,7 +21,7 @@ export default function ProductsPage() {
   }, [false]);
 
   const fetchMenu = async () => { 
-    const fetchMenus = await supabase
+    const fetchMenus = await supabasePublic
       .from('categories')
       .select().match({merchant_id: localStorage.getItem('merchantID')});
       
@@ -33,7 +33,7 @@ export default function ProductsPage() {
   };
 
   const fetchProducts = async () => { 
-    const fetchProducts = await supabase
+    const fetchProducts = await supabasePublic
       .from('products')
       .select().match(
         { category_id: localStorage.getItem('categoryID'),
