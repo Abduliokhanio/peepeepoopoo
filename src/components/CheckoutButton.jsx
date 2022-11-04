@@ -3,10 +3,12 @@ import {
   Box, Flex, Heading, Text
 } from '@chakra-ui/react';
 
-export default function CheckoutButton({brandColor}) {
+export default function CheckoutButton({brandColor, handleCheckout}) {
 
   return (
-    <Flex pos="fixed"
+    <Flex
+      onClick={handleCheckout}
+      pos="fixed"
       bottom="0" 
       bg="RGBA(255, 255, 255, 0.90)" 
       py="4" 
@@ -16,14 +18,14 @@ export default function CheckoutButton({brandColor}) {
         w="100%"
         py="5"
         borderRadius="md"
-        backgroundColor={brandColor}
+        backgroundColor={'black'}
       >
         <Flex justifyContent='space-around' alignItems="center">
-          <Box px="3" py="1" bg="#ffffff3d" borderRadius="md">
-            <Text color="#1F1F1F" fontWeight="bold">3</Text>
+          <Box px="3" py="1" bg="white" borderRadius="md">
+            <Text color="black" fontWeight="bold">3</Text>
           </Box>
-          <Heading color="#1F1F1F" fontWeight='semibold' size="md">View order</Heading>
-          <Text color="#1F1F1F" mt="1" fontSize='1.1em' fontWeight='semibold'>$6.50</Text>
+          <Heading color="white" fontWeight='semibold' size="md">View order</Heading>
+          <Text color="white" mt="1" fontSize='1.1em' fontWeight='semibold'>$6.50</Text>
         </Flex>
       </Box>
     </Flex>

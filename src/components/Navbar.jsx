@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Flex, Spacer, Heading, Box,
+  Flex, Spacer, Heading, Box, extendTheme
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, Icon } from '@chakra-ui/icons';
 import { MdOutlineAccountCircle } from 'react-icons/md';
@@ -14,7 +14,7 @@ export default function NavBar({ title, showBackButton, brandColor, showAccountB
     if (showBackButton) {
       return (
         <Box onClick={() => navigate(-1)}>
-          <ChevronLeftIcon h="7" w="7"/>
+          <ChevronLeftIcon color={'white'} h="7" w="7"/>
         </Box>
       );
     }
@@ -27,7 +27,7 @@ export default function NavBar({ title, showBackButton, brandColor, showAccountB
     if (showAccountButton) {
       return (
         <Box onClick={() => navigate('account')}>
-          <Icon color="#1F1F1F" mt="1.5" h="8" w="8" as={MdOutlineAccountCircle} />
+          <Icon color="white" mt="1.5" h="8" w="8" as={MdOutlineAccountCircle} />
         </Box>
       );
     }
@@ -37,14 +37,14 @@ export default function NavBar({ title, showBackButton, brandColor, showAccountB
   };
 
   return (
-    <nav>
-      <Flex px="6" h="16" alignItems="center" bg={brandColor}>
+    <Box w="100%" position="fixed" zIndex={10} >
+      <Flex px="6" h="16" alignItems="center" bg={'black'}>
         {navButton(showBackButton)}
         <Spacer />
-        <Heading color="#1F1F1F" fontSize="lg">{title}</Heading>
+        <Heading color="white" fontSize="lg">{title}</Heading>
         <Spacer />
         {rightNavButton(showAccountButton)}
       </Flex>
-    </nav>
+    </Box>
   );
 }

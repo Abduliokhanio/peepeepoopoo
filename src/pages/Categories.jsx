@@ -95,13 +95,17 @@ export default function CategoriesPage() {
     );
   };
 
+  const handleCheckout = () => {
+    navigate('/checkout');
+  };
+
   const bannerImage = 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=100';
 
   return (
     <Box>
       <Flex direction="column">
         <Navbar title={merchantName} showBackButton={false} showAccountButton={true} brandColor={brandColor} />
-        <VStack py="16" backgroundImage={bannerImage} backgroundSize="cover" backgroundPosition="center" mb="8">
+        <VStack mt="16" py="16" backgroundImage={bannerImage} backgroundSize="cover" backgroundPosition="center" mb="8">
           <Editable
             textAlign='center'
             fontSize='md'
@@ -135,7 +139,7 @@ export default function CategoriesPage() {
         </Stack>
         <Spacer />
       </Flex>
-      <CheckoutButton brandColor={brandColor} />
+      <CheckoutButton handleCheckout={handleCheckout} brandColor={brandColor} />
     </Box>
   );
 }

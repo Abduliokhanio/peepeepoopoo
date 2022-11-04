@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { supabasePrivate } from '../services/supabasePrivate';
 import {
@@ -30,17 +31,63 @@ export default function CheckoutPage() {
     console.log('INSERT SUCCESS', res);
   };
 
-  const handleCheckout = async () => {
+  const handlePlaceOrder = async () => {
   };
 
+  function jsonToQueryString(json) {
+    return '?' + 
+        Object.keys(json).map(function(key) {
+          return encodeURIComponent(key) + '=' +
+                encodeURIComponent(json[key]);
+        }).join('&');
+  }
+
   const handlePayment = async () => {
+
+    const data = {
+      'type': 'sale',
+      'amount': 102303.00,
+      'ccnumber': 4111111111111111,
+      'ccexp': 1025,
+      'cvv': 999,
+      // 'first_name': 'Test',
+      // 'last_name': 'User',
+      // 'address1': '888 Main St',
+      // 'city': 'New York',
+      // 'state': 'NY',
+      // 'zip' : '77777',
+      // 'shipping_first_name': 'User',
+      // 'shipping_last_name': 'Test',
+      // 'shipping_address1': '987 State St',
+      // 'shipping_city': 'Los Angeles',
+      // 'shipping_state': 'CA',
+      // 'shipping_zip' : '98765',
+      'security_key': process.env.REACT_APP_STC_SK
+    };
+  
+    const options = {
+      method: 'POST'
+    };
+
+    fetch(`https://cors-anywhere.herokuapp.com/https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(data)}`, options)
+      .then(response => {
+        response.text().then((s) => {
+          console.log(s);
+        });
+
+      })
+      .then((data, err) => {
+        console.log(JSON.stringify(data));
+        console.log(err);
+      });   
   };
 
   return (
     <div>
       <ModifierModal isOpen={isOpen} onClose={onClose} modifierType="update" />
-      <Navbar title="Checkout" navType="checkout" />
+      <Navbar title="Checkout" showBackButton={true} />
       <VStack
+        pt="16"
         divider={<StackDivider borderColor="gray.200" />}
         spacing={4}
         align="stretch"
@@ -82,7 +129,7 @@ export default function CheckoutPage() {
             <Text>$2.10</Text>
           </Flex>
         </Stack>
-        <Button onClick={handleCheckout} mt="4" width="100%" colorScheme="blue">Place Order</Button>
+        <Button onClick={handlePlaceOrder} mt="4" width="100%" bg="black" size="lg" color="white">Place Order</Button>
       </VStack>
     </div>
   );
