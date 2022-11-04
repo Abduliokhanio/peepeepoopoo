@@ -17,7 +17,7 @@ export default function ClosedTab() {
       >
         <VStack px="6" h="20" mb="6" alignItems="center">
           <Heading size="lg">Thanks for visiting!</Heading>
-          <Text textAlign="center">Nu’s Wood Fire Grill Banh Mi and Tapioca</Text>
+          <Text textAlign="center">{localStorage.getItem('merchantName')}</Text>
         </VStack>
         <Link as={ReachLink} to="/">
           <Button width="100%">Return to Menu</Button>

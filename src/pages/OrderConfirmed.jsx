@@ -29,7 +29,7 @@ export default function OrderConfirmed() {
             </Flex>
           </Box>
         </VStack>
-        <Link as={ReachLink} to="/">
+        <Link as={ReachLink} to="/menu/nu">
           <Button width="100%">Keep Tab Open</Button>
         </Link>
         <Link as={ReachLink} to="/closed-tab">

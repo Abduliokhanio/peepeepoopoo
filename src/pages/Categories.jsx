@@ -14,10 +14,10 @@ export default function CategoriesPage() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const QRCodeURL = 'https://www.orderahead.io/';
-  const QRCodePath = 'nu-wood-fire-grill';
   const QRCodeTableNumber = '2';
   const navigate = useNavigate();
   
+  const [QRCodePath, setQRCodePath] = useState(null);
   const [menuOptions, setMenuOptions] = useState([]);
   const [merchantName, setMerchantName] = useState('');
   const [tableNumber, setTableNumber] = useState('');
@@ -27,7 +27,13 @@ export default function CategoriesPage() {
     fetchMenu();
     setTableNumber(QRCodeTableNumber);
     localStorage.setItem('tableNumber', QRCodeTableNumber);
-  }, [false]);
+  }, [QRCodePath]);
+
+  const checkURLPath = async () => {
+    const mediaURLPath = window.location.pathname;
+    const filterURLPath = mediaURLPath.match(/menu\/(.*)/)[1];
+    setQRCodePath(filterURLPath);
+  };
 
   const handleMenuSelect = (menuId, menuName) => { 
     console.log('menu selected', menuName, menuId);
@@ -37,6 +43,10 @@ export default function CategoriesPage() {
   };
 
   const fetchMenu = async () => { 
+    await checkURLPath();
+
+    if (QRCodePath === null) return;
+
     const fetchMerchant = await supabasePublic
       .from('merchants')
       .select('id, name, url_path, brand_primary_color').match({url_path: QRCodePath});
@@ -45,6 +55,7 @@ export default function CategoriesPage() {
     localStorage.setItem('merchantName', fetchMerchant.data[0].name);
     setBrandColor(fetchMerchant.data[0].brand_primary_color);
     localStorage.setItem('brandColor', fetchMerchant.data[0].brand_primary_color);
+    localStorage.setItem('urlPath', fetchMerchant.data[0].url_path);
     
     const merchantId = fetchMerchant.data[0].id;
     localStorage.setItem('merchantID', merchantId);
