@@ -13,6 +13,7 @@ import Account from './pages/Account';
 import AccountDetails from './pages/AccountDetails';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
           <AuthProvider>
             <Routes>
               <Route exact path="/" />
-              <Route path="/menu/:merchant" element={<Categories />} />
+              <Route path="/menu/:merchant/*" element={<Categories />} />
               <Route path="products" element={<Products />} />
               <Route path="orders" element={<Orders />} />
               <Route path="checkout" element={<Checkout />} />
@@ -32,6 +33,7 @@ function App() {
               <Route path="account" element={<Account />} />
               <Route path="account-details" element={<AccountDetails />} />
               <Route path="order-confirmed" element={<OrderConfirmed />} />
+              <Route path="404" element={<PageNotFound />} />
             </Routes>
           </AuthProvider>
         </div>

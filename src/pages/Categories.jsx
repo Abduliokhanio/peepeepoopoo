@@ -12,27 +12,32 @@ import { CheckIcon, EditIcon } from '@chakra-ui/icons';
 
 export default function CategoriesPage() {
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const QRCodeURL = 'https://www.orderahead.io/';
-  const QRCodeTableNumber = '2';
   const navigate = useNavigate();
   
-  const [QRCodePath, setQRCodePath] = useState(null);
+  const [QRCodePath, setQRCodePath] = useState('');
+  const [QRCodeTableNumber, setQRCodeTableNumber] = useState(null);
   const [menuOptions, setMenuOptions] = useState([]);
   const [merchantName, setMerchantName] = useState('');
-  const [tableNumber, setTableNumber] = useState('');
   const [brandColor, setBrandColor] = useState('');
 
   useEffect(() => {
     fetchMenu();
-    setTableNumber(QRCodeTableNumber);
-    localStorage.setItem('tableNumber', QRCodeTableNumber);
-  }, [QRCodePath]);
+    checkURLPath();
+    setStorage();
+  }, [false]);
 
   const checkURLPath = async () => {
-    const mediaURLPath = window.location.pathname;
-    const filterURLPath = mediaURLPath.match(/menu\/(.*)/)[1];
-    setQRCodePath(filterURLPath);
+    const URLPath = window.location.pathname;
+    const merchantURLPath = URLPath.match(/menu\/(.*)\/table/)[1];
+    const QRCodeTableNumber = URLPath.match(/table\/(.*)/)[1];
+    setQRCodePath(merchantURLPath);
+    if (QRCodeTableNumber !== null) setQRCodeTableNumber(QRCodeTableNumber);
+  };
+
+  const setStorage = async () => {
+    localStorage.setItem('QRCodeTableNumber', QRCodeTableNumber);
+    localStorage.setItem('cart', []);
+    setQRCodeTableNumber(QRCodeTableNumber);
   };
 
   const handleMenuSelect = (menuId, menuName) => { 
@@ -51,6 +56,8 @@ export default function CategoriesPage() {
       .from('merchants')
       .select('id, name, url_path, brand_primary_color').match({url_path: QRCodePath});
 
+    if (fetchMerchant.data.length === 0) navigate('/404');
+
     setMerchantName(fetchMerchant.data[0].name);
     localStorage.setItem('merchantName', fetchMerchant.data[0].name);
     setBrandColor(fetchMerchant.data[0].brand_primary_color);
@@ -64,12 +71,8 @@ export default function CategoriesPage() {
       .from('categories')
       .select().match({merchant_id: merchantId});
       
-    if (fetchMerchant.error) {
-      throw fetchMerchant.error;
-    } else {
-      setMenuOptions(fetchMenus.data);
-      localStorage.setItem('menuOptions', fetchMenus.data);
-    }
+    setMenuOptions(fetchMenus.data);
+    localStorage.setItem('menuOptions', fetchMenus.data);
   };
 
   const fetchMoreData = () => {
@@ -117,21 +120,24 @@ export default function CategoriesPage() {
       <Flex direction="column">
         <Navbar title={merchantName} showBackButton={false} showAccountButton={true} brandColor={brandColor} />
         <VStack mt="16" py="16" backgroundImage={bannerImage} backgroundSize="cover" backgroundPosition="center" mb="8">
-          <Editable
-            textAlign='center'
-            fontSize='md'
-            value={tableNumber}
-            isPreviewFocusable={false}
-          >
-            <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
-              <Flex alignItems='center'>
-                <Text fontSize="mg" fontWeight='semibold'>Table</Text>
-                <Input w='100%' mx="2" maxW="14" as={EditableInput} />
-                <EditablePreview fontSize="md" fontWeight='semibold' ml="1" mr="3"/>
+          {QRCodeTableNumber === null ? null : (
+            <Editable
+              textAlign='center'
+              fontSize='md'
+              value={QRCodeTableNumber}
+              isPreviewFocusable={false}
+            >
+              <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
+                <Flex alignItems='center'>
+                  <Text fontSize="mg" fontWeight='semibold'>Table</Text>
+                  <Input w='100%' mx="2" maxW="14" as={EditableInput} />
+                  <EditablePreview fontSize="md" fontWeight='semibold' ml="1" mr="3"/>
+                </Flex>
+                <EditableControls />
               </Flex>
-              <EditableControls />
-            </Flex>
-          </Editable>
+            </Editable>
+          )}
+          
         </VStack>
 
         <Stack pb='115' px="6" bg="#F9FBFC">
