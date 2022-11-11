@@ -144,7 +144,7 @@ export default function CheckoutPage() {
             <Text>$2.10</Text>
           </Flex>
         </Stack>
-        <Button onClick={handlePlaceOrder} mt="4" isLoading={loading} width="100%" bg="black" size="lg" color="white">Place Order</Button>
+        <Button onClick={handlePlaceOrder} mt="4" isLoading={loading} width="100%" bg="black" size="lg" color="white">Continue</Button>
       </VStack>
     </div>
   );

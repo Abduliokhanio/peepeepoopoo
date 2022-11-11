@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabasePublic } from '../services/supabasePublic';
 import Navbar from '../components/Navbar';
@@ -6,89 +6,103 @@ import MenuCard from '../components/MenuCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
 import {
-  Stack, VStack, useEditableControls, Text, EditableInput, StackDivider, useDisclosure, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
+  Stack, VStack, useEditableControls, Text, EditableInput, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
 } from '@chakra-ui/react';
 import { CheckIcon, EditIcon } from '@chakra-ui/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setQRCodeTableNumber } from '../context/slices/merchantSlice';
 
 export default function CategoriesPage() {
-
+  // const cart = useSelector(state => state.cart);
+  const merchantStore = useSelector(state => state.merchant);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const [QRCodePath, setQRCodePath] = useState('');
-  const [QRCodeTableNumber, setQRCodeTableNumber] = useState(null);
-  const [menuOptions, setMenuOptions] = useState([]);
-  const [merchantName, setMerchantName] = useState('');
-  const [brandColor, setBrandColor] = useState('');
+  const [loadingMenu, setLoadingMenu] = useState(false);
 
   useEffect(() => {
-    fetchMenu();
-    checkURLPath();
-    setStorage();
-  }, [false]);
+    initPage();
+  }, [merchantStore.merchantID]);
+
+  const initPage = async () => {
+    const merchantURLPath = await checkURLPath();
+    const merchantID = await fetchMerchantInfo(merchantURLPath);
+    await fetchMenu(merchantID);
+    await fetchProducts(merchantID);
+  };
 
   const checkURLPath = async () => {
+    let merchantURLPath;
     const URLPath = window.location.pathname;
-    const merchantURLPath = URLPath.match(/menu\/(.*)\/table/)[1];
-    const QRCodeTableNumber = URLPath.match(/table\/(.*)/)[1];
-    setQRCodePath(merchantURLPath);
-    if (QRCodeTableNumber !== null) setQRCodeTableNumber(QRCodeTableNumber);
+    const merchantTableURLPath = URLPath.match(/menu\/(.*)\/table/);
+    const QRCodeTableNumber = URLPath.match(/table\/(.*)/);
+    merchantURLPath = URLPath.match(/menu\/(.*)/);
+    if (merchantTableURLPath !== null) merchantURLPath = merchantTableURLPath[1];
+    if (QRCodeTableNumber !== null) dispatch(setQRCodeTableNumber(QRCodeTableNumber[1]));
+    if (merchantTableURLPath === null && QRCodeTableNumber === null) {
+      merchantURLPath = merchantURLPath[1];
+    }
+    return merchantURLPath;
   };
 
-  const setStorage = async () => {
-    localStorage.setItem('QRCodeTableNumber', QRCodeTableNumber);
-    localStorage.setItem('cart', []);
-    setQRCodeTableNumber(QRCodeTableNumber);
-  };
-
-  const handleMenuSelect = (menuId, menuName) => { 
-    console.log('menu selected', menuName, menuId);
-    localStorage.setItem('categoryName', menuName);
-    localStorage.setItem('categoryID', menuId);
-    navigate('/products');
-  };
-
-  const fetchMenu = async () => { 
-    await checkURLPath();
-
-    if (QRCodePath === null) return;
-
+  const fetchMerchantInfo = async (merchantURLPath) => {
+    dispatch(setURLPath(merchantURLPath));
     const fetchMerchant = await supabasePublic
       .from('merchants')
-      .select('id, name, url_path, brand_primary_color').match({url_path: QRCodePath});
+      .select('id, name, url_path, brand_primary_color').match({url_path: merchantURLPath});
 
-    if (fetchMerchant.data.length === 0) navigate('/404');
+    // if (fetchMerchant.data.length === 0) navigate('/404');
+    if (fetchMerchant.data.length === 0 ) throw fetchMerchant.error;
 
-    setMerchantName(fetchMerchant.data[0].name);
-    localStorage.setItem('merchantName', fetchMerchant.data[0].name);
-    setBrandColor(fetchMerchant.data[0].brand_primary_color);
-    localStorage.setItem('brandColor', fetchMerchant.data[0].brand_primary_color);
-    localStorage.setItem('urlPath', fetchMerchant.data[0].url_path);
-    
-    const merchantId = fetchMerchant.data[0].id;
-    localStorage.setItem('merchantID', merchantId);
+    dispatch(setMerchantID(fetchMerchant.data[0].id));
+    dispatch(setBrandName(fetchMerchant.data[0].name));
+    return fetchMerchant.data[0].id;
+  };
+
+  const fetchMenu = async (merchantID) => { 
+    setLoadingMenu(true);
 
     const fetchMenus = await supabasePublic
       .from('categories')
-      .select().match({merchant_id: merchantId});
-      
-    setMenuOptions(fetchMenus.data);
-    localStorage.setItem('menuOptions', fetchMenus.data);
+      .select().match({merchant_id: merchantID});
+
+    if (fetchMenus.data.length === 0 ) throw fetchMenu.error;
+    dispatch(setMenuOptions(fetchMenus.data));
+    setLoadingMenu(false);
   };
 
-  const fetchMoreData = () => {
-    setTimeout(() => {
-      menuOptions(menuOptions.concat(menuOptions.from({ length: 5 })));
-    }, 1500);
+  const fetchProducts = async (merchantID) => { 
+    const fetchProducts = await supabasePublic
+      .from('products')
+      .select().match({ merchant_id: merchantID });
+    console.log('fetchProducts:', fetchProducts);
+    if (fetchProducts.data.length === 0 ) throw fetchProducts.error;
+    console.log('fetchProducts.data:', fetchProducts.data);
+    dispatch(setProducts(fetchProducts.data));
+  };
+
+  /////////////////////////////
+
+  const handleMenuSelect = (menuId, menuName) => { 
+    dispatch(setCategoryName(menuName));
+    dispatch(setCategoryID(menuId));
+    console.log('merchantStore:', merchantStore.products);
+    navigate('/products');
   };
 
   const displayMenus = () => {
     return(
-      menuOptions.map((menu, index) => (<MenuCard
+      merchantStore.menuOptions.map((menu, index) => (<MenuCard
         key={index}
         onClick={() => handleMenuSelect(menu.id, menu.name)}
         title={menu.name}
         desc={menu.description}
       />)));
+  };
+
+  const fetchMoreData = () => {
+    setTimeout(() => {
+      setMenuOptions(merchantStore.menuOptions.concat(merchantStore.menuOptions.from({ length: 5 })));
+    }, 1500);
   };
 
   const EditableControls = () => {
@@ -118,13 +132,13 @@ export default function CategoriesPage() {
   return (
     <Box>
       <Flex direction="column">
-        <Navbar title={merchantName} showBackButton={false} showAccountButton={true} brandColor={brandColor} />
+        <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
         <VStack mt="16" py="16" backgroundImage={bannerImage} backgroundSize="cover" backgroundPosition="center" mb="8">
-          {QRCodeTableNumber === null ? null : (
+          {merchantStore.QRCodeTableNumber === null ? null : (
             <Editable
               textAlign='center'
               fontSize='md'
-              value={QRCodeTableNumber}
+              value={merchantStore.QRCodeTableNumber}
               isPreviewFocusable={false}
             >
               <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
@@ -137,26 +151,24 @@ export default function CategoriesPage() {
               </Flex>
             </Editable>
           )}
-          
         </VStack>
-
         <Stack pb='115' px="6" bg="#F9FBFC">
           <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
           <InfiniteScroll
-            dataLength={menuOptions.length} 
+            dataLength={merchantStore.menuOptions === null || merchantStore.menuOptions === undefined ? 0 : merchantStore.menuOptions.length} 
             next={fetchMoreData}
           >
             <VStack
               spacing='6'
               align="stretch"
             >
-              {menuOptions.length === 0 ? null : displayMenus()}
+              {merchantStore.menuOptions === null || merchantStore.menuOptions === undefined ? null : displayMenus()}
             </VStack>
           </InfiniteScroll>;
         </Stack>
         <Spacer />
       </Flex>
-      <CheckoutButton handleCheckout={handleCheckout} brandColor={brandColor} />
+      <CheckoutButton handleCheckout={handleCheckout} />
     </Box>
   );
 }

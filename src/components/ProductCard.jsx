@@ -11,12 +11,15 @@ export default function MenuItem({
 }) {
   return (
     <Box shadow="xs" bg="white" borderRadius='lg' overflow='hidden' borderWidth="0.5px" {...rest}>
-      <Flex direction="row" justifyContent="space-between">
+      <Flex direction="row">
         <Image maxH="150" h="100%" objectFit="cover" src={imageURL} alt="menu" />
-        <Stack pl="4" py="2" w="100%" textAlign="left">
-          <Heading fontSize="xl" mt='2'>{title}</Heading>
-          <Text fontSize="sm">{desc}</Text>
-        </Stack>
+        <Flex p='4' direction='column' justifyContent="space-between">
+          <Stack w="100%" textAlign="left">
+            <Heading fontSize="xl">{title}</Heading>
+            <Text fontSize="sm">{desc}</Text>
+          </Stack>
+          <Text mb="2" w="100%" textAlign="left" fontSize="md">${price}</Text>
+        </Flex>
       </Flex>
     </Box>
   );

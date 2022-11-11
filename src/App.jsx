@@ -13,6 +13,7 @@ import Account from './pages/Account';
 import AccountDetails from './pages/AccountDetails';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
+import Modifiers from './pages/Modifiers';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               <Route exact path="/" />
               <Route path="/menu/:merchant/*" element={<Categories />} />
               <Route path="products" element={<Products />} />
+              <Route path="modifiers" element={<Modifiers />} />
               <Route path="orders" element={<Orders />} />
               <Route path="checkout" element={<Checkout />} />
               <Route path="closed-tab" element={<ClosedTab />} />
