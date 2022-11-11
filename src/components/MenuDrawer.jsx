@@ -32,25 +32,12 @@ export default function MenuDrawer() {
               align="left"
               spacing={4}
             >
-              <Link as={ReachLink} to="/orders">
-                <Text fontSize="2xl">View Orders</Text>
-              </Link>
-              <Link as={ReachLink} to="/receipts">
-                <Text fontSize="2xl">View Receipts</Text>
-              </Link>
-              <Link as={ReachLink} to="/login">
-                <Text fontSize="2xl">Login</Text>
-              </Link>
-            </VStack>
-          </DrawerBody>
-
-          <DrawerFooter>
-            <VStack align="left">
+              <Text fontSize="sm">Vietnamese Food</Text>
+              <Text fontSize="sm">Hours</Text>
               <Text fontSize="sm">1635 E Broadway St suite #125, Pearland, TX 77581</Text>
               <Text fontSize="sm">+1 281-612-2623</Text>
-              <Text fontSize="sm">TODO: Social Links</Text>
             </VStack>
-          </DrawerFooter>
+          </DrawerBody>
         </DrawerContent>
       </Drawer>
     </>

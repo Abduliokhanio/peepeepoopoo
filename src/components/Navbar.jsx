@@ -26,7 +26,7 @@ export default function NavBar({ title, showBackButton, brandColor, showAccountB
   const rightNavButton = (showAccountButton) => {
     if (showAccountButton) {
       return (
-        <Box onClick={() => navigate('account')}>
+        <Box onClick={() => navigate('/account')}>
           <Icon color="white" mt="1.5" h="8" w="8" as={MdOutlineAccountCircle} />
         </Box>
       );

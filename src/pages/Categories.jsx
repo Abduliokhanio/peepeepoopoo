@@ -6,46 +6,48 @@ import MenuCard from '../components/MenuCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
 import {
-  Stack, VStack, useEditableControls, Text, EditableInput, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
+  Stack, VStack, Button, useEditableControls, Text, EditableInput, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
 } from '@chakra-ui/react';
 import { CheckIcon, EditIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setQRCodeTableNumber } from '../context/slices/merchantSlice';
 
 export default function CategoriesPage() {
-  // const cart = useSelector(state => state.cart);
+  const cart = useSelector(state => state.cart.items);
   const merchantStore = useSelector(state => state.merchant);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loadingMenu, setLoadingMenu] = useState(false);
+  const [tableNumber, setTableNumber] = useState(null);
+  const [merchantURL, setMerchantURL] = useState(null);
+  const [bannerImageURL, setBannerImageURL] = useState(null);
 
   useEffect(() => {
     initPage();
-  }, [merchantStore.merchantID]);
+  }, []);
 
   const initPage = async () => {
     const merchantURLPath = await checkURLPath();
     const merchantID = await fetchMerchantInfo(merchantURLPath);
     await fetchMenu(merchantID);
     await fetchProducts(merchantID);
+    
   };
 
   const checkURLPath = async () => {
-    let merchantURLPath;
-    const URLPath = window.location.pathname;
-    const merchantTableURLPath = URLPath.match(/menu\/(.*)\/table/);
-    const QRCodeTableNumber = URLPath.match(/table\/(.*)/);
-    merchantURLPath = URLPath.match(/menu\/(.*)/);
-    if (merchantTableURLPath !== null) merchantURLPath = merchantTableURLPath[1];
-    if (QRCodeTableNumber !== null) dispatch(setQRCodeTableNumber(QRCodeTableNumber[1]));
-    if (merchantTableURLPath === null && QRCodeTableNumber === null) {
-      merchantURLPath = merchantURLPath[1];
+    const merchantURLPath = window.location.pathname.replace(/\//g,'');
+    setMerchantURL(merchantURLPath);
+    const tableNumberURL = window.location.pathname.match(/table\/(.*)/);
+    if (tableNumberURL) {
+      dispatch(setQRCodeTableNumber(tableNumberURL[1]));
+      setTableNumber(tableNumberURL[1]);
     }
     return merchantURLPath;
   };
 
   const fetchMerchantInfo = async (merchantURLPath) => {
     dispatch(setURLPath(merchantURLPath));
+    await fetchBannerImage(merchantURLPath);
     const fetchMerchant = await supabasePublic
       .from('merchants')
       .select('id, name, url_path, brand_primary_color').match({url_path: merchantURLPath});
@@ -74,9 +76,9 @@ export default function CategoriesPage() {
     const fetchProducts = await supabasePublic
       .from('products')
       .select().match({ merchant_id: merchantID });
-    console.log('fetchProducts:', fetchProducts);
+    // console.log('fetchProducts:', fetchProducts);
     if (fetchProducts.data.length === 0 ) throw fetchProducts.error;
-    console.log('fetchProducts.data:', fetchProducts.data);
+    // console.log('fetchProducts.data:', fetchProducts.data);
     dispatch(setProducts(fetchProducts.data));
   };
 
@@ -85,7 +87,7 @@ export default function CategoriesPage() {
   const handleMenuSelect = (menuId, menuName) => { 
     dispatch(setCategoryName(menuName));
     dispatch(setCategoryID(menuId));
-    console.log('merchantStore:', merchantStore.products);
+    // console.log('merchantStore:', merchantStore.products);
     navigate('/products');
   };
 
@@ -127,18 +129,30 @@ export default function CategoriesPage() {
     navigate('/checkout');
   };
 
-  const bannerImage = 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=100';
+  const fetchBannerImage = async (merchantURLPath) => {
+    const bannerImage = await supabasePublic.storage
+      .from('merchants')
+      .getPublicUrl(merchantURLPath + '/banner');
+
+    if (bannerImage.data.publicUrl.length > 1) setBannerImageURL(bannerImage.data.publicUrl);
+    if (bannerImage.error) throw bannerImage.error;
+  };
 
   return (
     <Box>
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
-        <VStack mt="16" py="16" backgroundImage={bannerImage} backgroundSize="cover" backgroundPosition="center" mb="8">
-          {merchantStore.QRCodeTableNumber === null ? null : (
+        <VStack mt="16" py="16" backgroundImage={bannerImageURL} backgroundSize="cover" backgroundPosition="center" mb="8">
+          {tableNumber === null ? (
+            <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
+              <Text fontSize="mg" fontWeight='semibold'>Pickup</Text>
+              
+            </Flex>
+          ) : (
             <Editable
               textAlign='center'
               fontSize='md'
-              value={merchantStore.QRCodeTableNumber}
+              value={tableNumber}
               isPreviewFocusable={false}
             >
               <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
@@ -151,9 +165,15 @@ export default function CategoriesPage() {
               </Flex>
             </Editable>
           )}
+
         </VStack>
         <Stack pb='115' px="6" bg="#F9FBFC">
-          <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
+          {tableNumber === null ? (
+            <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Preparation time is currently 15 minutes</Text>
+          ) : (
+            <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
+          )}
+          
           <InfiniteScroll
             dataLength={merchantStore.menuOptions === null || merchantStore.menuOptions === undefined ? 0 : merchantStore.menuOptions.length} 
             next={fetchMoreData}
@@ -168,7 +188,7 @@ export default function CategoriesPage() {
         </Stack>
         <Spacer />
       </Flex>
-      <CheckoutButton handleCheckout={handleCheckout} />
+      {cart ? <CheckoutButton handleCheckout={handleCheckout} /> : null}
     </Box>
   );
 }

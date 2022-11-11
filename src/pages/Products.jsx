@@ -9,35 +9,46 @@ import {
   Stack, VStack, Select, Flex, Spacer, Box
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setProducts, setSelectedProduct } from '../context/slices/merchantSlice';
+import { setProducts, setSelectedProduct, setCategoryID, setCategoryName } from '../context/slices/merchantSlice';
 
 export default function ProductsPage() {
+  const cart = useSelector(state => state.cart.items);
   const merchantStore = useSelector(state => state.merchant);
   const merchantStoreProducts = useSelector(state => state.merchant.products);
   const merchantStoreBrandName = useSelector(state => state.merchant.brandName);
   const merchantStoreCategoryID = useSelector(state => state.merchant.selectedCategoryID);
+  const merchantStoreCategoryName = useSelector(state => state.merchant.selectedCategoryName);
+  const [selectedCategory , setSelectedCategory] = useState(merchantStoreCategoryID);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [currentProducts, setCurrentProducts] = useState([]);
 
   useEffect(() => {
     filterProducts();
-  }, [false]);
+  }, []);
 
   const filterProducts = async () => { 
     if (merchantStoreProducts.length === 0) return;
     const filteredProducts =  merchantStoreProducts.filter((product) => {
-      return product.category_id === merchantStoreCategoryID;
+      return product.category_id === merchantStoreCategoryID ;
     });
     setCurrentProducts(filteredProducts);
-    console.log('filterProducts:', filteredProducts);
+  };
+
+  const filterSelectedProducts = async (categoryID) => { 
+    if (merchantStoreProducts.length === 0) return;
+    const filteredProducts =  merchantStoreProducts.filter((product) => {
+      return product.category_id === categoryID;
+    });
+    setCurrentProducts(filteredProducts);
   };
 
   const displayMenuSelections = () => {
-    console.log(merchantStore.menuOptions);
-    return (merchantStore.menuOptions.map((menu, index) => (
-      <option key={index} value={menu.name}>{menu.name}</option>
-    )));
+    // console.log(merchantStore.menuOptions);
+    
+    return (merchantStore.menuOptions.map((menu, index) =>  (
+      <option key={index} value={menu.id}>{menu.name}</option>)
+    ));
   };
 
   const fetchMoreData = () => {
@@ -47,7 +58,7 @@ export default function ProductsPage() {
   };
 
   const displayProducts = () => {
-    console.log('display products:', merchantStoreProducts);
+    // console.log('display products:', merchantStoreProducts);
     
     return(
       currentProducts.map((product, index) => (<ProductItem
@@ -56,6 +67,7 @@ export default function ProductsPage() {
         title={product.name}
         desc={product.description}
         price={product.price}
+        imageURL={product.image_url}
       />)));
   };
 
@@ -64,12 +76,22 @@ export default function ProductsPage() {
     navigate('/modifiers');
   };
 
+  const handleCategorySelect = async (option) => {
+    console.log('options.target.value:', option.target.value);
+   
+    // dispatch(setCategoryName(option.target.value));
+    dispatch(setCategoryID(parseInt(option.target.value)));
+    setSelectedCategory(parseInt(option.target.value));
+    filterSelectedProducts(parseInt(option.target.value));
+    console.log('selectedCategory:', selectedCategory);
+  };
+
   return (
     <Box>
       <Flex direction="column">
         <Navbar title={merchantStoreBrandName} showBackButton={true} />
-        <Box py="4" pl="6">
-          <Select maxW="200" placeholder="Menus">
+        <Box mt="16" py="4" pl="6">
+          <Select maxW="200" value={selectedCategory} onChange={(option) => handleCategorySelect(option)}>
             {currentProducts.length === 0 ? null : displayMenuSelections()}
           </Select>
         </Box>
@@ -88,7 +110,7 @@ export default function ProductsPage() {
         </Stack>
         <Spacer />
       </Flex>
-      <CheckoutButton />
+      {cart ? <CheckoutButton /> : null}
     </Box>
   );
 }

@@ -25,7 +25,8 @@ function App() {
           <AuthProvider>
             <Routes>
               <Route exact path="/" />
-              <Route path="/menu/:merchant/*" element={<Categories />} />
+              <Route path="/:merchant" element={<Categories />} />
+              <Route path="/:merchant/table/*" element={<Categories />} />
               <Route path="products" element={<Products />} />
               <Route path="modifiers" element={<Modifiers />} />
               <Route path="orders" element={<Orders />} />
