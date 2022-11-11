@@ -139,7 +139,7 @@ export default function CategoriesPage() {
   };
 
   return (
-    <Box>
+    <Box bg="#f6f6f6">
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
         <VStack mt="16" py="16" backgroundImage={bannerImageURL} backgroundSize="cover" backgroundPosition="center" mb="8">

@@ -4,8 +4,10 @@ import {
 } from '@chakra-ui/react';
 
 export default function CartItemCard({
-  item
+  item, totalCost, setTotalCost
 }) {
+
+  // TODO: set new total cost
 
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
@@ -28,8 +30,8 @@ export default function CartItemCard({
         )}
         <Flex py='4' direction='column' justifyContent="space-between">
           <Stack w="100%s" textAlign="left">
-            <Heading fontSize="xl" mt='2'>{item.name}</Heading>
-            <Text fontSize="sm">{item.desc}</Text>
+            <Heading fontSize="1.5rem" mt='2'>{item.name}</Heading>
+            <Text fontSize="sm">{item.description}</Text>
           </Stack>
           <Text mb="2" w="100%" textAlign="left" fontSize="lg">${item.price}</Text>
         </Flex>

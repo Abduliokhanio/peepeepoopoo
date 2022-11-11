@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import AddToCartButton from '../components/AddToCartButton';
 import {
-  Heading, Container, NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input
+  Heading, Container, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../context/slices/cartSlice';
@@ -47,10 +43,9 @@ export default function ModifiersPage() {
     // add itemQty to the cart
   };
   
-  const handleAddToCart = () => {
-    console.log(numOfItems);
-    // dispatch(addToCart(merchantStoreSelectedProduct));
-    // navigate(-1);
+  const handleAddToOrder = () => {
+    dispatch(addToCart(merchantStoreSelectedProduct));
+    navigate(-1);
   };
 
   const handleModifierCountInput = (count) => {
@@ -75,7 +70,7 @@ export default function ModifiersPage() {
             <Input flexGrow={1} textAlign={'center'} h="100%" maxH="64px" {...input} />
             <Button flexGrow={1} h="100%" maxH="64px" minW="64px" {...dec}>-</Button>
           </HStack>
-          <AddToCartButton handleOnClick={handleAddToCart} numberOfItems={numberOfItems} totalPrice={numOfItems * totalPrice} />
+          <AddToCartButton handleOnClick={handleAddToOrder} numberOfItems={numberOfItems} totalPrice={numOfItems * totalPrice} />
         </Flex>
       </Container>
       

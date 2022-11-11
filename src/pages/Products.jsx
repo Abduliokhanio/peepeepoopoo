@@ -87,15 +87,15 @@ export default function ProductsPage() {
   };
 
   return (
-    <Box>
+    <Box bg="#f6f6f6">
       <Flex direction="column">
         <Navbar title={merchantStoreBrandName} showBackButton={true} />
         <Box mt="16" py="4" pl="6">
-          <Select maxW="200" value={selectedCategory} onChange={(option) => handleCategorySelect(option)}>
+          <Select bg="white" maxW="200" value={selectedCategory} onChange={(option) => handleCategorySelect(option)}>
             {currentProducts.length === 0 ? null : displayMenuSelections()}
           </Select>
         </Box>
-        <Stack pb='115' px="6" bg="#F9FBFC">
+        <Stack pb='115' px="6">
           <InfiniteScroll
             dataLength={currentProducts.length === 0 ? 0 : merchantStoreProducts.length} 
             next={fetchMoreData}

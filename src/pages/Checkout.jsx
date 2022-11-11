@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
 import {
-  VStack, Stack, useToast, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
+  VStack, Stack, Box, useToast, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
@@ -20,6 +20,8 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [orderSentSuccessfully, setOrderSentSuccessfully] = useState(false);
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+  const [totalCost, setTotalCost] = cart.reduce((acc, item) => acc + item.price, 0);
+  const [totalSubCost, setTotalSubCost] = useState(0);
 
   const roomId = 'nu-wood-fire-grill';
   const userId = 'user1';
@@ -101,15 +103,15 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div>
+    <Box bg="#f6f6f6">
       <ModifierModal isOpen={isOpen} onClose={onClose} modifierType="update" />
       <Navbar title="Checkout" showBackButton={true} />
       <VStack
         pt="32"
-        divider={<StackDivider borderColor="gray.200" />}
         spacing={4}
         align="stretch"
         px="6"
+        mb="8"
       >
         {cart.map((item, index) => {
           return(
@@ -117,36 +119,40 @@ export default function CheckoutPage() {
               key={index}
               onClick={onOpen}
               item={item}
+              totalCost={totalCost}
+              setTotalCost={setTotalCost}
             />);
          
         } )}
-
-        <Stack>
-          <Flex>
-            <Text>Subtotal</Text>
-            <Spacer />
-            <Text>$2.10</Text>
-          </Flex>
-          <Flex>
-            <Text>Tax</Text>
-            <Spacer />
-            <Text pr="1">$2.10</Text>
-            <Text>(8%)</Text>
-          </Flex>
-        </Stack>
-        {/* <Stack>
+      </VStack>
+      <VStack
+        spacing={4}
+        align="stretch"
+        px="6">
+        <Flex>
+          <Text>Subtotal</Text>
+          <Spacer />
+          <Text>${totalSubCost}</Text>
+        </Flex>
+        <Flex>
+          <Text>Tax</Text>
+          <Spacer />
+          <Text pr="1">$2.10</Text>
+          <Text>(8%)</Text>
+        </Flex>
+        <StackDivider borderColor="gray.200" />
+        <Flex pb="4">
+          <Text fontSize={'2rems'} fontWeight={'bold'}>Total</Text>
+          <Spacer />
+          <Text fontSize={'2rems'} fontWeight={'bold'}>${totalCost}</Text>
+        </Flex>
+        <Button onClick={handleCheckout} isLoading={loading} width="100%" bg="black" size="lg" color="white">Continue</Button>
+      </VStack>
+      {/* <Stack>
           <Heading size="sm">Payment</Heading>
           <PaymentTypes />
         </Stack> */}
-        <Stack>
-          <Flex>
-            <Text>Total</Text>
-            <Spacer />
-            <Text>$2.10</Text>
-          </Flex>
-        </Stack>
-        <Button onClick={handleCheckout} mt="4" isLoading={loading} width="100%" bg="black" size="lg" color="white">Continue</Button>
-      </VStack>
-    </div>
+
+    </Box>
   );
 }
