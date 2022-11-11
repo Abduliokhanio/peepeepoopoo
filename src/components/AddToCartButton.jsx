@@ -21,7 +21,7 @@ export default function AddToCartButton({handleOnClick, totalPrice, numberOfItem
         backgroundColor={'black'}
       >
         <Flex justifyContent='space-around' alignItems="center">
-          <Heading color="white" fontWeight='semibold' size="md">Add {numberOfItems} To Cart • {totalPrice}</Heading>
+          <Heading color="white" fontWeight='semibold' size="md">Add {numberOfItems} To Cart • ${totalPrice}</Heading>
         </Flex>
       </Box>
     </Flex>

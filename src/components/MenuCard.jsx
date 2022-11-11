@@ -8,7 +8,7 @@ export default function MenuItem({
 }) {
 
   return (
-    <Box shadow="xs" bg="white" borderRadius='lg' overflow='hidden' borderWidth="0.5px" {...rest}>
+    <Box minH="150" shadow="xs" bg="white" borderRadius='lg' overflow='hidden' borderWidth="0.5px" {...rest}>
       {!imageURL ? null : (
         <Image maxH="150" w="100%" objectFit="cover" src={imageURL} alt="menu" />
       )}
