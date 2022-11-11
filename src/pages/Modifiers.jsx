@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import AddToCartButton from '../components/AddToCartButton';
 import {
-  Stack, Flex, Textarea, Text, Box, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper
+  Heading, Container, NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../context/slices/cartSlice';
@@ -13,8 +17,23 @@ export default function ModifiersPage() {
   const cart = useSelector(state => state.cart);
   const [numberOfItems, setNumberOfItems] = useState(1);
   const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct.price);
+  const [numOfItems, setNumOfItems] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const merchantStoreName = useSelector(state => state.merchant.brandName);
+
+  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
+    useNumberInput({
+      step: 1,
+      defaultValue: numOfItems,
+      min: 0,
+      max: 99,
+      onChange: (value) => handleModifierCountInput(value)
+    });
+
+  const inc = getIncrementButtonProps();
+  const dec = getDecrementButtonProps();
+  const input = getInputProps();
 
   useEffect(() => {
     checkCart();
@@ -27,37 +46,39 @@ export default function ModifiersPage() {
     
     // add itemQty to the cart
   };
-
+  
   const handleAddToCart = () => {
-    dispatch(addToCart(merchantStoreSelectedProduct));
-    navigate(-1);
+    console.log(numOfItems);
+    // dispatch(addToCart(merchantStoreSelectedProduct));
+    // navigate(-1);
+  };
+
+  const handleModifierCountInput = (count) => {
+    setNumOfItems(count);
   };
 
   return (
     <Box>
-      <Flex direction="column">
-        <Navbar title={localStorage.getItem('merchantName')} showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
-        <Text mt="16">Modifiers page</Text>
-        <Text>{merchantStoreSelectedProduct.name}</Text>
-        <Text>{merchantStoreSelectedProduct.description}</Text>
-        <Text>{merchantStoreSelectedProduct.price}</Text>
-        <Textarea placeholder='Special requests' />
-        <NumberInput 
-          value={numberOfItems}
-          onChange={(num) => setNumberOfItems(num)}
-          size='lg' 
-          maxW={32} 
-          min={1}
-          max={100}
-          defaultValue={1}>
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </Flex>
-      <AddToCartButton handleOnClick={handleAddToCart} numberOfItems={numberOfItems} totalPrice={totalPrice} />
+      <Navbar title={merchantStoreName} showBackButton={true}  />
+
+      <Container>
+        <Flex direction="column" w="100%" textAlign={'left'}>
+          <Heading mt="32" mb="2">{merchantStoreSelectedProduct.name}</Heading>
+          <Text fontSize={'20'} mb="12">{merchantStoreSelectedProduct.description}</Text>
+          <Text fontSize={'24'}>${merchantStoreSelectedProduct.price}</Text>
+          <Textarea minH="200" mt="8" mb={'16'} placeholder='Special requests' />
+        </Flex>
+
+        <Flex>
+          <HStack maxW='320px' flexGrow={true}>
+            <Button h="100%" maxH="64px" minW="64px" {...inc}>+</Button>
+            <Input flexGrow={1} textAlign={'center'} h="100%" maxH="64px" {...input} />
+            <Button flexGrow={1} h="100%" maxH="64px" minW="64px" {...dec}>-</Button>
+          </HStack>
+          <AddToCartButton handleOnClick={handleAddToCart} numberOfItems={numberOfItems} totalPrice={numOfItems * totalPrice} />
+        </Flex>
+      </Container>
+      
     </Box>
   );
 }

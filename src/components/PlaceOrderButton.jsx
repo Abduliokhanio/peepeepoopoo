@@ -21,7 +21,7 @@ export default function PaceOrderButton({handleOnClick, totalPrice}) {
         backgroundColor={'black'}
       >
         <Flex justifyContent='space-around' alignItems="center">
-          <Heading color="white" fontWeight='semibold' size="md">Place Order • {totalPrice}</Heading>
+          <Heading color="white" fontWeight='semibold' size="md">Place Order • ${totalPrice}</Heading>
         </Flex>
       </Box>
     </Flex>

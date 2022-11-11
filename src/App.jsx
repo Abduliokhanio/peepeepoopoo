@@ -14,6 +14,7 @@ import AccountDetails from './pages/AccountDetails';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
 import Modifiers from './pages/Modifiers';
+import Tips from './pages/Tips';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
               <Route path="account" element={<Account />} />
               <Route path="account-details" element={<AccountDetails />} />
               <Route path="order-confirmed" element={<OrderConfirmed />} />
+              <Route path="tips" element={<Tips />} />
               <Route path="404" element={<PageNotFound />} />
             </Routes>
           </AuthProvider>

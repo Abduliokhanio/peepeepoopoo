@@ -3,14 +3,16 @@ import {
   Box, Flex, Heading, Text
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-export default function CheckoutButton({ handleCheckout }) {
+export default function CheckoutButton() {
   const cart = useSelector(state => state.cart.items);
   const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
+  const navigate = useNavigate();
   
   return (cart.length > 0 ? (
     <Flex
-      onClick={handleCheckout}
+      onClick={() => navigate('/checkout')}
       pos="fixed"
       bottom="0" 
       bg="RGBA(255, 255, 255, 0.90)" 
@@ -28,7 +30,7 @@ export default function CheckoutButton({ handleCheckout }) {
             <Text color="black" fontWeight="bold">{cart.length}</Text>
           </Box>
           <Heading color="white" fontWeight='semibold' size="md">View order</Heading>
-          <Text color="white" mt="1" fontSize='1.1em' fontWeight='semibold'>${totalPrice}</Text>
+          <Text color="white" mt="1" fontSize='1.1em' fontWeight='semibold'>${totalPrice.toFixed(2)}</Text>
         </Flex>
       </Box>
     </Flex>

@@ -5,14 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import {
   VStack, Stack, useToast, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
 } from '@chakra-ui/react';
+import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import ModifierModal from '../components/ModifierModal';
-import TipOptions from '../components/TipOptions';
 import jsonToQueryString from '../tools/jsonToQueryString';
 import queryStringToJSON from '../tools/queryStringToJSON';
+import CartItemCard from '../components/CartItemCard';
 
 export default function CheckoutPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const cart = useSelector(state => state.cart.items);
   const toast = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -79,12 +81,13 @@ export default function CheckoutPage() {
       });
   };
 
-  const handlePlaceOrder = async () => {
+  const handleCheckout = async () => {
     setLoading(true);
-    await handlePayment();
-    await handleSendOrder();
+    navigate('/tips');
+    // await handlePayment();
+    // await handleSendOrder();
 
-    if (orderSentSuccessfully && paymentSuccessful) navigate('/order-confirmed');
+    // if (orderSentSuccessfully && paymentSuccessful) navigate('/order-confirmed');
     setLoading(false);
   };
 
@@ -102,20 +105,22 @@ export default function CheckoutPage() {
       <ModifierModal isOpen={isOpen} onClose={onClose} modifierType="update" />
       <Navbar title="Checkout" showBackButton={true} />
       <VStack
-        pt="16"
+        pt="32"
         divider={<StackDivider borderColor="gray.200" />}
         spacing={4}
         align="stretch"
         px="6"
       >
-        {/* <MenuItem
-          onClick={onOpen}
-          qty={menuItem.qty}
-          title={menuItem.title}
-          desc={menuItem.desc}
-          price={menuItem.formattedPrice}
-          page={menuItem.page}
-        /> */}
+        {cart.map((item, index) => {
+          return(
+            <CartItemCard
+              key={index}
+              onClick={onOpen}
+              item={item}
+            />);
+         
+        } )}
+
         <Stack>
           <Flex>
             <Text>Subtotal</Text>
@@ -129,10 +134,6 @@ export default function CheckoutPage() {
             <Text>(8%)</Text>
           </Flex>
         </Stack>
-        <Stack>
-          <Heading size="sm">Tips</Heading>
-          <TipOptions />
-        </Stack>
         {/* <Stack>
           <Heading size="sm">Payment</Heading>
           <PaymentTypes />
@@ -144,7 +145,7 @@ export default function CheckoutPage() {
             <Text>$2.10</Text>
           </Flex>
         </Stack>
-        <Button onClick={handlePlaceOrder} mt="4" isLoading={loading} width="100%" bg="black" size="lg" color="white">Continue</Button>
+        <Button onClick={handleCheckout} mt="4" isLoading={loading} width="100%" bg="black" size="lg" color="white">Continue</Button>
       </VStack>
     </div>
   );
