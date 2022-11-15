@@ -7,8 +7,21 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CheckoutButton() {
   const cart = useSelector(state => state.cart.items);
-  const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
+
+  const cartTotalCount = cart.reduce((acc, item) => acc + parseInt(item.quantity), 0);
   const navigate = useNavigate();
+
+  const cartTotalCost = () => {
+    let totalCost = 0;
+    if (cart.length > 0) {
+      totalCost = cart.reduce((acc, item) => {
+        console.log('item: ', item);
+        return acc + (item.quantity * item.item.price);
+      }, 0);
+      
+    }
+    return totalCost.toFixed(2);
+  };
   
   return (cart.length > 0 ? (
     <Flex
@@ -27,10 +40,10 @@ export default function CheckoutButton() {
       >
         <Flex justifyContent='space-around' alignItems="center">
           <Box px="3" py="1" bg="white" borderRadius="md">
-            <Text color="black" fontWeight="bold">{cart.length}</Text>
+            <Text color="black" fontWeight="bold">{cartTotalCount}</Text>
           </Box>
           <Heading color="white" fontWeight='semibold' size="md">View order</Heading>
-          <Text color="white" mt="1" fontSize='1.1em' fontWeight='semibold'>${totalPrice.toFixed(2)}</Text>
+          <Text color="white" mt="1" fontSize='1.1em' fontWeight='semibold'>${cartTotalCost()}</Text>
         </Flex>
       </Box>
     </Flex>

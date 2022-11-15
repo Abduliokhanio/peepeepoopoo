@@ -1,30 +1,35 @@
 /* eslint-disable no-undef */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
 import {
-  VStack, Stack, Box, useToast, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
+  VStack, Box, useToast, Button, StackDivider, useDisclosure, Flex, Text, Spacer,
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
-import ModifierModal from '../components/ModifierModal';
 import jsonToQueryString from '../tools/jsonToQueryString';
 import queryStringToJSON from '../tools/queryStringToJSON';
 import CartItemCard from '../components/CartItemCard';
+import { setSelectedProduct } from '../context/slices/merchantSlice';
 
 export default function CheckoutPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cart = useSelector(state => state.cart.items);
   const toast = useToast();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [orderSentSuccessfully, setOrderSentSuccessfully] = useState(false);
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
-  const [totalCost, setTotalCost] = cart.reduce((acc, item) => acc + item.price, 0);
-  const [totalSubCost, setTotalSubCost] = useState(0);
+  const [totalCost, setTotalCost] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
+  const [totalSubCost, setTotalSubCost] = useState(totalCost*(0.0825));
 
   const roomId = 'nu-wood-fire-grill';
   const userId = 'user1';
+
+  useEffect(() => {
+    setTotalCost(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
+  }, [false]);
 
   supabasePrivate
     .channel('private:orders')
@@ -93,6 +98,11 @@ export default function CheckoutPage() {
     setLoading(false);
   };
 
+  const handleEditCartItem = (item) => {
+    dispatch(setSelectedProduct(item));
+    navigate('/modifiers');
+  };
+
   const showAlert = (message, status) => {
     toast({
       title: `${message}`,
@@ -104,7 +114,6 @@ export default function CheckoutPage() {
 
   return (
     <Box bg="#f6f6f6">
-      <ModifierModal isOpen={isOpen} onClose={onClose} modifierType="update" />
       <Navbar title="Checkout" showBackButton={true} />
       <VStack
         pt="32"
@@ -117,10 +126,13 @@ export default function CheckoutPage() {
           return(
             <CartItemCard
               key={index}
-              onClick={onOpen}
+              onClick={(item) => handleEditCartItem(item)}
               item={item}
-              totalCost={totalCost}
+              index={index}
               setTotalCost={setTotalCost}
+              cart={cart}
+              // totalCost={0}
+              // setTotalCost={0}
             />);
          
         } )}
@@ -132,19 +144,21 @@ export default function CheckoutPage() {
         <Flex>
           <Text>Subtotal</Text>
           <Spacer />
-          <Text>${totalSubCost}</Text>
+          <Text>${totalCost.toFixed(2)}</Text>
         </Flex>
         <Flex>
           <Text>Tax</Text>
           <Spacer />
-          <Text pr="1">$2.10</Text>
-          <Text>(8%)</Text>
+          <Flex alignItems='center'>
+            <Text mr="2" fontSize={'12'} color='gray.700'>(8.25%)</Text>
+            <Text pr="1">${totalSubCost.toFixed(2)}</Text>
+          </Flex>
         </Flex>
         <StackDivider borderColor="gray.200" />
         <Flex pb="4">
           <Text fontSize={'2rems'} fontWeight={'bold'}>Total</Text>
           <Spacer />
-          <Text fontSize={'2rems'} fontWeight={'bold'}>${totalCost}</Text>
+          <Text fontSize={'2rems'} fontWeight={'bold'}>${(totalCost+totalSubCost).toFixed(2)}</Text>
         </Flex>
         <Button onClick={handleCheckout} isLoading={loading} width="100%" bg="black" size="lg" color="white">Continue</Button>
       </VStack>

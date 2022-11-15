@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import ProductItem from '../components/ProductCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
+import ShortUniqueId from 'short-unique-id';
 import {
   Stack, VStack, Select, Flex, Spacer, Box
 } from '@chakra-ui/react';
@@ -21,6 +22,7 @@ export default function ProductsPage() {
   const [selectedCategory , setSelectedCategory] = useState(merchantStoreCategoryID);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const uid = new ShortUniqueId({ length: 10 });
   const [currentProducts, setCurrentProducts] = useState([]);
 
   useEffect(() => {
@@ -71,8 +73,9 @@ export default function ProductsPage() {
       />)));
   };
 
-  const handleProductSelect = (product) => {     
-    dispatch(setSelectedProduct(product));
+  const handleProductSelect = (product) => {   
+    const cartItem = { id: uid(), item: product, quantity: 1, modifiers: null };  
+    dispatch(setSelectedProduct(cartItem));
     navigate('/modifiers');
   };
 
