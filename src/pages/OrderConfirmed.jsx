@@ -78,12 +78,16 @@ export default function OrderConfirmed() {
             px="6"
           >
             <VStack px="6" h="20" mb="4" alignItems="center">
-              <Heading size="lg">Thank you! </Heading>
+              <Heading size="lg">Thank you!</Heading>
               <Text textAlign="center">Your order will be out shortly</Text>
             </VStack>
             <VStack>
               <Box borderWidth="1px" width="100%" py="6">
-                <Heading mb="8" size="lg" textAlign="center">Table #{tableNumber}</Heading>
+                {tableNumber === null ? (
+                  <Heading mb="8" size="lg" textAlign="center">Pickup</Heading>
+                ) : (
+                  <Heading mb="8" size="lg" textAlign="center">Table #{tableNumber}</Heading>
+                )}
                 {cart.map((item, index) => {
                   return(
                     <Flex 

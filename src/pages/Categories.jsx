@@ -189,7 +189,7 @@ export default function CategoriesPage() {
         </VStack>
         <Stack pb='115' px="6" bg="#F9FBFC">
           {tableQRNumber === null ? (
-            <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Preparation time is currently 15 minutes</Text>
+            <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Prep time is currently 15 minutes</Text>
           ) : (
             <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
           )}
