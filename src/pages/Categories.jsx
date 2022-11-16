@@ -42,7 +42,7 @@ export default function CategoriesPage() {
     if (window.location.pathname.includes('table')) {
       tableNumber = window.location.pathname.match(/table\/(.*)/);
       setCurrentTableNumber(tableNumber[1]);
-      if (host === 'orderahead.io') {
+      if (host.includes('orderahead.io')) {
         merchantURLPath = window.location.href.match(/orderahead.io\/(.*)\/table/);
         setMerchantURL(merchantURLPath[1]);
       } else if (host === 'localhost:3000') {
