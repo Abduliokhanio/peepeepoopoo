@@ -14,12 +14,14 @@ export default function CheckoutPage() {
   const cart = useSelector(state => state.cart.items);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const tableNumber = useSelector(state => state.merchant.tableNumber);
   const [loading, setLoading] = useState(false);
   const [totalCost, setTotalCost] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
   const [totalSubCost, setTotalSubCost] = useState(totalCost*(0.0825));
 
   useEffect(() => {
     setTotalCost(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
+    console.log('tableNumber: ', tableNumber);
   }, [false]);
 
   const handleCheckout = async () => {
@@ -43,6 +45,7 @@ export default function CheckoutPage() {
         px="6"
         mb="8"
       >
+        <Text w="100%" textAlign={'left'}>{tableNumber === null ? null : `Table #${tableNumber}`}</Text>
         {cart.map((item, index) => {
           return(
             <CartItemCard

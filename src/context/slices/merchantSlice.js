@@ -28,7 +28,7 @@ export const merchantSlice = createSlice({
       state.urlPath = action.payload;
     },
     setTableNumber: (state, action) => {
-      state.setTableNumber = action.payload;
+      state.tableNumber = action.payload;
     },
     setMenuOptions: (state, action) => {
       state.menuOptions = action.payload;
