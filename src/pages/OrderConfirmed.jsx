@@ -4,8 +4,12 @@ import {
   Link, Flex, Heading, VStack, Text, Button, Box,
 } from '@chakra-ui/react';
 import { Link as ReachLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function OrderConfirmed() {
+
+  const tableNumber = useSelector(state => state.merchant.tableNumber);
+
   return (
     <Flex
       mt="20"
@@ -22,7 +26,7 @@ export default function OrderConfirmed() {
         </VStack>
         <VStack>
           <Box borderWidth="1px" width="100%" py="6">
-            <Heading mb="6" size="lg" textAlign="center">Table #6</Heading>
+            <Heading mb="6" size="lg" textAlign="center">Table #{tableNumber}</Heading>
             <Flex justify="space-between" px="6">
               <Text>Dumplings (5pcs)</Text>
               <Text>x1</Text>

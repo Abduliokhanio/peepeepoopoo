@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { CheckIcon, EditIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setQRCodeTableNumber } from '../context/slices/merchantSlice';
+import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setTableNumber } from '../context/slices/merchantSlice';
 
 export default function CategoriesPage() {
   const cart = useSelector(state => state.cart.items);
@@ -18,7 +18,7 @@ export default function CategoriesPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loadingMenu, setLoadingMenu] = useState(false);
-  const [tableNumber, setTableNumber] = useState(null);
+  const [tableQRNumber, setTableQRNumber] = useState(null);
   const [merchantURL, setMerchantURL] = useState(null);
   const [bannerImageURL, setBannerImageURL] = useState(null);
 
@@ -35,13 +35,27 @@ export default function CategoriesPage() {
   };
 
   const checkURLPath = async () => {
-    const merchantURLPath = window.location.pathname.replace(/\//g,'');
+    let merchantURLPath;
+    let tableNumber;
+    const host = window.location.host;
+
+    if (window.location.pathname.includes('table')) {
+      tableNumber = window.location.pathname.match(/table\/(.*)/);
+      dispatch(setTableNumber(tableNumber[1]));
+      setTableQRNumber(tableNumber[1]);
+      if (host === 'orderahead.io') {
+        merchantURLPath = window.location.href.match(/orderahead.io\/(.*)\/table/);
+        setMerchantURL(merchantURLPath[1]);
+      } else if (host === 'localhost:3000') {
+        merchantURLPath = window.location.href.match(/localhost:3000\/(.*)\/table/);
+        setMerchantURL(merchantURLPath[1]);
+      }
+
+      return merchantURLPath[1];
+    } 
+
+    merchantURLPath = window.location.pathname.replace('/', '');
     setMerchantURL(merchantURLPath);
-    const tableNumberURL = window.location.pathname.match(/table\/(.*)/);
-    if (tableNumberURL) {
-      dispatch(setQRCodeTableNumber(tableNumberURL[1]));
-      setTableNumber(tableNumberURL[1]);
-    }
     return merchantURLPath;
   };
 
@@ -143,7 +157,7 @@ export default function CategoriesPage() {
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
         <VStack mt="16" py="16" backgroundImage={bannerImageURL} backgroundSize="cover" backgroundPosition="center" mb="8">
-          {tableNumber === null ? (
+          {tableQRNumber === null ? (
             <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
               <Text fontSize="mg" fontWeight='semibold'>Pickup</Text>
               
@@ -152,7 +166,7 @@ export default function CategoriesPage() {
             <Editable
               textAlign='center'
               fontSize='md'
-              value={tableNumber}
+              value={tableQRNumber}
               isPreviewFocusable={false}
             >
               <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
@@ -168,7 +182,7 @@ export default function CategoriesPage() {
 
         </VStack>
         <Stack pb='115' px="6" bg="#F9FBFC">
-          {tableNumber === null ? (
+          {tableQRNumber === null ? (
             <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Preparation time is currently 15 minutes</Text>
           ) : (
             <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
