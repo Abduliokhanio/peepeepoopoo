@@ -9,9 +9,35 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function TipsPage() {
   const cart = useSelector(state => state.cart.items);
-  const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
+  const [totalCost, setTotalCost] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [isFirstButtonSelected, setIsFirstButtonSelected] = useState(true);
+  const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
+  const [isThirdButtonSelected, setIsThirdButtonSelected] = useState(false);
+  const [tip, setTip] = useState((totalCost*0.15).toFixed(2));
+
+  const handleFirstButton = () => {
+    setIsFirstButtonSelected(true);
+    setIsSecondButtonSelected(false);
+    setIsThirdButtonSelected(false);
+    setTip((totalCost*0.15).toFixed(2));
+  };
+  
+  const handleSecondButton = () => {
+    setIsFirstButtonSelected(false);
+    setIsSecondButtonSelected(true);
+    setIsThirdButtonSelected(false);
+    setTip((totalCost*0.20).toFixed(2));
+  };
+
+  const handleThirdButton = () => {
+    setIsFirstButtonSelected(false);
+    setIsSecondButtonSelected(false);
+    setIsThirdButtonSelected(true);
+    setTip((totalCost*0.25).toFixed(2));
+  };
 
   useEffect(() => {
     checkCart();
@@ -31,25 +57,44 @@ export default function TipsPage() {
   return (
     <Box>
       <Flex direction="column">
-        <Navbar title={localStorage.getItem('merchantName')} showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
+        <Navbar title={'Tips'} showBackButton={true} />
         <Stack mt="32">
           <Container>
-            <Heading mb="1rem" fontSize={'2.5rem'}>Show your support</Heading>
+            <Heading mb="1rem" fontSize={'2.5rem'}>Show your support ❤️</Heading>
             <Text>100% of your tips goes to the wait staff</Text>
             <Stack mt="16" direction="column" spacing={4}>
-              <Button size="lg" backgroundColor="black" color="white">
+              <Button size="lg"
+                onClick={() => handleFirstButton()}
+                bg={isFirstButtonSelected === true ? '#000000' : 'gray.100'}
+                _focus={{
+                  bg: '#000000'
+                }}
+                color={isFirstButtonSelected  === true ? 'white' : 'black'}>
                 <Text pr="4">Nice!</Text>
-                <Text pr="1">$3.00</Text>
+                <Text pr="1">${(totalCost*0.15).toFixed(2)}</Text>
                 <Text>(15%)</Text>
               </Button>
-              <Button size="lg">
+              <Button size="lg" 
+                onClick={handleSecondButton}
+                bg={isSecondButtonSelected === true ? '#000000' : 'gray.100'}
+                _focus={{
+                  bg: '#000000'
+                }}
+                color={isSecondButtonSelected === true ? 'white' : 'black'}>
                 <Text pr="4">You&apos;re Great!</Text>
-                <Text pr="1">$3.00</Text>
+                <Text pr="1">${(totalCost*0.20).toFixed(2)}</Text>
                 <Text>(20%)</Text>
               </Button>
-              <Button size="lg">
+              <Button 
+                onClick={() => handleThirdButton()}
+                size="lg" 
+                bg={isThirdButtonSelected === true ? '#000000' : 'gray.100'}
+                _focus={{
+                  bg: '#000000'
+                }}
+                color={isThirdButtonSelected ? 'white' : 'black'}>
                 <Text pr="4">Thank you so much!</Text>
-                <Text pr="1">$3.00</Text>
+                <Text pr="1">${(totalCost*0.25).toFixed(2)}</Text>
                 <Text>(25%)</Text>
               </Button>
             </Stack>
@@ -59,11 +104,11 @@ export default function TipsPage() {
   
         <HStack w="100%" spacing={4} justifyContent='center'>
           <Text fontSize="lg" fontWeight={'bold'}>Your Tip: </Text>
-          <Text fontSize="lg" >$24</Text>
+          <Text fontSize="lg" >${tip}</Text>
         </HStack>
 
       </Flex>
-      <PlaceOrderButton handleOnClick={handlePlaceOrder} totalPrice={totalPrice} />
+      <PlaceOrderButton handleOnClick={handlePlaceOrder} totalPrice={totalCost+tip} />
     </Box>
   );
 }
