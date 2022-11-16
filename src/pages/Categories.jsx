@@ -54,7 +54,7 @@ export default function CategoriesPage() {
       return merchantURLPath[1];
     } 
 
-    merchantURLPath = window.location.pathname.replace('/', '');
+    merchantURLPath = window.location.pathname.replace(/\//g,'');
     setMerchantURL(merchantURLPath);
     return merchantURLPath;
   };
@@ -62,15 +62,17 @@ export default function CategoriesPage() {
   const fetchMerchantInfo = async (merchantURLPath) => {
     dispatch(setURLPath(merchantURLPath));
     await fetchBannerImage(merchantURLPath);
+
     const fetchMerchant = await supabasePublic
       .from('merchants')
-      .select('id, name, url_path, brand_primary_color').match({url_path: merchantURLPath});
+      .select('id, name, url_path').match({url_path: merchantURLPath});
 
     // if (fetchMerchant.data.length === 0) navigate('/404');
     if (fetchMerchant.data.length === 0 ) throw fetchMerchant.error;
 
     dispatch(setMerchantID(fetchMerchant.data[0].id));
     dispatch(setBrandName(fetchMerchant.data[0].name));
+   
     return fetchMerchant.data[0].id;
   };
 
