@@ -41,8 +41,7 @@ export default function CategoriesPage() {
 
     if (window.location.pathname.includes('table')) {
       tableNumber = window.location.pathname.match(/table\/(.*)/);
-      dispatch(setTableNumber(tableNumber[1]));
-      setTableQRNumber(tableNumber[1]);
+      setCurrentTableNumber(tableNumber[1]);
       if (host === 'orderahead.io') {
         merchantURLPath = window.location.href.match(/orderahead.io\/(.*)\/table/);
         setMerchantURL(merchantURLPath[1]);
@@ -57,6 +56,11 @@ export default function CategoriesPage() {
     merchantURLPath = window.location.pathname.replace(/\//g,'');
     setMerchantURL(merchantURLPath);
     return merchantURLPath;
+  };
+
+  const setCurrentTableNumber = async (tableNumber) => {
+    dispatch(setTableNumber(tableNumber));
+    setTableQRNumber(tableNumber);
   };
 
   const fetchMerchantInfo = async (merchantURLPath) => {
@@ -169,7 +173,7 @@ export default function CategoriesPage() {
               textAlign='center'
               fontSize='md'
               value={tableQRNumber}
-              isPreviewFocusable={false}
+              onChange={(value) => setCurrentTableNumber(value)}
             >
               <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
                 <Flex alignItems='center'>

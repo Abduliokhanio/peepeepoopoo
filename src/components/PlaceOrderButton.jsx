@@ -3,7 +3,7 @@ import {
   Box, Flex, Heading
 } from '@chakra-ui/react';
 
-export default function PaceOrderButton({handleOnClick, totalPrice}) {
+export default function PaceOrderButton({handleOnClick, totalPrice, isLoading}) {
 
   return (
     <Flex

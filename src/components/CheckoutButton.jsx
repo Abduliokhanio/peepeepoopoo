@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 export default function CheckoutButton() {
+  // TODO: filter out all the orders sent to the kitchen
   const cart = useSelector(state => state.cart.items);
 
   const cartTotalCount = cart.reduce((acc, item) => acc + parseInt(item.quantity), 0);

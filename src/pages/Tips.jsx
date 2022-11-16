@@ -8,16 +8,14 @@ import {
   Stack, Container, Flex, Button, Text, Box, Heading, HStack, Divider
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import jsonToQueryString from '../tools/jsonToQueryString';
-import queryStringToJSON from '../tools/queryStringToJSON';
+import { setOrderTip } from '../context/slices/cartSlice';
 
 export default function TipsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cart = useSelector(state => state.cart.items);
+  const [loading, setLoading] = useState(false);
   const [totalCost, setTotalCost] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
-  const [orderSentSuccessfully, setOrderSentSuccessfully] = useState(false);
-  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
   const [isFirstButtonSelected, setIsFirstButtonSelected] = useState(true);
   const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
   const [isThirdButtonSelected, setIsThirdButtonSelected] = useState(false);
@@ -33,37 +31,8 @@ export default function TipsPage() {
 
   const handleOrderInsert = (payload) => {
     console.log('INSERT', payload);
-    setOrderSentSuccessfully(true);
-  };
-
-  const handlePayment = async () => {
-
-    const data = {
-      'security_key': process.env.REACT_APP_STC_SK,
-      'type': 'sale',
-      'amount': (totalCost+parseFloat(tip)).toFixed(2),
-      'ccnumber': 4111111111111111,
-      'ccexp': 1025,
-      'cvv': 999
-    };
-
-    fetch(`https://cors-anywhere.herokuapp.com/https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(data)}`, {
-      method: 'POST'
-    })
-      .then(response => {
-        response.text().then((query) => {
-          const jsonQuery = queryStringToJSON(query);
-
-          if (jsonQuery.responsetext === 'SUCCESS') {
-            setPaymentSuccessful(true);
-            return;
-          }
-          console.log('100: ', jsonQuery);
-
-          setPaymentSuccessful(false);
-          throw `${jsonQuery.responsetext}: Error making payment`;
-        });
-      });
+    navigate('/order-confirmed');
+    setLoading(false);
   };
 
   const handleSendOrder = async () => {
@@ -77,17 +46,15 @@ export default function TipsPage() {
     console.log('res: ', res);
 
     if (res.status !== 201) {
-      setOrderSentSuccessfully(false);
       throw `${err}: Error placing order`;
     }
   };
 
   const handlePlaceOrder = async () => {
-    await handlePayment();
+    setLoading(true);
+    
     await handleSendOrder();
-    console.log('orderSentSuccessfully: ', orderSentSuccessfully);
-    console.log('paymentSuccessful: ', paymentSuccessful);
-    if (orderSentSuccessfully && paymentSuccessful) navigate('/order-confirmed');
+    dispatch(setOrderTip(tip));
   };
 
   /////////////////////////////
@@ -167,7 +134,7 @@ export default function TipsPage() {
         </HStack>
 
       </Flex>
-      <PlaceOrderButton handleOnClick={() => handlePlaceOrder()} totalPrice={(totalCost+parseFloat(tip)).toFixed(2)} />
+      <PlaceOrderButton isLoading={loading} handleOnClick={() => handlePlaceOrder()} totalPrice={(totalCost+parseFloat(tip)).toFixed(2)} />
     </Box>
   );
 }
