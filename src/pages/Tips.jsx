@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
+import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import PlaceOrderButton from '../components/PlaceOrderButton';
@@ -6,17 +8,89 @@ import {
   Stack, Container, Flex, Button, Text, Box, Heading, HStack, Divider
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
+import jsonToQueryString from '../tools/jsonToQueryString';
+import queryStringToJSON from '../tools/queryStringToJSON';
 
 export default function TipsPage() {
-  const cart = useSelector(state => state.cart.items);
-  const [totalCost, setTotalCost] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const cart = useSelector(state => state.cart.items);
+  const [totalCost, setTotalCost] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
+  const [orderSentSuccessfully, setOrderSentSuccessfully] = useState(false);
+  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
   const [isFirstButtonSelected, setIsFirstButtonSelected] = useState(true);
   const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
   const [isThirdButtonSelected, setIsThirdButtonSelected] = useState(false);
   const [tip, setTip] = useState((totalCost*0.15).toFixed(2));
+
+  const roomId = 'nu-wood-fire-grill';
+  const userId = 'user1';
+
+  supabasePrivate
+    .channel('private:orders')
+    .on('postgres_changes', { event: 'INSERT', schema: 'private', table: 'orders' }, payload => handleOrderInsert(payload))
+    .subscribe();
+
+  const handleOrderInsert = (payload) => {
+    console.log('INSERT', payload);
+    setOrderSentSuccessfully(true);
+  };
+
+  const handlePayment = async () => {
+
+    const data = {
+      'security_key': process.env.REACT_APP_STC_SK,
+      'type': 'sale',
+      'amount': (totalCost+parseFloat(tip)).toFixed(2),
+      'ccnumber': 4111111111111111,
+      'ccexp': 1025,
+      'cvv': 999
+    };
+
+    fetch(`https://cors-anywhere.herokuapp.com/https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(data)}`, {
+      method: 'POST'
+    })
+      .then(response => {
+        response.text().then((query) => {
+          const jsonQuery = queryStringToJSON(query);
+
+          if (jsonQuery.responsetext === 'SUCCESS') {
+            setPaymentSuccessful(true);
+            return;
+          }
+          console.log('100: ', jsonQuery);
+
+          setPaymentSuccessful(false);
+          throw `${jsonQuery.responsetext}: Error making payment`;
+        });
+      });
+  };
+
+  const handleSendOrder = async () => {
+    const res = await supabasePrivate.from('orders').insert({
+      room_id: roomId,
+      user_id: userId,
+      message: `amount: ${(totalCost+parseFloat(tip)).toFixed(2)}
+      ${cart}`
+    });
+
+    console.log('res: ', res);
+
+    if (res.status !== 201) {
+      setOrderSentSuccessfully(false);
+      throw `${err}: Error placing order`;
+    }
+  };
+
+  const handlePlaceOrder = async () => {
+    await handlePayment();
+    await handleSendOrder();
+    console.log('orderSentSuccessfully: ', orderSentSuccessfully);
+    console.log('paymentSuccessful: ', paymentSuccessful);
+    if (orderSentSuccessfully && paymentSuccessful) navigate('/order-confirmed');
+  };
+
+  /////////////////////////////
 
   const handleFirstButton = () => {
     setIsFirstButtonSelected(true);
@@ -37,23 +111,6 @@ export default function TipsPage() {
     setIsSecondButtonSelected(false);
     setIsThirdButtonSelected(true);
     setTip((totalCost*0.25).toFixed(2));
-  };
-
-  useEffect(() => {
-    checkCart();
-    console.log('totalCost: type ', typeof totalCost);
-    console.log('tip: type ', typeof tip);
-  }, [false]);
-
-  const checkCart = async () => { 
-    //TODO: check total price
-    // caluate tip percentages
-    // calc total price after tip
-    // make payment
-  };
-
-  const handlePlaceOrder = () => {
-    return;
   };
 
   return (
@@ -110,7 +167,7 @@ export default function TipsPage() {
         </HStack>
 
       </Flex>
-      <PlaceOrderButton handleOnClick={handlePlaceOrder} totalPrice={(totalCost+parseFloat(tip)).toFixed(2)} />
+      <PlaceOrderButton handleOnClick={() => handlePlaceOrder()} totalPrice={(totalCost+parseFloat(tip)).toFixed(2)} />
     </Box>
   );
 }
