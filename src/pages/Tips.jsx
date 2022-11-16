@@ -41,6 +41,8 @@ export default function TipsPage() {
 
   useEffect(() => {
     checkCart();
+    console.log('totalCost: type ', typeof totalCost);
+    console.log('tip: type ', typeof tip);
   }, [false]);
 
   const checkCart = async () => { 
@@ -108,7 +110,7 @@ export default function TipsPage() {
         </HStack>
 
       </Flex>
-      <PlaceOrderButton handleOnClick={handlePlaceOrder} totalPrice={totalCost+tip} />
+      <PlaceOrderButton handleOnClick={handlePlaceOrder} totalPrice={(totalCost+parseFloat(tip)).toFixed(2)} />
     </Box>
   );
 }

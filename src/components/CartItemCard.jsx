@@ -21,7 +21,7 @@ export default function CartItemCard({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const itemTotalCost = item.quantity * parseInt(item.item.price);
+  const itemTotalCost = item.quantity * item.item.price;
 
   const handleRemoveFromCart = () => {
     dispatch(removeFromCart(item));
@@ -47,7 +47,7 @@ export default function CartItemCard({
             </Box>
             <Heading fontSize="1.5rem">{itemInCart.item.name}</Heading>
           </Flex>
-          <Text w="100%" textAlign="left" fontSize="lg">${itemTotalCost}</Text>
+          <Text w="100%" textAlign="left" fontSize="lg">${itemTotalCost.toFixed(2)}</Text>
         </Stack>
 
         <Flex pr="4" alignItems={'center'}>
