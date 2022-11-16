@@ -45,7 +45,10 @@ export default function CheckoutPage() {
         px="6"
         mb="8"
       >
-        <Text w="100%" textAlign={'left'}>{tableNumber === null ? null : `Table #${tableNumber}`}</Text>
+        {tableNumber === null ? null : (
+          <Text w="100%" textAlign={'left'}>
+            {`Table #${tableNumber}`}</Text>
+        )}
         {cart.map((item, index) => {
           return(
             <CartItemCard
