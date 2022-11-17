@@ -29,7 +29,7 @@ function App() {
         <div className="App">
           <AuthProvider>
             <Routes>
-              <Route path="/" element={<PageNotFound />} />
+              <Route path="/" />
               <Route path="/auth/signup" element={<Signup />} />
               <Route path="/auth/verify" element={<Verify />} />
               <Route path="/:merchant" element={<Categories />} />
