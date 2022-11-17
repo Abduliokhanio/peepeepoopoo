@@ -199,6 +199,9 @@ export default function CategoriesPage() {
 
         </VStack>
         <Stack pb='115' px="6" bg="#F9FBFC">
+          <form action="submit_to_direct_post_api.php" method="post">
+            <div id="applepaybutton"></div>
+          </form>
           {tableQRNumber === null ? (
             <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Prep time is currently 15 minutes</Text>
           ) : (
