@@ -151,10 +151,10 @@ class Demo extends React.Component {
     return (
       <div>
         <table>
-          <tr><div className="applePayButton"></div></tr>
-          <tr><div className="googlePayButton"></div></tr>
-          <tr><div id="applePayButton"></div></tr>
-          <tr><div id="googlePayButton"></div></tr>
+          <tr><td><div className="applePayButton"></div></td></tr>
+          <tr><td><div className="googlePayButton"></div></td></tr>
+          <tr><td><div id="applePayButton"></div></td></tr>
+          <tr><td><div id="googlePayButton"></div></td></tr>
           <tr>
             <td>First Name</td>
             <td><input size="30" type="text" name="fname" value="Test" /></td>
