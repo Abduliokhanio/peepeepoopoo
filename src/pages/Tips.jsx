@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 // import { supabasePrivate } from '../services/supabasePrivate';
-import { useAuth } from '../context/auth';
+import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import PlaceOrderButton from '../components/PlaceOrderButton';

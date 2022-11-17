@@ -7,7 +7,7 @@ import { supabasePrivate } from '../../services/supabasePrivate';
 import Cards from 'react-credit-cards-2';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
-import { useAuth } from '../../context/auth';
+import { useAuth } from '../../context/Auth';
 import { useSelector } from 'react-redux';
 import 'react-credit-cards-2/es/styles-compiled.css';
 

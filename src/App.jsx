@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import { AuthProvider } from './context/auth';
+import { AuthProvider } from './context/Auth';
 import PrivateRoute from './components/PrivateRoute';
 import Categories from './pages/Categories';
 import Orders from './pages/profile/Orders';
@@ -26,7 +26,7 @@ function App() {
     <ChakraProvider>
       <BrowserRouter>
         <div className="App">
-          {/* <AuthProvider> */}
+          <AuthProvider>
           <Routes>
             {/* <Route path="/" /> */}
             <Route path="/:merchant" element={<Categories />} />
@@ -49,7 +49,7 @@ function App() {
               <Route path="/cart/closed-tab" element={<ClosedTab />} />
             </Route>   
           </Routes>
-          {/* </AuthProvider> */}
+          </AuthProvider>
         </div>
       </BrowserRouter>         
     </ChakraProvider>

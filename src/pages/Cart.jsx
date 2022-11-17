@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React, {useState, useEffect} from 'react';
-import { useAuth } from '../context/auth';
+import { useAuth } from '../context/Auth';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
 import {VStack, Box, Text} from '@chakra-ui/react';

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
-import { useAuth } from '../../context/auth';
+import { useAuth } from '../../context/Auth';
 import { supabasePrivate } from '../../services/supabasePrivate';
 import {
   Stack, HStack, useToast, Text, Box, VStack, Input, Button, Flex, Heading, FormHelperText
