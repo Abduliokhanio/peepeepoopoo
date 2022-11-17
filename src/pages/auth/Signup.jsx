@@ -84,7 +84,9 @@ export default function Login() {
         <Button
           onClick={handleGetCode}
           isLoading={loading} 
-          _loading={{ bg: 'transparent' }}
+          _loading={{
+            bg: 'transparent' 
+          }}
           mx="6"
           w="100%"
           h="65px"

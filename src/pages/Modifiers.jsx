@@ -12,7 +12,9 @@ import ShortUniqueId from 'short-unique-id';
 export default function ModifiersPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const uid = new ShortUniqueId({ length: 10 });
+  const uid = new ShortUniqueId({
+    length: 10 
+  });
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
@@ -67,7 +69,8 @@ export default function ModifiersPage() {
         modifiers: null, // TODO: update modifiers
         orderSent: merchantStoreSelectedProduct.orderSent,
         customerRecieved: merchantStoreSelectedProduct.customerRecieved,
-        orderPaid: merchantStoreSelectedProduct.paid };
+        orderPaid: merchantStoreSelectedProduct.paid 
+      };
 
       console.log('update cartItem to: ', cartItemUpdate);
       dispatch(updateCart(cartItemUpdate));
@@ -79,7 +82,8 @@ export default function ModifiersPage() {
         modifiers: null, // TODO: add initial modifiers
         orderSent: false,
         customerRecieved: false,
-        orderPaid: false  };
+        orderPaid: false  
+      };
         
       console.log('add new order to cart: ', cartOrderInsert);
       dispatch(addToCart(cartOrderInsert));

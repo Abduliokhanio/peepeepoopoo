@@ -19,14 +19,24 @@ export default function Hero() {
     <Container maxW={'7xl'}>
       <Stack
         align={'center'}
-        spacing={{ base: 8, md: 10 }}
-        py={{ base: 20, md: 28 }}
-        direction={{ base: 'column', md: 'row' }}>
-        <Stack textAlign={'left'} flex={1} spacing={{ base: 5, md: 10 }}>
+        spacing={{
+          base: 8, md: 10 
+        }}
+        py={{
+          base: 20, md: 28 
+        }}
+        direction={{
+          base: 'column', md: 'row' 
+        }}>
+        <Stack textAlign={'left'} flex={1} spacing={{
+          base: 5, md: 10 
+        }}>
           <Heading
             lineHeight={1.1}
             fontWeight={600}
-            fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}>
+            fontSize={{
+              base: '3xl', sm: '4xl', lg: '6xl' 
+            }}>
             <Text
               as={'span'}
               position={'relative'}
@@ -53,8 +63,12 @@ export default function Hero() {
             nonumy eirmod tempor invidunt ut labore
           </Text>
           <Stack
-            spacing={{ base: 4, sm: 6 }}
-            direction={{ base: 'column', sm: 'row' }}>
+            spacing={{
+              base: 4, sm: 6 
+            }}
+            direction={{
+              base: 'column', sm: 'row' 
+            }}>
             <Button
               rounded={'full'}
               size={'lg'}
@@ -62,7 +76,9 @@ export default function Hero() {
               px={6}
               colorScheme={'blue'}
               bg={'blue.400'}
-              _hover={{ bg: 'blue.500' }}>
+              _hover={{
+                bg: 'blue.500' 
+              }}>
               Get started
             </Button>
             <Button

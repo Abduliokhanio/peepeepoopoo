@@ -33,7 +33,9 @@ export default function OrderConfirmed() {
     setLoadingKeepTabOpen(true);
     dispatch(setIsTabOpen(true));
     await  pendingOrders.forEach( (order) => {
-      dispatch(updateCart({...order, orderSent: true}));
+      dispatch(updateCart({
+        ...order, orderSent: true
+      }));
     });
     
     navigate(`/${merchantURLPath}`);
@@ -129,7 +131,9 @@ export default function OrderConfirmed() {
               blur="40%" 
               spacing={4}
               align="stretch">
-              <Button isLoading={loadingKeepTabOpen} onClick={() => handleKeepTabOpen()} w="100%" _hover={{bg: 'black'}} size="lg" bg="black" color="white">Keep Tab Open</Button>
+              <Button isLoading={loadingKeepTabOpen} onClick={() => handleKeepTabOpen()} w="100%" _hover={{
+                bg: 'black'
+              }} size="lg" bg="black" color="white">Keep Tab Open</Button>
               <Button isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab</Button>
             </VStack>
           </VStack>

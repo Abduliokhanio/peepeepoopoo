@@ -8,9 +8,7 @@ import { removeFromCart } from '../context/slices/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { setSelectedProduct } from '../context/slices/merchantSlice';
 
-export default function CartItemCard({
-  item
-}) {
+export default function CartItemCard({item}) {
 
   const cart = useSelector(state => state.cart.items);
   const itemInCart = cart.find(cartItem => cartItem.id === item.id);

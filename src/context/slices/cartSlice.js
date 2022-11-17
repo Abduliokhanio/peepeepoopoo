@@ -55,7 +55,8 @@ export const {
   setOrderType,
   setIsTabOpen,
   setIsTicketCompleted,
-  clearCart } = cartSlice.actions;
+  clearCart
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
 

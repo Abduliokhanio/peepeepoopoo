@@ -72,7 +72,9 @@ export default function CategoriesPage() {
 
     const fetchMerchant = await supabasePublic
       .from('merchants')
-      .select('id, name, url_path').match({url_path: merchantURLPath});
+      .select('id, name, url_path').match({
+        url_path: merchantURLPath
+      });
 
     // if (fetchMerchant.data.length === 0) navigate('/404');
     if (fetchMerchant.data.length === 0 ) throw fetchMerchant.error;
@@ -88,7 +90,9 @@ export default function CategoriesPage() {
 
     const fetchMenus = await supabasePublic
       .from('categories')
-      .select().match({merchant_id: merchantID});
+      .select().match({
+        merchant_id: merchantID
+      });
 
     if (fetchMenus.data.length === 0 ) throw fetchMenu.error;
     dispatch(setMenuOptions(fetchMenus.data));
@@ -98,7 +102,9 @@ export default function CategoriesPage() {
   const fetchProducts = async (merchantID) => { 
     const fetchProducts = await supabasePublic
       .from('products')
-      .select().match({ merchant_id: merchantID });
+      .select().match({
+        merchant_id: merchantID 
+      });
     // console.log('fetchProducts:', fetchProducts);
     if (fetchProducts.data.length === 0 ) throw fetchProducts.error;
     // console.log('fetchProducts.data:', fetchProducts.data);
@@ -126,7 +132,9 @@ export default function CategoriesPage() {
 
   const fetchMoreData = () => {
     setTimeout(() => {
-      setMenuOptions(merchantStore.menuOptions.concat(merchantStore.menuOptions.from({ length: 5 })));
+      setMenuOptions(merchantStore.menuOptions.concat(merchantStore.menuOptions.from({
+        length: 5 
+      })));
     }, 1500);
   };
 

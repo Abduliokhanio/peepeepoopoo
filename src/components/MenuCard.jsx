@@ -3,9 +3,7 @@ import {
   Box, Text, Heading, Stack, HStack, Image
 } from '@chakra-ui/react';
 
-export default function MenuItem({
-  title, desc, price, qty, page, imageURL, ...rest
-}) {
+export default function MenuItem({title, desc, price, qty, page, imageURL, ...rest}) {
 
   return (
     <Box minH="150" shadow="xs" bg="white" borderRadius='lg' overflow='hidden' borderWidth="0.5px" {...rest}>

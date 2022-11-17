@@ -31,13 +31,23 @@ export default function Navbar() {
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
         minH={'60px'}
-        py={{ base: 6 }}
-        px={{ base: 4 }}
+        py={{
+          base: 6 
+        }}
+        px={{
+          base: 4 
+        }}
         align={'center'}>
         <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
+          flex={{
+            base: 1, md: 'auto' 
+          }}
+          ml={{
+            base: -2 
+          }}
+          display={{
+            base: 'flex', md: 'none' 
+          }}>
           <IconButton
             onClick={onToggle}
             icon={
@@ -47,21 +57,31 @@ export default function Navbar() {
             aria-label={'Toggle Navigation'}
           />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+        <Flex flex={{
+          base: 1 
+        }} justify={{
+          base: 'center', md: 'start' 
+        }}>
           <Image maxW="75" objectFit="contain" src={'#'} />
 
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+          <Flex display={{
+            base: 'none', md: 'flex' 
+          }} ml={10}>
             <DesktopNav />
           </Flex>
         </Flex>
 
         <Stack
-          flex={{ base: 1, md: 0 }}
+          flex={{
+            base: 1, md: 0 
+          }}
           justify={'flex-end'}
           direction={'row'}
           spacing={6}>
           <Button
-            display={{ base: 'none', md: 'inline-flex' }}
+            display={{
+              base: 'none', md: 'inline-flex' 
+            }}
             as={'a'}
             color={useColorModeValue('gray.600', 'gray.200')}
             fontSize={'sm'}
@@ -126,7 +146,9 @@ const MobileNav = () => {
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
       p={4}
-      display={{ md: 'none' }}>
+      display={{
+        md: 'none' 
+      }}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}

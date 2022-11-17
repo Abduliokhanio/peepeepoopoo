@@ -18,7 +18,9 @@ export default function PaymentMethod() {
 
   const [loading, setLoading] = useState(false);
   const [cardInputFocus, setCardInputFocus] = useState('');
-  const [cardInfo, setCardInfo] = useState({cvc: '', expiry: '', name: '', number: ''});
+  const [cardInfo, setCardInfo] = useState({
+    cvc: '', expiry: '', name: '', number: ''
+  });
   const [isCardNumberError, setIsCardNumberError] = useState(false);
   const [isCardNameError, setIsCardNameError] = useState(false);
   const [isCardExpiryError, setIsCardExpiryError] = useState(false);
@@ -31,14 +33,24 @@ export default function PaymentMethod() {
   const handleCardInputChange = (e) => {
     const { name, value } = e.target;
     
-    setCardInfo({ ...cardInfo, [name]: value });
+    setCardInfo({
+      ...cardInfo, [name]: value 
+    });
   };
 
   const prefillFields = (savedData) => {
-    if (savedData.card_number !== null) setCardInfo({number: savedData.card_number});
-    if (savedData.card_name !== null) setCardInfo({name: savedData.card_name});
-    if (savedData.card_expiry !== null) setCardInfo({expiry: savedData.card_expiry});
-    if (savedData.card_cvc !== null) setCardInfo({cvc: savedData.card_cvc});
+    if (savedData.card_number !== null) setCardInfo({
+      number: savedData.card_number
+    });
+    if (savedData.card_name !== null) setCardInfo({
+      name: savedData.card_name
+    });
+    if (savedData.card_expiry !== null) setCardInfo({
+      expiry: savedData.card_expiry
+    });
+    if (savedData.card_cvc !== null) setCardInfo({
+      cvc: savedData.card_cvc
+    });
   };
 
   const setPreviousRecord = async (e) => {
@@ -91,7 +103,9 @@ export default function PaymentMethod() {
         card_expiry: cardInfo.expiry,
         card_cvc: cardInfo.cvc
       })
-      .match({ id: user.id });
+      .match({
+        id: user.id 
+      });
 
     if (error)  throw error;
     else {
@@ -199,7 +213,9 @@ export default function PaymentMethod() {
         <Button
           onClick={handleSavePayment}
           isLoading={loading} 
-          _loading={{ bg: 'transparent' }}
+          _loading={{
+            bg: 'transparent' 
+          }}
           mx="6"
           w="100%"
           h="65px"

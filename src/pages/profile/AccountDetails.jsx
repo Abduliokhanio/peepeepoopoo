@@ -86,7 +86,9 @@ export default function AccountDetails() {
         last_name: lastName,
         email_address: emailAddress
       })
-      .match({ id: user.id });
+      .match({
+        id: user.id 
+      });
 
     if (error) {
       showAlert(`error saving: ${error}`, 'error');
@@ -158,7 +160,9 @@ export default function AccountDetails() {
         <Button
           onClick={handleContinue}
           isLoading={loading} 
-          _loading={{ bg: 'transparent' }}
+          _loading={{
+            bg: 'transparent' 
+          }}
           mx="6"
           w="100%"
           h="65px"

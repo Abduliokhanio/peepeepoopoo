@@ -3,7 +3,8 @@ function queryStringToJSON(queryString) {
     queryString = queryString.split('?')[1];
   }
   var pairs = queryString.split('&');
-  var result = {};
+  var result = {
+  };
   pairs.forEach(function (pair) {
     pair = pair.split('=');
     result[pair[0]] = decodeURIComponent(pair[1] || '');

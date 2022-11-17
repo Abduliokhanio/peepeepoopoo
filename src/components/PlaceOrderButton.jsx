@@ -59,9 +59,15 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
       <Button
         onClick={handleOnClick}
         isLoading={loading} 
-        _loading={{ bg: 'transparent' }}
-        _hover={{ bg: 'black' }}
-        _focus={{ bg: 'black' }}
+        _loading={{
+          bg: 'transparent' 
+        }}
+        _hover={{
+          bg: 'black' 
+        }}
+        _focus={{
+          bg: 'black' 
+        }}
         mx="6"
         h="65px"
         mt="4"

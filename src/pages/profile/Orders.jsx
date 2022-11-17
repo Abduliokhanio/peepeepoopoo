@@ -16,11 +16,15 @@ export default function Orders() {
       >
         <Stack>
           <Navbar title="View Orders" navType="orders" />
-          <h5 style={{paddingLeft: '2.4rem'}} >Coming Up</h5>
+          <h5 style={{
+            paddingLeft: '2.4rem'
+          }} >Coming Up</h5>
           <OrderLoadingBox order_id = {1234} />
         </Stack>
         <Stack>
-          <h5 style={{paddingLeft: '2.4rem'}} >Completed This Visit</h5>
+          <h5 style={{
+            paddingLeft: '2.4rem'
+          }} >Completed This Visit</h5>
           <OrderDetailBox order_id = {5678} />
           <OrderDetailBox order_id = {9101112} />
         </Stack>

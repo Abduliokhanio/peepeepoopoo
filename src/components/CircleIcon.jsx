@@ -10,7 +10,9 @@ export default function CircleIcon({props}) {
         <Circle size='10px' bg={props.color}/>
       </Center>
       <Center>
-        <p style={{ fontSize : '.8em',color: `${props.color}` }}>{props.status}</p>
+        <p style={{
+          fontSize : '.8em',color: `${props.color}` 
+        }}>{props.status}</p>
       </Center>
 
       {props.iconStatus ?

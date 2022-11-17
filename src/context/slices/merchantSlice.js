@@ -12,7 +12,8 @@ export const merchantSlice = createSlice({
     products: null,
     selectedselectedCategoryName: null,
     selectedCategoryID: null,
-    selectedProduct: {},
+    selectedProduct: {
+    },
   },
   reducers: {
     setMerchantID: (state, action) => {

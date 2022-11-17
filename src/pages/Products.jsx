@@ -22,7 +22,9 @@ export default function ProductsPage() {
   const [selectedCategory , setSelectedCategory] = useState(merchantStoreCategoryID);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const uid = new ShortUniqueId({ length: 10 });
+  const uid = new ShortUniqueId({
+    length: 10 
+  });
   const [currentProducts, setCurrentProducts] = useState([]);
 
   useEffect(() => {
@@ -55,7 +57,9 @@ export default function ProductsPage() {
 
   const fetchMoreData = () => {
     setTimeout(() => {
-      setProducts(currentProducts.concat(merchantStoreProducts.from({ length: 5 })));
+      setProducts(currentProducts.concat(merchantStoreProducts.from({
+        length: 5 
+      })));
     }, 1500);
   };
 
@@ -74,7 +78,9 @@ export default function ProductsPage() {
   };
 
   const handleProductSelect = (product) => {   
-    const cartItem = { id: uid(), item: product, quantity: 1, modifiers: null };  
+    const cartItem = {
+      id: uid(), item: product, quantity: 1, modifiers: null 
+    };  
     dispatch(setSelectedProduct(cartItem));
     navigate('/modifiers');
   };

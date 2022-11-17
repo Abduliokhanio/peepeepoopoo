@@ -18,7 +18,9 @@ export default function FeatureRight({ heading, subheading, image, features }) {
   return (
     <Container maxW={'5xl'} py={12}>
       <Box py={50}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+        <SimpleGrid columns={{
+          base: 1, md: 2 
+        }} spacing={10}>
           <Flex>
             <Image
               rounded={'md'}

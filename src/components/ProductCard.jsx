@@ -3,9 +3,7 @@ import {
   Box, Text, Heading, Stack, Flex, Image
 } from '@chakra-ui/react';
 
-export default function ProductItem({
-  title, desc, price, qty, page, imageURL, ...rest
-}) 
+export default function ProductItem({title, desc, price, qty, page, imageURL, ...rest}) 
 {
 
   const priceLength = () => {

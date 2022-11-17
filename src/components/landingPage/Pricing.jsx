@@ -21,7 +21,9 @@ function PriceWrapper({children}) {
       w="100%"
       shadow="base"
       borderWidth="1px"
-      alignSelf={{ base: 'center', lg: 'flex-start' }}
+      alignSelf={{
+        base: 'center', lg: 'flex-start' 
+      }}
       borderColor={useColorModeValue('gray.200', 'gray.500')}
       borderRadius={'xl'}>
       {children}
@@ -41,12 +43,18 @@ export default function ThreeTierPricing() {
         </Text>
       </VStack>
       <Stack
-        direction={{ base: 'column', lg: 'row' }}
+        direction={{
+          base: 'column', lg: 'row' 
+        }}
         textAlign="center"
         justify="center"
-        spacing={{ base: 4, lg: 10 }}
+        spacing={{
+          base: 4, lg: 10 
+        }}
         py={10}
-        px={{ base: 4, md: 8, lg: 10 }}>
+        px={{
+          base: 4, md: 8, lg: 10 
+        }}>
         <PriceWrapper>
           <Box py={4} px={12}>
             <Text fontWeight="500" fontSize="2xl">
@@ -105,7 +113,9 @@ export default function ThreeTierPricing() {
               position="absolute"
               top="-16px"
               left="50%"
-              style={{ transform: 'translate(-50%)' }}>
+              style={{
+                transform: 'translate(-50%)' 
+              }}>
               <Text
                 textTransform="uppercase"
                 bg={'blue.500'}
