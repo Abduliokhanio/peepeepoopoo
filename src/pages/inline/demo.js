@@ -151,6 +151,7 @@ class Demo extends React.Component {
     return (
       <div>
         <table>
+          <tr><div className="applePayButton"></div></tr>
           <tr>
             <td>First Name</td>
             <td><input size="30" type="text" name="fname" value="Test" /></td>
