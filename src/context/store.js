@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 import cartSlice from './slices/cartSlice';
 import merchantSlice from './slices/merchantSlice';
+import customerSlice from './slices/customerSlice';
 
 const persistConfig = {
   key: 'root',
@@ -12,7 +13,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   cart: cartSlice,
-  merchant: merchantSlice
+  merchant: merchantSlice,
+  customer: customerSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

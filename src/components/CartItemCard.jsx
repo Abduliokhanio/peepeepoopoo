@@ -42,7 +42,7 @@ export default function CartItemCard({
 
         <Stack onClick={handleCartItemClick} w="100%" textAlign="left" spacing={'4'}>
           <Flex>
-            <Box backgroundColor={'gray.100'} borderRadius="2" mr="4" px="3.5" py="1">
+            <Box backgroundColor={'gray.100'} borderRadius="2" mr="4" px="3.5" py="1" maxH='35px' maxW="35px">
               <Text textAlign="left" fontSize="lg">{itemInCart.quantity}</Text>
             </Box>
             <Heading fontSize="1.5rem">{itemInCart.item.name}</Heading>

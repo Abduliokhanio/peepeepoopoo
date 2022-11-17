@@ -6,7 +6,7 @@ import MenuCard from '../components/MenuCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
 import {
-  Stack, VStack, Button, useEditableControls, Text, EditableInput, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
+  Stack, VStack, useEditableControls, Text, EditableInput, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
 } from '@chakra-ui/react';
 import { CheckIcon, EditIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';

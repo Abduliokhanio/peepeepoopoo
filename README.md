@@ -12,3 +12,7 @@ menu.orderahead.io/{restaurant-name}/table/{table-number}/order/{order-number}
 #### Modifiers 
 Select all modifiergroups and filter unique labels to reuse previous modifiers
 In the DB each Each product has a modifier group Each modifier group had modifiers
+
+#### User Flow
+Categories -> products -> modifiers -> checkout -> tip
+tip -> 

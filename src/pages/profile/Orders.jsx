@@ -2,16 +2,15 @@ import * as React from 'react';
 import {
   VStack, Link, Stack, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
 } from '@chakra-ui/react';
-import Navbar from '../components/Navbar';
-import OrderLoadingBox from '../components/OrderLoadingBox';
-import { OrderDetailBox } from '../components/OrderDetailBox';
+import Navbar from '../../components/Navbar';
+import OrderLoadingBox from '../../components/OrderLoadingBox';
+import { OrderDetailBox } from '../../components/OrderDetailBox';
 
 export default function Orders() {
   return (
     <div>
       <VStack
         divider={<StackDivider borderColor="gray.200" />}
-        spacing={4}
         align="stretch"
         px="6"
       >

@@ -23,16 +23,16 @@ export default function ProductItem({
 
   return (
     <Box shadow="xs" bg="white" borderRadius='lg' overflow='hidden' borderWidth="0.5px" {...rest}>
-      <Flex h="150" direction="row">
+      <Flex h="125" direction="row">
         {imageURL !== null ? (
-          <Image h="150" maxW="200" objectFit="cover" src={imageURL} alt="menu" />
+          <Image h="100%" maxW="125" objectFit="cover" src={imageURL} alt="menu" />
         ) : null}
-        <Flex p='4' direction='column' justifyContent="space-between">
+        <Flex ml="4" my="1" direction='column' justifyContent="space-around">
           <Stack w="100%" textAlign="left">
             <Heading fontSize="xl">{title}</Heading>
             <Text fontSize="sm">{desc}</Text>
           </Stack>
-          <Text mb="2" w="100%" textAlign="left" fontSize="lg">${priceLength()}</Text>
+          <Text w="100%" textAlign="left" fontSize="lg">${priceLength()}</Text>
         </Flex>
       </Flex>
     </Box>

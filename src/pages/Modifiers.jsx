@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ModifierButton from '../components/ModifierButton';
 import {
-  Heading, Container, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input
+  Heading, Image, Container, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, updateCart } from '../context/slices/cartSlice';
@@ -28,7 +28,7 @@ export default function ModifiersPage() {
     useNumberInput({
       step: 1,
       value: itemCount,
-      min: 0,
+      min: 1,
       max: 99,
       onChange: (value) => handleModifierCountInput(value)
     });
@@ -65,11 +65,27 @@ export default function ModifiersPage() {
   
   const handleCartButtoon = () => {
     if (isItemInCart) {
-      const cartItemUpdate = { id: merchantStoreSelectedProduct.id, item: merchantStoreSelectedProduct.item, quantity: parseInt(itemCount), modifiers: null };
+      const cartItemUpdate = { 
+        id: merchantStoreSelectedProduct.id, 
+        item: merchantStoreSelectedProduct.item, 
+        quantity: parseInt(itemCount), 
+        modifiers: null,
+        orderSent: false,
+        orderCompleted: false,
+        payment: false };
+
       console.log('update cartItem to: ', cartItemUpdate);
       dispatch(updateCart(cartItemUpdate));
     } else {
-      const cartItemInsert = { id: uid(), item: merchantStoreSelectedProduct.item, quantity: parseInt(itemCount), modifiers: null };
+      const cartItemInsert = { 
+        id: uid(), 
+        item: merchantStoreSelectedProduct.item, 
+        quantity: parseInt(itemCount), 
+        modifiers: null,
+        orderSent: false,
+        orderCompleted: false,
+        payment: false  };
+        
       console.log('add new cartItem: ', cartItemInsert);
       dispatch(addToCart(cartItemInsert));
     }
@@ -84,27 +100,37 @@ export default function ModifiersPage() {
 
   return (
     <Box>
-      <Navbar title={merchantStoreName} showBackButton={true}  />
-
+      <Box h="60px">
+        <Navbar title={merchantStoreName} showBackButton={true}  />
+      </Box>
+      {merchantStoreSelectedProduct.item.image_url !== null ? (
+        <Image h="175" w="100vw" mb="4" objectFit="cover" src={merchantStoreSelectedProduct.item.image_url} alt="menu" />
+      ) : <Divider mb="8" />}
       <Container>
-        <Flex direction="column" w="100%" textAlign={'left'}>
-          <Heading mt="32" mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
-          <Text fontSize={'20'} mb="12">{merchantStoreSelectedProduct.item.description}</Text>
-          <Text fontSize={'24'}>${merchantStoreSelectedProduct.item.price}</Text>
-          <Textarea minH="200" mt="8" mb={'16'} placeholder='Special requests' />
+        
+        <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
+          <Heading mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
+          <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
+          <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price}</Text>
+          <Textarea minH="150" mt="8" placeholder='Special requests' />
+          <HStack mt="8" maxW='320px' flexGrow={true}>
+            <Button py='4' h="100%" maxH="64px" minW="64px" {...inc}>+</Button>
+            <Input py='4' maxW="100px" textAlign={'center'} h="100%" maxH="64px" {...input} />
+            <Button py='4' h="100%" maxH="64px" minW="64px" {...dec}>-</Button>
+          </HStack>
         </Flex>
 
         <Flex
           pos="fixed"
           bottom="0" 
+          left="0"
           bg="RGBA(255, 255, 255, 0.90)" 
           py="4" 
-          blur="40%" w="100%" justifyContent="center">
-          <HStack maxW='320px' flexGrow={true}>
-            <Button h="100%" maxH="64px" minW="64px" {...inc}>+</Button>
-            <Input flexGrow={1} textAlign={'center'} h="100%" maxH="64px" {...input} />
-            <Button flexGrow={1} h="100%" maxH="64px" minW="64px" {...dec}>-</Button>
-          </HStack>
+          blur="40%" 
+          w="100%" 
+          justifyContent="center"
+          direction="column"
+        >
           <ModifierButton isItemInCart={isItemInCart} handleOnClick={handleCartButtoon} numberOfItems={itemCount} totalPrice={itemCount * totalPrice} />
         </Flex>
       </Container>

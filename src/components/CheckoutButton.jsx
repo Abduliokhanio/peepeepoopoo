@@ -31,7 +31,9 @@ export default function CheckoutButton() {
       bottom="0" 
       bg="RGBA(255, 255, 255, 0.90)" 
       py="4" 
-      blur="40%" w="100%" justifyContent="center">
+      blur="40%" w="100%" 
+      justifyContent="center"
+      borderTop="1px solid #e8e8e8">
       <Box
         mx="6"
         w="100%"
