@@ -5,7 +5,7 @@ module.exports = {
     es2021: true,
   },
   plugins: [
-    'react',
+    'react'
   ],
   parser: '@babel/eslint-parser',
   parserOptions: {
@@ -19,8 +19,7 @@ module.exports = {
     babelOptions: {
       babelrc: false,
       configFile: false,
-      presets: ['@babel/preset-env', '@babel/preset-react'],
-      plugins: ['@babel/plugin-proposal-class-properties']
+      presets: ['@babel/preset-env', '@babel/preset-react']
     },
   },
   extends: [

@@ -132,7 +132,7 @@ export default function PaymentMethod() {
           <Cards
             cvc={cardInfo.cvc}
             expiry={cardInfo.expiry}
-            focused={focus}
+            focused={cardInputFocus}
             name={cardInfo.name}
             number={cardInfo.number}
           />

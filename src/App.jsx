@@ -14,7 +14,6 @@ import Account from './pages/profile/Account';
 import AccountDetails from './pages/profile/AccountDetails';
 import Signup from './pages/auth/Signup';
 import Verify from './pages/auth/Verify';
-import LandingPage from './pages/LandingPage';
 import Modifiers from './pages/Modifiers';
 import Tips from './pages/Tips';
 import PageNotFound from './pages/PageNotFound';
@@ -38,14 +37,15 @@ function App() {
               <Route path="modifiers" element={<Modifiers />} />
               <Route path="404" element={<PageNotFound />} />
               <Route path="/user/account" element={<Account />} />
+             
+              {/* <Route path='/user/new-card' element={<AddCardPayment />} />
+              <Route path='/user/payment-methods' element={<PaymentMethods />} />
+              <Route path='/user/account-details' element={<AccountDetails />} />
+              <Route path="/user/orders" element={<Orders />} />
+              <Route path="/cart/checkout" element={<Checkout />} />
+              <Route path="/cart/tips" element={<Tips />} />
+              <Route path="/cart/order-confirmed" element={<OrderConfirmed />} /> */}
               <Route element={<PrivateRoute />}>
-                <Route path='/user/new-card' element={<AddCardPayment />} />
-                <Route path='/user/payment-methods' element={<PaymentMethods />} />
-                <Route path='/user/account-details' element={<AccountDetails />} />
-                <Route path="/user/orders" element={<Orders />} />
-                <Route path="/cart/checkout" element={<Checkout />} />
-                <Route path="/cart/tips" element={<Tips />} />
-                <Route path="/cart/order-confirmed" element={<OrderConfirmed />} />
                 <Route path="/cart/closed-tab" element={<ClosedTab />} />
               </Route>   
             </Routes>
