@@ -1,71 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <div id="applepaybutton"></div>
 
     <script
       src="https://sharingthecredit.transactiongateway.com/token/Collect.js"
       data-tokenization-key="checkout_public_g3dDn9889xsmfvBxU3jn8VCMbkn33xvs"
-      data-variant="inline"
-      data-country="US"
-      data-price="1.00"
-      data-currency="USD"></script>
-    <script>
-window.addEventListener('DOMContentLoaded', function(e) {
-document.getElementById('applepaybutton').addEventListener('click', function(e) {
-CollectCheckout.redirectToCheckout({
-type: "sale",
-lineItems: [
-{
-lineItemType: "customPayment",
-description: "example",
-currency: "USD"
-},
-],
-successUrl: null,
-cancelUrl: null,
-receipt: {
-showReceipt: true,
-sendToCustomer: true,
-},
-collectShippingInfo: true,
-useKount: false,
-paymentMethods: [
-{
-type: "creditCard",
-use3DSecure: true,
-},
-{
-type: "googlePay",
-use3DSecure: true,
-},
-{
-type: "applePay",
-use3DSecure: true,
-},
-],
-fields: [
-],
-}).then((error) => {
-console.log(error);
-});
-});
-});
-</script>
-    <style>
-#checkout_button {
-display: inline-block;
-font-family: sans-serif;
-font-size: 20px;
-background-color: #0BD992;
-color: white;
-border-radius: 4px;
-padding: 14px 28px;
-}
-#checkout_button:hover {
-cursor: pointer;
-}
-</style>
+      data-variant='inline'
+      data-field-apple-pay-selector='#apple-pay-button'
+      data-field-apple-pay-shipping-type='delivery'
+      data-field-apple-pay-shipping-methods='[{" label":" Free Standard
+      Shipping"," amount":" 0.00"," detail":" Arrives in 5-7 days","
+      identifier":" standardShipping"},{" label":" Express Shipping"," amount":"
+      10.00"," detail":" Arrives in 2-3 days"," identifier":"
+      expressShipping"}]'
+      data-field-apple-pay-required-billing-contact-fields='[" postalAddress","
+      name"]'
+      data-field-apple-pay-required-shipping-contact-fields='[" postalAddress","
+      name"]'
+      data-field-apple-pay-contact-fields='[" phone"," email"]'
+      data-field-apple-pay-contact-fields-mapped-to='shipping'
+      data-field-apple-pay-line-items='[{" label":" Foobar"," amount":"
+      3.00"},{" label":" Arbitrary Line Item #2"," amount":" 1.00"}]'
+      data-field-apple-pay-total-label='Total'
+      data-field-apple-pay-type='buy'
+      data-field-apple-pay-style-button-style='white-outline'
+      data-field-apple-pay-style-height='30px'
+      data-field-apple-pay-style-border-radius='4px'></script>
+
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
