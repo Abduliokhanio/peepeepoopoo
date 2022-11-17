@@ -64,8 +64,6 @@ export default function PaymentMethods() {
       <Box px="6">
         <Heading size="lg" textAlign={'left'} mt="6">Add  Payment Methods</Heading>
         <Flex onClick={() => navigate('/user/new-card')} 
-          borderBottom='1px' 
-          borderColor='gray.200'
           py="6" 
           justifyContent="space-between">
           <HStack spacing="4">

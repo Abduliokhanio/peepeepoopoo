@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Component, useState } from 'react';
 
 class AppleGooglePay extends Component {
@@ -6,12 +7,7 @@ class AppleGooglePay extends Component {
     super(props);
   }
 
-  start = async (valuee) => {
-    const script = document.createElement('script');
-    script.src = 'https://sharingthecredit.transactiongateway.com/token/Collect.js';
-    script.setAttribute('data-tokenization-key', 'h62NTF-255gJG-Uw2UWX-k86K45');
-    await document.body.appendChild(script);
-
+  start = async (value) => {
     window.CollectJS.configure({
       'paymentSelector': '#customPayButton',
       'fields': {

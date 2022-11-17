@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useContext, useState, useEffect, createContext } from 'react';
 import { supabasePublic } from '../services/supabasePublic';
 import { supabasePrivate } from '../services/supabasePrivate';
@@ -38,6 +39,11 @@ export const AuthProvider = ({ children }) => {
       setUserPrivate(session?.user ?? null);
       setLoading(false);
     });
+
+    const script = document.createElement('script');
+    script.setAttribute('src', 'https://sharingthecredit.transactiongateway.com/token/Collect.js');
+    script.setAttribute('data-tokenization-key', process.env.REACT_APP_COLLECTJS_TOKEN);
+    document.body.appendChild(script);
   }, []);
 
   // create signUp, signIn, signOut functions
