@@ -4,163 +4,30 @@
 
     <script
       src="https://sharingthecredit.transactiongateway.com/token/Collect.js"
-      data-tokenization-key="h62NTF-255gJG-Uw2UWX-k86K45"></script>
-    <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                CollectJS.configure({
-                    "paymentSelector" : "#demoPayButton",
-                    "variant" : "inline",
-                    "styleSniffer" : "false",
-                    "googleFont": "Montserrat:400",
-                    "customCss" : {
-                        "color": "#0000ff",
-                        "background-color": "#d0d0ff"
-                    },
-                    "invalidCss": {
-                        "color": "white",
-                        "background-color": "red"
-                    },
-                    "validCss": {
-                        "color": "black",
-                        "background-color": "#d0ffd0"
-                    },
-                    "placeholderCss": {
-                        "color": "green",
-                        "background-color": "#687C8D"
-                    },
-                    "focusCss": {
-                        "color": "yellow",
-                        "background-color": "#202020"
-                    },
-                    "fields": {
-                        "ccnumber": {
-                            "selector": "#demoCcnumber",
-                            "title": "Card Number",
-                            "placeholder": "0000 0000 0000 0000"
-                        },
-                        "ccexp": {
-                            "selector": "#demoCcexp",
-                            "title": "Card Expiration",
-                            "placeholder": "00 / 00"
-                        },
-                        "cvv": {
-                            "display": "show",
-                            "selector": "#demoCvv",
-                            "title": "CVV Code",
-                            "placeholder": "***"
-                        },
-                        "checkaccount": {
-                            "selector": "#demoCheckaccount",
-                            "title": "Account Number",
-                            "placeholder": "0000000000"
-                        },
-                        "checkaba": {
-                            "selector": "#demoCheckaba",
-                            "title": "Routing Number",
-                            "placeholder": "000000000"
-                        },
-                        "checkname": {
-                            "selector": "#demoCheckname",
-                            "title": "Name on Checking Account",
-                            "placeholder": "Customer McCustomerface"
-                        },
-                        "googlePay": {
-                            "selector": ".googlePayButton",
-                            "shippingAddressRequired": true,
-                            "shippingAddressParameters": {
-                                "phoneNumberRequired": true,
-                                "allowedCountryCodes": ['US', 'CA']
-                            },
-                            "billingAddressRequired": true,
-                            "billingAddressParameters": {
-                                "phoneNumberRequired": true,
-                                "format": "MIN"
-                            },
-                            'emailRequired': true,
-                            "buttonType": "buy",
-                            "buttonColor": "white",
-                            "buttonLocale": "en"
-                        },
-                        'applePay' : {
-                            'selector' : '.applePayButton',
-                            'shippingMethods': [
-                                {
-                                    'label': 'Free Standard Shipping',
-                                    'amount': '0.00',
-                                    'detail': 'Arrives in 5-7 days',
-                                    'identifier': 'standardShipping'
-                                },
-                                {
-                                    'label': 'Express Shipping',
-                                    'amount': '10.00',
-                                    'detail': 'Arrives in 2-3 days',
-                                    'identifier': 'expressShipping'
-                                }
-                            ],
-                            'shippingType': 'delivery',
-                            'requiredBillingContactFields': [
-                                'postalAddress',
-                                'name'
-                            ],
-                            'requiredShippingContactFields': [
-                                'postalAddress',
-                                'name'
-                            ],
-                            'contactFields': [
-                                'phone',
-                                'email'
-                            ],
-                            'contactFieldsMappedTo': 'shipping',
-                            'lineItems': [
-                                {
-                                    'label': 'Foobar',
-                                    'amount': '3.00'
-                                },
-                                {
-                                    'label': 'Arbitrary Line Item #2',
-                                    'amount': '1.00'
-                                }
-                            ],
-                            'totalLabel': 'foobar',
-                            'type': 'buy',
-                            'style': {
-                                'button-style': 'white-outline',
-                                'height': '50px',
-                                'border-radius': '0'
-                            }
-                        }
-                    },
-                    'price': '1.00',
-                    'currency':'USD',
-                    'country': 'US',
-                    'validationCallback' : function(field, status, message) {
-                        if (status) {
-                            var message = field + " is now OK: " + message;
-                        } else {
-                            var message = field + " is now Invalid: " + message;
-                        }
-                        console.log(message);
-                    },
-                    "timeoutDuration" : 10000,
-                    "timeoutCallback" : function () {
-                        console.log("The tokenization didn't respond in the expected timeframe.  This could be due to an invalid or incomplete field or poor connectivity");
-                    },
-                    "fieldsAvailableCallback" : function () {
-                        console.log("Collect.js loaded the fields onto the form");
-                    },
-                    'callback' : function(response) {
-                        alert(response.token);
-                        var input = document.createElement("input");
-                        input.type = "hidden";
-                        input.name = "payment_token";
-                        input.value = response.token;
-                        var form = document.getElementsByTagName("form")[0];
-                        form.appendChild(input);
-                        form.submit();
-                    }
-                });
-            });
-        </script>
+      data-tokenization-key="h62NTF-255gJG-Uw2UWX-k86K45"
+      data-variant='inline'
+      data-field-apple-pay-selector='.applePayButton'
+      data-field-apple-pay-shipping-type='delivery'
+      data-field-apple-pay-shipping-methods='[{" label":" Free Standard
+      Shipping"," amount":" 0.00"," detail":" Arrives in 5-7 days","
+      identifier":" standardShipping"},{" label":" Express Shipping"," amount":"
+      10.00"," detail":" Arrives in 2-3 days"," identifier":"
+      expressShipping"}]'
+      data-field-apple-pay-required-billing-contact-fields='[" postalAddress","
+      name"]'
+      data-field-apple-pay-required-shipping-contact-fields='[" postalAddress","
+      name"]'
+      data-field-apple-pay-contact-fields='[" phone"," email"]'
+      data-field-apple-pay-contact-fields-mapped-to='shipping'
+      data-field-apple-pay-line-items='[{" label":" Foobar"," amount":"
+      3.00"},{" label":" Arbitrary Line Item #2"," amount":" 1.00"}]'
+      data-field-apple-pay-total-label='Total'
+      data-field-apple-pay-type='buy'
+      data-field-apple-pay-style-button-style='white-outline'
+      data-field-apple-pay-style-height='30px'
+      data-field-apple-pay-style-border-radius='4px'></script>
+
+
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
