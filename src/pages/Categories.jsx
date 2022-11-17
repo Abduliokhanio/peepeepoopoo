@@ -23,47 +23,6 @@ export default function CategoriesPage() {
   const [merchantURL, setMerchantURL] = useState(null);
   const [bannerImageURL, setBannerImageURL] = useState(null);
 
-  // window.addEventListener('DOMContentLoaded', function(e) {
-  //   document.getElementById('applepaybutton').addEventListener('click', function(e) {
-  //     CollectCheckout.redirectToCheckout({
-  //       type: 'sale',
-  //       lineItems: [
-  //         {
-  //           lineItemType: 'customPayment',
-  //           description: 'example',
-  //           currency: 'USD'
-  //         },
-  //       ],
-  //       successUrl: null,
-  //       cancelUrl: null,
-  //       receipt: {
-  //         showReceipt: true,
-  //         sendToCustomer: true,
-  //       },
-  //       collectShippingInfo: true,
-  //       useKount: false,
-  //       paymentMethods: [
-  //         {
-  //           type: 'creditCard',
-  //           use3DSecure: true,
-  //         },
-  //         {
-  //           type: 'googlePay',
-  //           use3DSecure: true,
-  //         },
-  //         {
-  //           type: 'applePay',
-  //           use3DSecure: true,
-  //         },
-  //       ],
-  //       fields: [
-  //       ],
-  //     }).then((error) => {
-  //       console.log(error);
-  //     });
-  //   });
-  // });
-
   useEffect(() => {
     initPage();
   }, []);
@@ -215,7 +174,6 @@ export default function CategoriesPage() {
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
         <VStack mt="16" py="16" backgroundImage={bannerImageURL} backgroundSize="cover" backgroundPosition="center" mb="8">
-          <div className="apple-pay-button"></div>
           {tableQRNumber === null ? (
             <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
               <Text fontSize="mg" fontWeight='semibold'>Pickup</Text>
