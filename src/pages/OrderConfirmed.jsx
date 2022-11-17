@@ -48,7 +48,7 @@ export default function OrderConfirmed() {
 
           if (jsonQuery.responsetext === 'SUCCESS') {
             dispatch(clearCart());
-            navigate('/closed-tab');
+            navigate('/cart/closed-tab');
             
             // TODO: UPDATE ORDER STATUS TO PAID
             // client recipt log
@@ -65,11 +65,10 @@ export default function OrderConfirmed() {
   };
   
   return (
-    <Box>
+    <Box bg="#f6f6f6" minH="100vh">
       <Flex direction="column">
-        <Navbar title={'Order Sent'} showBackButton={true} />
         <Flex
-          mt="32"
+          mt="16"
           direction="column"
         >
           <VStack

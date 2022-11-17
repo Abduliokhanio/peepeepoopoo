@@ -153,7 +153,7 @@ export default function CategoriesPage() {
     const bannerImage = await supabasePublic.storage
       .from('merchants')
       .getPublicUrl(merchantURLPath + '/banner');
-
+      
     if (bannerImage.data.publicUrl.length > 1) setBannerImageURL(bannerImage.data.publicUrl);
     if (bannerImage.error) throw bannerImage.error;
   };

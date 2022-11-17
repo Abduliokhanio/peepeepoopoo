@@ -12,7 +12,7 @@ export default function ClosedTab() {
   return (
     <Box>
       <Flex direction="column">
-        <Navbar title={'Tips'} showBackButton={false} />
+        <Navbar title={'Tab Closed'} showBackButton={false} />
         <Flex
           mt="32"
           direction="column"

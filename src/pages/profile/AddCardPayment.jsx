@@ -107,7 +107,7 @@ export default function PaymentMethod() {
 
   return (
     <Box>
-      <Navbar title="Your details" showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
+      <Navbar showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
       <VStack 
         pt="115px"
         spacing={4}

@@ -26,7 +26,7 @@ export default function CheckoutButton() {
   
   return (cart.length > 0 ? (
     <Flex
-      onClick={() => navigate('/checkout')}
+      onClick={() => navigate('/cart/checkout')}
       pos="fixed"
       bottom="0" 
       bg="RGBA(255, 255, 255, 0.90)" 

@@ -26,8 +26,6 @@ export default function TipsPage() {
   const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
   const [isThirdButtonSelected, setIsThirdButtonSelected] = useState(false);
 
-  const [orderSentSuccessfully, setOrderSentSuccessfully] = useState(false);
-
   const roomId = 'nu-wood-fire-grill';
   const userId = 'user1';
 
@@ -38,7 +36,7 @@ export default function TipsPage() {
 
   const handleOrderInsert = (payload) => {
     console.log('INSERT', payload);
-    setOrderSentSuccessfully(true);
+    navigate('/cart/order-confirmed');
   };
 
   const handleSendOrder = async () => {
@@ -50,8 +48,6 @@ export default function TipsPage() {
     });
 
     console.log('res: ', res);
-
-    if (orderSentSuccessfully === true) navigate('/order-confirmed');
     if (res.status !== 201) throw `${err}: Error placing order`;
   };
 

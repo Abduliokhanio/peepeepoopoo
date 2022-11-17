@@ -36,26 +36,22 @@ function App() {
               <Route path="/:merchant/table/*" element={<Categories />} />
               <Route path="products" element={<Products />} />
               <Route path="modifiers" element={<Modifiers />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="checkout" element={<Checkout />} />
-              <Route path="closed-tab" element={<ClosedTab />} />
-              <Route path="order-confirmed" element={<OrderConfirmed />} />
-              <Route path="tips" element={<Tips />} />
               <Route path="404" element={<PageNotFound />} />
               <Route path="/user/account" element={<Account />} />
               <Route element={<PrivateRoute />}>
-                <Route path='/user/account-details' element={<AccountDetails />} />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                <Route path='/user/payment-methods' element={<PaymentMethods />} />
-              </Route>
-              <Route element={<PrivateRoute />}>
                 <Route path='/user/new-card' element={<AddCardPayment />} />
-              </Route>
+                <Route path='/user/payment-methods' element={<PaymentMethods />} />
+                <Route path='/user/account-details' element={<AccountDetails />} />
+                <Route path="/user/orders" element={<Orders />} />
+                <Route path="/cart/checkout" element={<Checkout />} />
+                <Route path="/cart/tips" element={<Tips />} />
+                <Route path="/cart/order-confirmed" element={<OrderConfirmed />} />
+                <Route path="/cart/closed-tab" element={<ClosedTab />} />
+              </Route>   
             </Routes>
           </AuthProvider>
         </div>
-      </BrowserRouter>
+      </BrowserRouter>         
     </ChakraProvider>
   );
 }

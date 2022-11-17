@@ -28,8 +28,8 @@ export default function CheckoutPage() {
   const handleCheckout = async () => {
     setLoading(true);
 
-    if (orderTip === null) navigate('/tips');
-    else if (hasPaymentMethod === true) navigate('/payment');
+    if (orderTip === null) navigate('/cart/tips');
+    else if (hasPaymentMethod === false) navigate('/user/payment-method');
     
     setLoading(false);
   };

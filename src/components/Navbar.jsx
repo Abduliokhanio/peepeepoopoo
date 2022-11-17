@@ -7,7 +7,7 @@ import { ChevronLeftIcon, Icon } from '@chakra-ui/icons';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import MenuDrawer from './MenuDrawer';
 
-export default function NavBar({ title, showBackButton, brandColor, showAccountButton }) {
+export default function NavBar({ title, showBackButton, showLeftButton, showAccountButton }) {
   const navigate = useNavigate();
 
   const navButton = (showBackButton) => {
@@ -17,6 +17,8 @@ export default function NavBar({ title, showBackButton, brandColor, showAccountB
           <ChevronLeftIcon color={'white'} h="7" w="7"/>
         </Box>
       );
+    } else if (showLeftButton === false) {
+      return null;
     }
     return (
       <MenuDrawer />
