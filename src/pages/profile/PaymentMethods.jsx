@@ -16,6 +16,7 @@ export default function PaymentMethods() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const OrderType = useSelector((state) => state.cart.orderType);
 
   useEffect(() => {
     setPreviousRecord();
@@ -38,11 +39,26 @@ export default function PaymentMethods() {
 
   return (
     <Stack backgroundColor="#F9FBFC;" direction="column" minH="100vh" h="100%">
-      <Navbar title="Your account" showBackButton={true} />
+      <Navbar title={OrderType} showBackButton={true} />
       
-      <Box pt="14">
-        <Heading size="lg" textAlign={'left'} px="6" mt="6">Payment Methods</Heading>
-        <Flex onClick={() => navigate('/user/new-card')} borderBottom='1px' borderColor='gray.200' px="6" py="6" justifyContent="space-between">
+      <Box>
+        <Heading size="lg" textAlign={'left'} px="6" mt="6">Saved Payment Methods</Heading>
+        <Flex onClick={() => navigate('/user/new-card')} px="6" py="6" justifyContent="space-between">
+          <HStack spacing="4">
+            <Icon h="6" w="6" as={MdPayment} />
+            <Text fontSize="xl">Credit/Debit Card</Text>
+          </HStack>
+          <div id="googlePayButton"></div>
+          <div id="applepaybutton"></div>
+        </Flex>
+      </Box>
+      <Box px="6">
+        <Heading size="lg" textAlign={'left'} mt="6">Add  Payment Methods</Heading>
+        <Flex onClick={() => navigate('/user/new-card')} 
+          borderBottom='1px' 
+          borderColor='gray.200'
+          py="6" 
+          justifyContent="space-between">
           <HStack spacing="4">
             <Icon h="6" w="6" as={MdPayment} />
             <Text fontSize="xl">Credit/Debit Card</Text>

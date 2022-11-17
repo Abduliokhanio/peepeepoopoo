@@ -39,7 +39,7 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAcco
   };
 
   return (
-    <Box w="100%" position="fixed" zIndex={10} >
+    <Box w="100%" top="0" position="sticky" zIndex={10} >
       <Flex px="6" h="16" alignItems="center" bg={'black'}>
         {navButton(showBackButton)}
         <Spacer />

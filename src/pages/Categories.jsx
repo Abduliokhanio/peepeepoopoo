@@ -173,7 +173,7 @@ export default function CategoriesPage() {
     <Box bg="#f6f6f6">
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
-        <VStack mt="16" py="16" backgroundImage={bannerImageURL} backgroundSize="cover" backgroundPosition="center" mb="8">
+        <VStack py="16" backgroundImage={bannerImageURL} backgroundSize="cover" backgroundPosition="center" mb="8">
           {tableQRNumber === null ? (
             <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
               <Text fontSize="mg" fontWeight='semibold'>Pickup</Text>

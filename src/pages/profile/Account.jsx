@@ -20,7 +20,7 @@ export default function AccountPage() {
     <Stack backgroundColor="#F9FBFC;" direction="column" minH="100vh" h="100%">
       <Navbar title="Your account" showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
       
-      <Box pt="14">
+      <Box>
         <Flex onClick={() => navigate('/user/account-details')} borderBottom='1px' borderColor='gray.200' px="6" py="6" justifyContent="space-between">
           <HStack spacing="4">
             <Icon h="6" w="6" as={MdOutlineAccountCircle} />
