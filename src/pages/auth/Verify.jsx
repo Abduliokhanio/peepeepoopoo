@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 export default function Verify() {
   const navigate = useNavigate();
   const customerNumber = useSelector((state) => state.customer.mobileNumber);
+  const merchantURL = useSelector((state) => state.merchant.urlPath);
   const [isCodeError, setIsCodeError] = useState(false);
   const [codeMessage, setCodeMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ export default function Verify() {
     if (event == 'SIGNED_IN') {
       console.log('logged in');
       // TODO: navigate back to last page before auth flow
-      navigate('/');
+      navigate(`/${merchantURL}`);
     }
   });
 
