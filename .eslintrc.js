@@ -38,7 +38,20 @@ module.exports = {
     'semi': [1, 'always'],
     'space-unary-ops': 2,
     'no-unexpected-multiline': [1],
-    'no-multiple-empty-lines': [1, { max: 1, maxEOF: 1 }],
-    'quotes': [2, 'single', { 'avoidEscape': true }]
+    'no-multiple-empty-lines': [1, {
+      max: 1, maxEOF: 1
+    }],
+    'quotes': [2, 'single', {
+      'avoidEscape': true
+    }],
+    'object-curly-newline': ['error', {
+      'ObjectExpression': 'always',
+      'ObjectPattern': {
+        'multiline': true
+      },
+      'ExportDeclaration': {
+        'multiline': true, 'minProperties': 3
+      }
+    }]
   },
 };

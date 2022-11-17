@@ -3,9 +3,7 @@ import React, {useState, useEffect} from 'react';
 import { useAuth } from '../context/auth';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
-import {
-  VStack, Box, Text
-} from '@chakra-ui/react';
+import {VStack, Box, Text} from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import CartItemCard from '../components/CartItemCard';
@@ -35,7 +33,9 @@ export default function CheckoutPage() {
 
   supabasePrivate
     .channel('private:orders')
-    .on('postgres_changes', { event: 'INSERT', schema: 'private', table: 'orders' }, payload => handleTicketSent(payload))
+    .on('postgres_changes', {
+      event: 'INSERT', schema: 'private', table: 'orders' 
+    }, payload => handleTicketSent(payload))
     .subscribe();
 
   const handleContinue = async () => {
@@ -67,7 +67,9 @@ export default function CheckoutPage() {
 
   const updatePendingOrders = async () => {
     await pendingOrders.forEach((order) => {
-      dispatch(updateCart({...order, orderSent: true}));
+      dispatch(updateCart({
+        ...order, orderSent: true
+      }));
     });
   };
 
@@ -99,6 +101,8 @@ export default function CheckoutPage() {
             />);
         } )}
       </VStack>
+
+      <div id="applepaybutton"></div>
 
       {/* TODO: voucher / discount code & allergies text area */}
       
