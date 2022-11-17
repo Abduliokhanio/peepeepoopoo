@@ -1,5 +1,5 @@
 import React from 'react';
-import CollectJS from './CollectJSSection';
+import CollectJSSection from './CollectJSSection';
 import { Link } from 'react-router-dom';
 
 class Demo extends React.Component {
@@ -19,7 +19,7 @@ class Demo extends React.Component {
 
   componentDidMount() {
     document.addEventListener('DOMContentLoaded', function () {
-      CollectJS.configure({
+      window.CollectJS.configure({
         'paymentSelector': '#customPayButton',
         'fields': {
           'ccnumber': {
@@ -152,6 +152,9 @@ class Demo extends React.Component {
       <div>
         <table>
           <tr><div className="applePayButton"></div></tr>
+          <tr><div className="googlePayButton"></div></tr>
+          <tr><div id="applePayButton"></div></tr>
+          <tr><div id="googlePayButton"></div></tr>
           <tr>
             <td>First Name</td>
             <td><input size="30" type="text" name="fname" value="Test" /></td>
