@@ -10,8 +10,6 @@
       data-country="US"
       data-price="1.00"
       data-currency="USD"></script>
-
-
     <script>
 window.addEventListener('DOMContentLoaded', function(e) {
 document.getElementById('applepaybutton').addEventListener('click', function(e) {
@@ -35,15 +33,15 @@ useKount: false,
 paymentMethods: [
 {
 type: "creditCard",
-use3DSecure: false,
+use3DSecure: true,
 },
 {
 type: "googlePay",
-use3DSecure: false,
+use3DSecure: true,
 },
 {
 type: "applePay",
-use3DSecure: false,
+use3DSecure: true,
 },
 ],
 fields: [
