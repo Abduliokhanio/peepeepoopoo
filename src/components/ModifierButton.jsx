@@ -6,7 +6,6 @@ import {
 export default function ModifierButton({handleOnClick, totalPrice, isItemInCart}) {
 
   const buttonLabelType = () => {
-    console.log('isItemInCart: dddd ', isItemInCart);
     if (isItemInCart === false) {
       return 'Add To Order';
     }

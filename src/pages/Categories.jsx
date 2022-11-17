@@ -11,6 +11,7 @@ import {
 import { CheckIcon, EditIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setTableNumber } from '../context/slices/merchantSlice';
+import { setOrderType } from '../context/slices/cartSlice';
 
 export default function CategoriesPage() {
   const cart = useSelector(state => state.cart.items);
@@ -42,6 +43,7 @@ export default function CategoriesPage() {
     if (window.location.pathname.includes('table')) {
       tableNumber = window.location.pathname.match(/table\/(.*)/);
       setCurrentTableNumber(tableNumber[1]);
+      dispatch(setOrderType('dineIn'));
       if (host.includes('orderahead.io')) {
         merchantURLPath = window.location.href.match(/orderahead.io\/(.*)\/table/);
         setMerchantURL(merchantURLPath[1]);
@@ -49,11 +51,12 @@ export default function CategoriesPage() {
         merchantURLPath = window.location.href.match(/localhost:3000\/(.*)\/table/);
         setMerchantURL(merchantURLPath[1]);
       }
-
+      
       return merchantURLPath[1];
     } 
 
     merchantURLPath = window.location.pathname.replace(/\//g,'');
+    dispatch(setOrderType('Pickup'));
     setMerchantURL(merchantURLPath);
     return merchantURLPath;
   };

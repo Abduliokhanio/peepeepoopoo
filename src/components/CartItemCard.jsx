@@ -12,10 +12,6 @@ export default function CartItemCard({
   item
 }) {
 
-  useEffect(() => {
-    console.log('item: ', item);
-  }, [false]);
-
   const cart = useSelector(state => state.cart.items);
   const itemInCart = cart.find(cartItem => cartItem.id === item.id);
   const dispatch = useDispatch();

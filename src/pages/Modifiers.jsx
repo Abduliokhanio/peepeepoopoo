@@ -16,12 +16,11 @@ export default function ModifiersPage() {
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
+  const pendingOrders = cart.filter(item => item.orderSent === false);
 
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct.item.price);
-  const [numOfTotalItems, setNumOfTotalItems] = useState(cart.reduce((acc, item) => acc + parseInt(item.quantity), 1));
   const [itemCount, setItemCount] = useState(1);
-  const [cartItemID, setCartItemID] = useState(null);
   const [isItemInCart, setIsItemInCart] = useState(false);
 
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
@@ -39,14 +38,10 @@ export default function ModifiersPage() {
 
   useEffect(() => {
     checkCart();
+    setTotalPrice(itemCount * merchantStoreSelectedProduct.item.price);
   }, [false]);
 
   const checkCart = async () => { 
-    // if (merchantStoreSelectedProduct.id) {
-    //   console.log('merchantStoreSelectedProduct: ', merchantStoreSelectedProduct);
-    //   setCartItemID(merchantStoreSelectedProduct.id);
-    //   setIsItemInCart(false);
-    // }
     setLoading(true);
     const itemInCart = cart.find(item => item.id === merchantStoreSelectedProduct.id);
     console.log('itemInCart: ', itemInCart);
@@ -69,25 +64,25 @@ export default function ModifiersPage() {
         id: merchantStoreSelectedProduct.id, 
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
-        modifiers: null,
-        orderSent: false,
-        orderCompleted: false,
-        payment: false };
+        modifiers: null, // TODO: update modifiers
+        orderSent: merchantStoreSelectedProduct.orderSent,
+        customerRecieved: merchantStoreSelectedProduct.customerRecieved,
+        orderPaid: merchantStoreSelectedProduct.paid };
 
       console.log('update cartItem to: ', cartItemUpdate);
       dispatch(updateCart(cartItemUpdate));
     } else {
-      const cartItemInsert = { 
+      const cartOrderInsert = { 
         id: uid(), 
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
-        modifiers: null,
+        modifiers: null, // TODO: add initial modifiers
         orderSent: false,
-        orderCompleted: false,
-        payment: false  };
+        customerRecieved: false,
+        orderPaid: false  };
         
-      console.log('add new cartItem: ', cartItemInsert);
-      dispatch(addToCart(cartItemInsert));
+      console.log('add new order to cart: ', cartOrderInsert);
+      dispatch(addToCart(cartOrderInsert));
     }
     
     navigate(-1);
@@ -95,6 +90,7 @@ export default function ModifiersPage() {
 
   const handleModifierCountInput = (count) => {
     setItemCount(count);
+    console.log('item price: ', merchantStoreSelectedProduct.item.price);
     setTotalPrice(count * merchantStoreSelectedProduct.item.price);
   };
 
@@ -131,7 +127,7 @@ export default function ModifiersPage() {
           justifyContent="center"
           direction="column"
         >
-          <ModifierButton isItemInCart={isItemInCart} handleOnClick={handleCartButtoon} numberOfItems={itemCount} totalPrice={itemCount * totalPrice} />
+          <ModifierButton isItemInCart={isItemInCart} handleOnClick={handleCartButtoon} numberOfItems={itemCount} totalPrice={totalPrice} />
         </Flex>
       </Container>
       

@@ -1,42 +1,80 @@
 /* eslint-disable no-undef */
 import React, {useState, useEffect} from 'react';
+import { useAuth } from '../context/auth';
+import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
 import {
-  VStack, Box, Heading, Button, StackDivider, useDisclosure, Flex, Text, Spacer, Divider,
+  VStack, Box, Text
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import CartItemCard from '../components/CartItemCard';
 import PlaceOrderButton from '../components/PlaceOrderButton';
 import { setSelectedProduct } from '../context/slices/merchantSlice';
+import {updateCart} from '../context/slices/cartSlice';
 
 export default function CheckoutPage() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const cart = useSelector(state => state.cart.items);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
   const orderTip = useSelector(state => state.cart.tip);
   const hasPaymentMethod = useSelector(state => state.customer.hasPaymentMethod);
-  const [loading, setLoading] = useState(false);
 
-  const [subTotal, setSubTotal] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
-  const [subTotalWithTax, setSubTotalWithTax] = useState((subTotal + (subTotal * (0.0825))).toFixed(2));
-  const [tip, setTip] = useState((subTotalWithTax*0.15).toFixed(2));
-  const [totalCost, setTotalCost] = useState(subTotalWithTax+tip);
+  const merchantStore = useSelector(state => state.merchant);
+  const customerName = useSelector(state => state.customer.name);
+  const orderType = useSelector(state => state.cart.orderType);
 
-  const handleCheckout = async () => {
+  const pendingOrders = cart.filter(item => item.orderSent === false);
+  const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
+  const subTotalWithTax = (subTotal + (subTotal * (0.0825))).toFixed(2);
+  const tip = (subTotalWithTax*0.15).toFixed(2);
+  const totalCost = subTotalWithTax+tip;
+
+  supabasePrivate
+    .channel('private:orders')
+    .on('postgres_changes', { event: 'INSERT', schema: 'private', table: 'orders' }, payload => handleTicketSent(payload))
+    .subscribe();
+
+  const handleContinue = async () => {
     setLoading(true);
+    await sendOrderToKDS();
 
     if (orderTip === null) navigate('/cart/tips');
-    else if (hasPaymentMethod === false) navigate('/user/payment-method');
+    // TODO: change back to catch missing payment method
+    // else if (hasPaymentMethod === false) navigate('/user/payment-method');
+    else navigate('/cart/order-confirmed');
     
     setLoading(false);
   };
 
-  const handleEditCartItem = (item) => {
-    dispatch(setSelectedProduct(item));
-    navigate('/modifiers');
+  const sendOrderToKDS = async () => {
+    const ticket = await supabasePrivate.from('orders').insert({
+      customer_id: user.id,
+      room_id: `admin-${merchantStore.urlPath}`,
+      customer_name: customerName,
+      orders: pendingOrders, // list of orders or cart items
+      order_type: orderType,
+      table_number: tableNumber,
+      created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+    });
+
+    console.log('ticket: ', ticket);
+    if (ticket.status !== 201) throw `${ticket.err}: Error sending order`;
+  };
+
+  const updatePendingOrders = async () => {
+    await pendingOrders.forEach((order) => {
+      dispatch(updateCart({...order, orderSent: true}));
+    });
+  };
+
+  const handleTicketSent = async (payload) => {
+    console.log('ORDER SENT SUCCESS', payload);
+    await updatePendingOrders();
+    navigate('/cart/order-confirmed');
   };
 
   return (
@@ -53,17 +91,12 @@ export default function CheckoutPage() {
           <Text w="100%" textAlign={'left'}>
             {`Table #${tableNumber}`}</Text>
         )}
-        {cart.map((item, index) => {
+        {pendingOrders.map((item, index) => {
           return(
             <CartItemCard
               key={index}
-              onClick={(item) => handleEditCartItem(item)}
               item={item}
-              index={index}
-              setTotalCost={setTotalCost}
-              cart={cart}
             />);
-         
         } )}
       </VStack>
 
@@ -72,7 +105,7 @@ export default function CheckoutPage() {
       <PlaceOrderButton 
         isLoading={loading} 
         subTotal={subTotal}
-        handleOnClick={handleCheckout} 
+        handleOnClick={handleContinue} 
         subTotalWithTax={subTotalWithTax} 
         totalCost={totalCost} 
         buttonLabel={'Continue'} />

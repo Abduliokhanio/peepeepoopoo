@@ -37,7 +37,6 @@ export default function Login() {
 
     dispatch(setMobileNumber(number));
 
-    console.log('number: ', '+1' + number);
     console.log('user: ', user);
     console.log('error: ', error);
 

@@ -5,7 +5,9 @@ export const cartSlice = createSlice({
   initialState: {
     items: [],
     tip: null,
-    isOrderOpen: false
+    isTabOpen: false,
+    orderType: null,
+    ticketCompleted: false,
   },
   reducers: {
     addToCart: (state, action) => {
@@ -13,7 +15,7 @@ export const cartSlice = createSlice({
         ...state,
         items: [...state.items, action.payload]
       };
-    }, 
+    },
     removeFromCart: (state, action) => {
       return {
         ...state,
@@ -26,17 +28,34 @@ export const cartSlice = createSlice({
         items: state.items.map(item => item.id === action.payload.id ? action.payload : item)
       };
     },
+    clearCart: (state) => {
+      state.items = [];
+    },
     setOrderTip: (state, action) => {
       state.tip = action.payload;
     },
-    clearCart: (state) => {
-      state.items = [];
+    setOrderType: (state, action) => {
+      state.orderType = action.payload;
+    },
+    setIsTabOpen: (state, action) => {
+      state.isTabOpen = action.payload;
+    },
+    setIsTicketCompleted: (state, action) => {
+      state.isTicketCompleted = action.payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart, updateCart, removeFromCart, setOrderTip, clearCart } = cartSlice.actions;
+export const {
+  addToCart,
+  updateCart,
+  removeFromCart,
+  setOrderTip,
+  setOrderType,
+  setIsTabOpen,
+  setIsTicketCompleted,
+  clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
 
