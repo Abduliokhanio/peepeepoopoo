@@ -215,7 +215,7 @@ export default function CategoriesPage() {
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
         <VStack mt="16" py="16" backgroundImage={bannerImageURL} backgroundSize="cover" backgroundPosition="center" mb="8">
-          <div id="apple-pay-button"></div>
+          <div className="apple-pay-button"></div>
           {tableQRNumber === null ? (
             <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
               <Text fontSize="mg" fontWeight='semibold'>Pickup</Text>
