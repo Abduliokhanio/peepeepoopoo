@@ -18,7 +18,7 @@ import LandingPage from './pages/LandingPage';
 import Modifiers from './pages/Modifiers';
 import Tips from './pages/Tips';
 import PageNotFound from './pages/PageNotFound';
-import PaymentMethods from './pages/profile/PaymentMethod';
+import PaymentMethods from './pages/profile/PaymentMethods';
 import AddCardPayment from './pages/profile/AddCardPayment';
 
 function App() {
