@@ -10,17 +10,20 @@ import {
 import { Icon, ChevronRightIcon } from '@chakra-ui/icons';
 import { MdOutlineReceiptLong, MdOutlineAccountCircle, MdPayment } from 'react-icons/md';
 import { useSelector } from 'react-redux';
+import AppleGooglePay from '../../tools/collectjs';
 
 export default function PaymentMethods() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const CollectJS = new AppleGooglePay();
 
   const [loading, setLoading] = useState(false);
   const OrderType = useSelector((state) => state.cart.orderType);
 
   useEffect(() => {
+    CollectJS.start();
     setPreviousRecord();
-  }, [false]);
+  }, []);
 
   const prefillFields = (savedData) => {
     // if (savedData.first_name !== null) setFirstName(savedData.first_name);
@@ -43,13 +46,19 @@ export default function PaymentMethods() {
       
       <Box>
         <Heading size="lg" textAlign={'left'} px="6" mt="6">Saved Payment Methods</Heading>
-        <Flex onClick={() => navigate('/user/new-card')} px="6" py="6" justifyContent="space-between">
-          <HStack spacing="4">
-            <Icon h="6" w="6" as={MdPayment} />
-            <Text fontSize="xl">Credit/Debit Card</Text>
-          </HStack>
-          <div id="googlePayButton"></div>
-          <div id="applepaybutton"></div>
+        <Flex 
+          direction={'column'}
+          px="6" 
+          py="10" 
+          w="100%">
+          <VStack w="100%" spacing={6} alignItems={'left'}>
+            <HStack spacing="4">
+              <Icon h="6" w="6" as={MdPayment} />
+              <Text fontSize="xl">•••• 3829</Text>
+            </HStack>
+            <div id="googlePayButton"></div>
+            <div id="applePayButton"></div>
+          </VStack>
         </Flex>
       </Box>
       <Box px="6">
