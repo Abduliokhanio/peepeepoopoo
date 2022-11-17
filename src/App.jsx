@@ -19,6 +19,8 @@ import Tips from './pages/Tips';
 import PageNotFound from './pages/PageNotFound';
 import PaymentMethods from './pages/profile/PaymentMethods';
 import AddCardPayment from './pages/profile/AddCardPayment';
+import HomePage from './HomePage';
+import InlineCartPage from './pages/inline/InlineCartPage';
 
 function App() {
 
@@ -28,7 +30,8 @@ function App() {
         <div className="App">
           <AuthProvider>
             <Routes>
-              <Route exact path="/" />
+              <Route exact path="/" element= {<HomePage/>} />
+              <Route path="/inline" element= {<InlineCartPage />} />
               <Route path="/:merchant" element={<Categories />} />
               <Route path="/:merchant/table/*" element={<Categories />} />
               <Route path="products" element={<Products />} />
