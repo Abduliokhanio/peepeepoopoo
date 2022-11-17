@@ -15,7 +15,8 @@ class Demo extends React.Component {
               {/* <td className="googlePayButton"></td> */}
             </tr>
             <tr>
-              <td>APPLE HERE</td>
+              <td>APPLE</td>
+              <div id="applepaybutton"></div>
               <td className="applePayButton"></td>
             </tr>
           </tbody>
