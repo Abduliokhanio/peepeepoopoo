@@ -65,7 +65,6 @@ export default function OrderConfirmed() {
       <Navbar title={'Summary'} showLeftButton={false} />
       <Flex direction="column">
         <Flex
-          mt="80px"
           direction="column"
         >
         

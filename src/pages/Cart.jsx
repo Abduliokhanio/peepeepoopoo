@@ -83,7 +83,7 @@ export default function CheckoutPage() {
     <Box bg="#f6f6f6" minH="100vh">
       <Navbar title="Order" showBackButton={true} />
       <VStack
-        pt="100px"
+        pt={6}
         spacing={4}
         align="stretch"
         px="6"

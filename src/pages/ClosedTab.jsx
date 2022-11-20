@@ -14,7 +14,7 @@ export default function ClosedTab() {
       <Flex direction="column">
         <Navbar title={'Tab Closed'} showLeftButton={false} />
         <Flex
-          mt="32"
+          mt="12"
           direction="column"
         >
           <VStack

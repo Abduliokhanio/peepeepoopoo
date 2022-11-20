@@ -99,7 +99,7 @@ export default function ProductsPage() {
     <Box bg="#f6f6f6">
       <Flex direction="column">
         <Navbar title={merchantStoreBrandName} showBackButton={true} />
-        <Box mt="16" py="4" pl="6">
+        <Box py="4" pl="6">
           <Select bg="white" maxW="200" value={selectedCategory} onChange={(option) => handleCategorySelect(option)}>
             {currentProducts.length === 0 ? null : displayMenuSelections()}
           </Select>
