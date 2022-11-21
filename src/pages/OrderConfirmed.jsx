@@ -22,7 +22,6 @@ export default function OrderConfirmed() {
   
   const orderType = useSelector(state => state.cart.orderType);
   const pendingOrders = useState(cart.filter(order => order.orderSent === false));
-  const unPaidOrders = useState(cart.filter(order => order.orderPaid === false));
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
 
@@ -32,7 +31,7 @@ export default function OrderConfirmed() {
   const handleKeepTabOpen = async () => { 
     setLoadingKeepTabOpen(true);
     dispatch(setIsTabOpen(true));
-    await  pendingOrders.forEach( (order) => {
+    await pendingOrders.forEach( (order) => {
       dispatch(updateCart({
         ...order, orderSent: true
       }));

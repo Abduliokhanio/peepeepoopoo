@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
+import { clearCart } from '../context/slices/cartSlice';
+import { supabasePrivate } from '../services/supabasePrivate';
 import jsonToQueryString from '../tools/jsonToQueryString';
 import queryStringToJSON from '../tools/queryStringToJSON';
 
@@ -33,16 +35,33 @@ class Payment extends Component {
           const jsonQuery = queryStringToJSON(query);
 
           if (jsonQuery.responsetext === 'SUCCESS') {
-            dispatch(clearCart());
+            console.log('Payment successful: ', jsonQuery);
             navigate('/cart/closed-tab');
             return;
           }
 
-          console.log('100: ', jsonQuery);
+          console.log('jsonQuery: ', jsonQuery);
           throw `${jsonQuery.responsetext}: Error making payment`;
         });
       });
   };
+
+  recordOrder = async (reciept, tableNumber, merchant, user, dispatch) => {
+    if (tableNumber === undefined) tableNumber = null;
+    console.log('reciept: ', reciept);
+    const recordRes = await supabasePrivate.from('customer_past_orders').insert({
+      customer_id: user.id,
+      order_type: reciept.orderType,
+      orders: reciept.items,
+      tip: reciept.tip,
+      table_number: tableNumber,
+      merchant: merchant
+    });
+    if (recordRes.error) throw recordRes.error;
+    console.log('recordRes: ', recordRes);
+    dispatch(clearCart());
+  };
+
 }
 
 export default Payment;

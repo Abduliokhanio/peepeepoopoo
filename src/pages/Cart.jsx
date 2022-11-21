@@ -80,7 +80,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <Box bg="#f6f6f6" minH="100vh">
+    <Box bg="#f6f6f6" minH="100vh" pb="300px">
       <Navbar title="Order" showBackButton={true} />
       <VStack
         pt={6}
