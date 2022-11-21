@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import { useAuth } from '../context/Auth';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
-import {VStack, Box, Text} from '@chakra-ui/react';
+import {VStack, Box, Text, Button} from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import CartItemCard from '../components/CartItemCard';
@@ -101,9 +101,6 @@ export default function CheckoutPage() {
             />);
         } )}
       </VStack>
-
-      <div id="applepaybutton"></div>
-
       {/* TODO: voucher / discount code & allergies text area */}
       
       <PlaceOrderButton 

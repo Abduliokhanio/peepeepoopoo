@@ -5,12 +5,27 @@ import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/Auth';
 import { supabasePrivate } from '../../services/supabasePrivate';
 import {
-  Stack, HStack, useToast, Text, Box, VStack, Input, Button, Flex, Heading, FormHelperText
+  Stack, HStack, Text, Box, VStack, Button, Flex, Heading, FormHelperText
 } from '@chakra-ui/react';
 import { Icon, ChevronRightIcon } from '@chakra-ui/icons';
-import { MdOutlineReceiptLong, MdOutlineAccountCircle, MdPayment } from 'react-icons/md';
+import { MdPayment } from 'react-icons/md';
+import { FaApplePay } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { useSelector } from 'react-redux';
 import AppleGooglePay from '../../tools/collectjs';
+
+function iOS() {
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform)
+  // iPad on iOS 13 detection
+  || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+}
 
 export default function PaymentMethods() {
   const { user } = useAuth();
@@ -18,6 +33,8 @@ export default function PaymentMethods() {
   const CollectJS = new AppleGooglePay();
 
   const [loading, setLoading] = useState(false);
+  const [isIOS, setIsIOS] = useState(iOS());
+  const [lastFour, setLastFour] = useState('');
   const OrderType = useSelector((state) => state.cart.orderType);
 
   useEffect(() => {
@@ -26,7 +43,7 @@ export default function PaymentMethods() {
   }, []);
 
   const prefillFields = (savedData) => {
-    // if (savedData.first_name !== null) setFirstName(savedData.first_name);
+    if (savedData.card_number !== null) setLastFour(savedData.card_number.toString().slice(-4));
   };
 
   const setPreviousRecord = async (e) => {
@@ -43,24 +60,33 @@ export default function PaymentMethods() {
   return (
     <Stack backgroundColor="#F9FBFC;" direction="column" minH="100vh" h="100%">
       <Navbar title={OrderType} showBackButton={true} />
-      
-      <Box>
-        <Heading size="lg" textAlign={'left'} px="6" mt="6">Saved Payment Methods</Heading>
-        <Flex 
-          direction={'column'}
-          px="6" 
-          py="10" 
-          w="100%">
-          <VStack w="100%" spacing={6} alignItems={'left'}>
-            <HStack spacing="4">
-              <Icon h="6" w="6" as={MdPayment} />
-              <Text fontSize="xl">•••• 3829</Text>
-            </HStack>
-            <div id="googlePayButton"></div>
-            <div id="applePayButton"></div>
-          </VStack>
-        </Flex>
-      </Box>
+      {lastFour.length > 0 ? (
+        <Box>
+          <Heading size="lg" textAlign={'left'} px="6" mt="6">Saved Payment Methods</Heading>
+          <Flex 
+            direction={'column'}
+            px="6" 
+            py="10" 
+            w="100%">
+            <VStack w="100%" spacing={6} alignItems={'left'}>
+              <HStack spacing="4">
+                <Icon h="6" w="6" as={MdPayment} />
+                <Text fontSize="xl">•••• {lastFour}</Text>
+              </HStack>
+              {isIOS ? (
+                <HStack spacing="4">
+                  <Icon h="6" w="6" as={FaApplePay} />
+                  <Text fontSize="xl">Apple Pay</Text>
+                </HStack>
+              ) : (<HStack spacing="4">
+                <Icon h="6" w="6" as={FcGoogle} />
+                <Text fontSize="xl">Google Pay</Text>
+              </HStack>)}
+            </VStack>
+          </Flex>
+        </Box>
+      ) : null }
+    
       <Box px="6">
         <Heading size="lg" textAlign={'left'} mt="6">Add  Payment Methods</Heading>
         <Flex onClick={() => navigate('/user/new-card')} 
@@ -73,6 +99,7 @@ export default function PaymentMethods() {
           <ChevronRightIcon />
         </Flex>
       </Box>
+      
     </Stack>
   );
 }

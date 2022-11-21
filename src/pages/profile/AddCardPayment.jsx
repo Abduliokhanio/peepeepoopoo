@@ -27,7 +27,7 @@ export default function PaymentMethod() {
   const [isCardCvcError, setIsCardCvcError] = useState(false);
 
   useEffect(() => {
-    setPreviousRecord();
+    // setPreviousRecord();
   }, [false]);
   
   const handleCardInputChange = (e) => {
@@ -38,31 +38,16 @@ export default function PaymentMethod() {
     });
   };
 
-  const prefillFields = (savedData) => {
-    if (savedData.card_number !== null) setCardInfo({
-      number: savedData.card_number
-    });
-    if (savedData.card_name !== null) setCardInfo({
-      name: savedData.card_name
-    });
-    if (savedData.card_expiry !== null) setCardInfo({
-      expiry: savedData.card_expiry
-    });
-    if (savedData.card_cvc !== null) setCardInfo({
-      cvc: savedData.card_cvc
-    });
-  };
+  // const setPreviousRecord = async (e) => {
 
-  const setPreviousRecord = async (e) => {
+  //   const querySavedData = await supabasePrivate
+  //     .from('customers')
+  //     .select('*')
+  //     .eq('id', user.id);
 
-    const querySavedData = await supabasePrivate
-      .from('customers')
-      .select('*')
-      .eq('id', user.id);
-
-    if (querySavedData.error) throw querySavedData.error;
-    if (querySavedData.data.length > 0) prefillFields(querySavedData.data[0]);
-  };
+  //   if (querySavedData.error) throw querySavedData.error;
+  //   if (querySavedData.data.length > 0) prefillFields(querySavedData.data[0]);
+  // };
 
   const checkForInputErrors = () => {
     if (cardInfo.number.length !== 16) {
@@ -113,7 +98,6 @@ export default function PaymentMethod() {
       // todo if last page is checkout, redirect to checkout
       // navigate('/cart/checkout');
       navigate(-1);
-      
     }
 
     setLoading(false);
@@ -124,6 +108,7 @@ export default function PaymentMethod() {
       <Navbar showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
       <VStack 
         pt="115px"
+        pb="300px"
         spacing={4}
         align="stretch"
         px="6"
@@ -138,7 +123,7 @@ export default function PaymentMethod() {
           />
         </Box>
 
-        <FormControl mt="32" isError={isCardNumberError}>
+        <FormControl mt="32" isInvalid={isCardNumberError}>
           <FormLabel fontSize='sm'>Card Number</FormLabel>
           <Input 
             value={cardInfo.number}
@@ -154,7 +139,7 @@ export default function PaymentMethod() {
           ) : null}
         </FormControl>
 
-        <FormControl isError={isCardNameError}>
+        <FormControl isInvalid={isCardNameError}>
           <FormLabel fontSize='sm'>Full Name</FormLabel>
           <Input 
             value={cardInfo.name} 
@@ -170,7 +155,7 @@ export default function PaymentMethod() {
         </FormControl>
 
         <HStack spacing={4}>
-          <FormControl isError={isCardExpiryError}>
+          <FormControl isInvalid={isCardExpiryError}>
             <FormLabel fontSize='sm'>Expiry Date </FormLabel>
             <Input 
               value={cardInfo.expiry} 
@@ -184,7 +169,7 @@ export default function PaymentMethod() {
               </FormHelperText>
             ) : null}
           </FormControl>
-          <FormControl isError={isCardCvcError}>
+          <FormControl isInvalid={isCardCvcError}>
             <FormLabel fontSize='sm'>CVC</FormLabel>
             <Input 
               value={cardInfo.cvc} 
