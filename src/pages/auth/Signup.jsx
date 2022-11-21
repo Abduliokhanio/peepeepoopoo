@@ -47,13 +47,13 @@ export default function Login() {
 
   return (
     <Box>
-      <Navbar title="Create account" showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
+      <Navbar title="Your account" showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
       <VStack
         spacing={4}
         align="stretch"
         px="6"
       >
-        <VStack px="6" h="20" mb="6" alignItems="center">
+        <VStack mt="24" px="6" h="20" mb="6" alignItems="center">
           <Heading size="lg">
             Verify your number
           </Heading>

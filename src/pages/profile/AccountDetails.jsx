@@ -56,14 +56,17 @@ export default function AccountDetails() {
   const checkForInputErrors = () => {
     if (firstName.length < 3) {
       setIsFirstNameError(true);
+      setLoading(false);
       return false;
     }
     if (lastName.length < 3) {
       setIsLastNameError(true);
+      setLoading(false);
       return false;
     }
-    if (emailAddress.length.includes('@') === false) {
+    if (emailAddress.includes('@') === false) {
       setIsEmailAddressError(true);
+      setLoading(false);
       return false;
     }
 
@@ -112,31 +115,31 @@ export default function AccountDetails() {
         px="6"
       > 
         <HStack spacing={2}>
-          <FormControl isError={isFirstNameError}>
+          <FormControl isInvalid={isFirstNameError}>
             <FormLabel fontSize='sm'>First name</FormLabel>
             <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='Required' size='md' width="100%" />
             {isFirstNameError ? (
-              <FormHelperText color="red.500">
+              <FormHelperText color="red.500" textAlign={'left'}>
                 Please enter your first name
               </FormHelperText>
             ) : null}
           </FormControl>
-          <FormControl isError={isLastNameError}>
+          <FormControl isInvalid={isLastNameError}>
             <FormLabel fontSize='sm'>Last name</FormLabel>
             <Input value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='Required' size='md' width="100%" />
             {isLastNameError ? (
-              <FormHelperText color="red.500">
+              <FormHelperText color="red.500" textAlign={'left'}>
                 Please enter your last name
               </FormHelperText>
             ) : null}
           </FormControl>
         </HStack>
 
-        <FormControl isError={isEmailAddressError}>
+        <FormControl isInvalid={isEmailAddressError}>
           <FormLabel fontSize='sm' mb='2'>Email address</FormLabel>
           <Input value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} placeholder='Required' size='md' width="100%" />
           {isEmailAddressError ? (
-            <FormHelperText color="red.500">
+            <FormHelperText color="red.500" textAlign={'left'}>
                 Please enter a valid email address
             </FormHelperText>
           ) : null}

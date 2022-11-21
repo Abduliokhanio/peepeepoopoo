@@ -30,7 +30,7 @@ export default function ModifierButton({handleOnClick, totalPrice, isItemInCart}
       >
         <Flex justifyContent='space-between' px="8" alignItems="center">
           <Heading color="white" fontWeight='semibold' size="md">{buttonLabelType()}</Heading>
-          <Heading color="white" fontWeight='semibold' size="md">${totalPrice}</Heading>
+          <Heading color="white" fontWeight='semibold' size="md">${totalPrice.toFixed(2)}</Heading>
         </Flex>
       </Box>
     </Flex>

@@ -4,24 +4,25 @@ export const customerSlice = createSlice({
   name: 'customer',
   initialState: {
     mobileNumber: null,
-    name: null,
-    pageBeforeAuthFlow: null,
+    firstName: null,
+    lastName: null,
+    emailAddress:null,
     hasPaymentMethod: false
   },
   reducers: {
     setMobileNumber: (state, action) => {
       state.mobileNumber = action.payload;
     },
-    setName: (state, action) => {
-      state.name = action.payload;
+    setFirstName: (state, action) => {
+      state.firstName = action.payload;
     },
-    setPageBeforeAuthFlow: (state, action) => {
-      state.pageBeforeAuthFlow = action.payload;
+    setLastName: (state, action) => {
+      state.lastName = action.payload;
     }
   }
 });
 
-export const { setMobileNumber, setName, setPageBeforeAuthFlow } = customerSlice.actions;
+export const { setMobileNumber, setFirstName, setLastName } = customerSlice.actions;
 
 export default customerSlice.reducer;
 

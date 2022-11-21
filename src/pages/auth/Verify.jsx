@@ -17,12 +17,20 @@ export default function Verify() {
   const [loading, setLoading] = useState(false);
 
   supabasePrivate.auth.onAuthStateChange((event) => {
-    if (event == 'SIGNED_IN') {
-      console.log('logged in');
-      // TODO: navigate back to last page before auth flow
-      navigate(`/${merchantURL}`);
-    }
+    if (event == 'SIGNED_IN') isNewCustomer();
   });
+
+  const isNewCustomer = async (e) => {
+    const { data, error } = await supabasePrivate
+      .from('customers')
+      .select().eq({
+        id: user.id
+      });
+
+    if (error) throw error;
+    if (data.length === 0) addNewCustomer(); 
+    navigate('/cart/checkout');
+  };
 
   const handleVerify = async (code) => { 
 
@@ -42,6 +50,16 @@ export default function Verify() {
     }
 
     setLoading(false);
+  };
+
+  const addNewCustomer = async (e) => {
+    const { error } = await supabasePrivate
+      .from('customers')
+      .insert({
+        id: user.id
+      });
+
+    if (error) throw error;
   };
 
   return (

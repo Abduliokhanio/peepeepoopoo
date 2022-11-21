@@ -96,7 +96,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <Box bg="#f6f6f6">
+    <Box bg="#f6f6f6" pb="300px">
       <Flex direction="column">
         <Navbar title={merchantStoreBrandName} showBackButton={true} />
         <Box py="4" pl="6">

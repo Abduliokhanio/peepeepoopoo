@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Payment from '../tools/payment';
+import {clearCart } from '../context/slices/cartSlice';
 
 export default function ClosedTab() {
   const navigate = useNavigate();
@@ -18,11 +19,22 @@ export default function ClosedTab() {
   const merchant = useSelector(state => state.merchant.brandName);
   const payment = new Payment(process.env.REACT_APP_STC_SK);
   const reciept = useSelector(state => state.cart);
+  const [orderRecorded, setOrderRecorded] = useState(false);
 
   useEffect(() => {
-    payment.recordOrder(reciept, tableNumber, merchant, user, dispatch);
+    const recordOrder = payment.recordOrder(reciept, tableNumber, merchant, user, dispatch, clearCart);
+    if (recordOrder) {
+      setOrderRecorded(true);
+    } else {
+      alert('error recording order');
+    }
   },[]);    
   
+  const handleReturnButton = () => {
+    dispatch(clearCart());
+    navigate(`/${merchantURLPath}`);
+  };
+
   return (
     <Box>
       <Flex direction="column">
@@ -40,7 +52,7 @@ export default function ClosedTab() {
               <Heading size="lg">Thanks for visiting!</Heading>
               <Text textAlign="center">{localStorage.getItem('merchantName')}</Text>
             </VStack>
-            <Button onClick={() => navigate(`/${merchantURLPath}`)} _hover={{
+            <Button isLoading={!orderRecorded} onClick={handleReturnButton} _hover={{
               bg: 'black'
             }} size="lg" bg="black" color='white' width="100%">Return to Menu</Button>
           </VStack>

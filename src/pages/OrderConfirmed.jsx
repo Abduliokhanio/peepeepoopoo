@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
+import { useAuth } from '../context/Auth';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,10 +10,13 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import {updateCart, setIsTabOpen, clearCart } from '../context/slices/cartSlice';
 import Payment from '../tools/payment';
+import AppleGooglePay from '../tools/collectjs';
 
 export default function OrderConfirmed() {
+  const CollectJS = new AppleGooglePay();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const payment = new Payment(process.env.REACT_APP_STC_SK);
   const cart = useSelector(state => state.cart.items);
   const subTotal = cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
@@ -25,8 +29,31 @@ export default function OrderConfirmed() {
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
 
+  const [lastFour, setLastFour] = useState('');
   const [loadingPayment, setLoadingPayment] = useState(false);
+  const [paymentChoice, setPaymentChoice] = useState(null);
   const [loadingKeepTabOpen, setLoadingKeepTabOpen] = useState(false);
+
+  useEffect(() => {
+    CollectJS.start();
+    setPreviousRecord();
+  }, []);
+
+  const prefillFields = (savedData) => {
+    if (savedData.card_number !== null) setLastFour(savedData.card_number.toString().slice(-4));
+    if (savedData.payment_choice !== null) setPaymentChoice(savedData.payment_choice);
+  };
+
+  const setPreviousRecord = async (e) => {
+
+    const querySavedData = await supabasePrivate
+      .from('customers')
+      .select('*')
+      .eq('id', user.id);
+
+    if (querySavedData.error) throw querySavedData.error;
+    if (querySavedData.data.length > 0) prefillFields(querySavedData.data[0]);
+  };
 
   const handleKeepTabOpen = async () => { 
     setLoadingKeepTabOpen(true);
@@ -56,13 +83,13 @@ export default function OrderConfirmed() {
     };
 
     payment.setCardPayment(cardInfo);
-    payment.processSale(salesParams, dispatch, clearCart, navigate);
+    payment.processSale(salesParams, navigate);
   };
   
   return (
     <Box bg="#f6f6f6" minH="100vh">
       <Navbar title={'Summary'} showLeftButton={false} />
-      <Flex direction="column">
+      <Flex pb="300px" direction="column">
         <Flex
           direction="column"
         >
@@ -80,10 +107,10 @@ export default function OrderConfirmed() {
                     mb="6"
                     key={index}
                     px="6">
-                    <Box backgroundColor={'gray.100'} borderRadius="2" mr="4" px="3.5" py="1">
+                    <Box backgroundColor={'gray.100'} borderRadius="2" mr="4" px="3.5" maxH="35px" py="1">
                       <Text textAlign="left" fontSize="lg">{item.quantity}</Text>
                     </Box>
-                    <Text fontWeight='bold' fontSize={'1.25rem'}>{item.item.name}</Text>
+                    <Text fontWeight='bold' textAlign='left' fontSize={'1.25rem'}>{item.item.name}</Text>
                   </Flex>
                 );}
               )}
@@ -132,7 +159,15 @@ export default function OrderConfirmed() {
               <Button isLoading={loadingKeepTabOpen} onClick={() => handleKeepTabOpen()} w="100%" _hover={{
                 bg: 'black'
               }} size="lg" bg="black" color="white">Keep Tab Open</Button>
-              <Button isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab</Button>
+              
+              {paymentChoice === 'Apple Pay' ? (
+                <Button id="applePayButton" isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab | Apple Pay</Button>
+              ) :
+                paymentChoice === 'Google Pay' ? (
+                  <Button id="googlePayButton" isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab | Google Pay</Button>
+                ) : (
+                  <Button id="customPayButton" isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab | •••• {lastFour}</Button>
+                ) }
             </VStack>
           </VStack>
 

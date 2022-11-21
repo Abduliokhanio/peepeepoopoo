@@ -111,7 +111,7 @@ export default function ModifiersPage() {
         <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
           <Heading mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
           <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
-          <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price}</Text>
+          <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
           <Textarea minH="150" mt="8" placeholder='Special requests' />
           <HStack mt="8" maxW='320px' flexGrow={true}>
             <Button py='4' h="100%" maxH="64px" minW="64px" {...inc}>+</Button>
