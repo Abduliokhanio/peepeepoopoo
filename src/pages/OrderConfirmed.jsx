@@ -33,15 +33,27 @@ export default function OrderConfirmed() {
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [paymentChoice, setPaymentChoice] = useState(null);
   const [loadingKeepTabOpen, setLoadingKeepTabOpen] = useState(false);
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardExpiry, setCardExpiry] = useState('');
+  const [cardCvv, setCardCvv] = useState('');
 
   useEffect(() => {
-    CollectJS.start();
+    configCollectJS();
     setPreviousRecord();
   }, []);
 
   const prefillFields = (savedData) => {
+    console.log('savedData', savedData);
     if (savedData.card_number !== null) setLastFour(savedData.card_number.toString().slice(-4));
     if (savedData.payment_choice !== null) setPaymentChoice(savedData.payment_choice);
+    if (savedData.card_number !== null) setCardNumber(savedData.card_number);
+    if (savedData.card_expiry !== null) setCardExpiry(savedData.card_expiry);
+    if (savedData.card_cvv !== null) setCardCvv(savedData.card_cvv);
+  };
+
+  const configCollectJS = () => {
+    if (paymentChoice === 'Apple Pay') CollectJS.configApplePay(order);
+    else if (paymentChoice === 'Google Pay') CollectJS.configGooglePay(order);
   };
 
   const setPreviousRecord = async (e) => {
@@ -71,18 +83,14 @@ export default function OrderConfirmed() {
   const handlePayment = async () => {
     setLoadingPayment(true);
 
-    const cardInfo = {
-      'ccnumber': 4111111111111111,
-      'ccexp': 1025,
-      'cvv': 999
-    };
-
     const salesParams = {
       'type': 'sale',
       'amount': totalCost
     };
-
-    payment.setCardPayment(cardInfo);
+    
+    payment.setCardPayment({
+      ccnumber: cardNumber, ccexp: cardExpiry, cvv: cardCvv
+    });
     payment.processSale(salesParams, navigate);
   };
   

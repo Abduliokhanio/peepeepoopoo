@@ -19,12 +19,12 @@ export default function PaymentMethod() {
   const [loading, setLoading] = useState(false);
   const [cardInputFocus, setCardInputFocus] = useState('');
   const [cardInfo, setCardInfo] = useState({
-    cvc: '', expiry: '', name: '', number: ''
+    cvv: '', expiry: '', name: '', number: ''
   });
   const [isCardNumberError, setIsCardNumberError] = useState(false);
   const [isCardNameError, setIsCardNameError] = useState(false);
   const [isCardExpiryError, setIsCardExpiryError] = useState(false);
-  const [isCardCvcError, setIsCardCvcError] = useState(false);
+  const [isCardCvvError, setIsCardCvvError] = useState(false);
 
   useEffect(() => {
     // setPreviousRecord();
@@ -62,15 +62,15 @@ export default function PaymentMethod() {
       setIsCardExpiryError(true);
       return false;
     }
-    if (cardInfo.cvc.length !== 3) {
-      setIsCardCvcError(true);
+    if (cardInfo.cvv.length !== 3) {
+      setIsCardCvvError(true);
       return false;
     }
 
     setIsCardNumberError(false);
     setIsCardNameError(false);
     setIsCardExpiryError(false);
-    setIsCardCvcError(false);
+    setIsCardCvvError(false);
     return true;
   };
 
@@ -86,7 +86,7 @@ export default function PaymentMethod() {
         card_name: cardInfo.name,
         card_number: cardInfo.number,
         card_expiry: cardInfo.expiry,
-        card_cvc: cardInfo.cvc
+        card_cvv: cardInfo.cvv
       })
       .match({
         id: user.id 
@@ -115,7 +115,7 @@ export default function PaymentMethod() {
       > 
         <Box mb="12"> 
           <Cards
-            cvc={cardInfo.cvc}
+            cvv={cardInfo.cvv}
             expiry={cardInfo.expiry}
             focused={cardInputFocus}
             name={cardInfo.name}
@@ -169,15 +169,15 @@ export default function PaymentMethod() {
               </FormHelperText>
             ) : null}
           </FormControl>
-          <FormControl isInvalid={isCardCvcError}>
-            <FormLabel fontSize='sm'>CVC</FormLabel>
+          <FormControl isInvalid={isCardCvvError}>
+            <FormLabel fontSize='sm'>CVV</FormLabel>
             <Input 
-              value={cardInfo.cvc} 
-              name={'cvc'} 
+              value={cardInfo.cvvv} 
+              name={'cvv'} 
               onChange={handleCardInputChange} 
               onFocus={(e) => setCardInputFocus(e.target.name)}
               placeholder='Required' size='md' width="100%" />
-            {isCardCvcError ? (
+            {isCardCvvError ? (
               <FormHelperText color="red.500">
                 Please enter 3 digits
               </FormHelperText>
