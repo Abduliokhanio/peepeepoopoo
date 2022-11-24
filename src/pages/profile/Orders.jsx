@@ -1,34 +1,72 @@
-import * as React from 'react';
-import {
-  VStack, Link, Stack, Button, StackDivider, useDisclosure, Heading, Flex, Text, Spacer,
-} from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
-import OrderLoadingBox from '../../components/OrderLoadingBox';
-import { OrderDetailBox } from '../../components/OrderDetailBox';
+import { useAuth } from '../../context/Auth';
+import { supabasePrivate } from '../../services/supabasePrivate';
+import {
+  Box, TableContainer, Table, TableCaption, Thead, Tr, Th, Td, Tfoot, Tbody
+} from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 export default function Orders() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [false]);
+
+  const fetchOrders = async () => {
+    setLoading(true);
+    const { data, error } = await supabasePrivate
+      .from('past_orders')
+      .select('*')
+      .eq('customer_id', user.id)
+      .order('created_at', {
+        ascending: false 
+      });
+    setLoading(false);
+    if (error) throw error;
+    console.log('data: ', data);
+    setOrders(data);
+  };
+
+  const displayOrders = () => {
+    return orders.map(order => {
+      const newDate = new Date(order.created_at).toLocaleDateString();
+      return (
+        <Tr key={order.id}>
+          <Td>{newDate}</Td>
+          <Td>{order.merchant}</Td>
+          <Td>{order.order_type}</Td>
+          <Td>{order.total_cost}</Td>
+        </Tr>
+      );
+    });
+  };
+
   return (
-    <div>
-      <VStack
-        divider={<StackDivider borderColor="gray.200" />}
-        align="stretch"
-        px="6"
-      >
-        <Stack>
-          <Navbar title="View Orders" navType="orders" />
-          <h5 style={{
-            paddingLeft: '2.4rem'
-          }} >Coming Up</h5>
-          <OrderLoadingBox order_id = {1234} />
-        </Stack>
-        <Stack>
-          <h5 style={{
-            paddingLeft: '2.4rem'
-          }} >Completed This Visit</h5>
-          <OrderDetailBox order_id = {5678} />
-          <OrderDetailBox order_id = {9101112} />
-        </Stack>
-      </VStack>
-    </div>
+    <Box>
+      <Navbar title="Receipts" showBackButton={true} />
+      <TableContainer>
+        <Table variant='simple'>
+          <Thead>
+            <Tr>
+              <Th>Date</Th>
+              <Th>Merchant</Th>
+              <Th>Type</Th>
+              <Th>Total</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {displayOrders()}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    
+    </Box>
   );
 }

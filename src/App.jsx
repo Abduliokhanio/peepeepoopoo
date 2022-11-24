@@ -8,7 +8,7 @@ import Categories from './pages/Categories';
 import Orders from './pages/profile/Orders';
 import Checkout from './pages/Cart';
 import ClosedTab from './pages/ClosedTab';
-import OrderConfirmed from './pages/OrderConfirmed';
+import OpenedTab from './pages/OpenedTab';
 import Products from './pages/Products';
 import Account from './pages/profile/Account';
 import AccountDetails from './pages/profile/AccountDetails';
@@ -44,7 +44,7 @@ function App() {
                 <Route path="/user/orders" element={<Orders />} />
                 <Route path="/cart/checkout" element={<Checkout />} />
                 <Route path="/cart/tips" element={<Tips />} />
-                <Route path="/cart/order-confirmed" element={<OrderConfirmed />} />
+                <Route path="/cart/opened-tab" element={<OpenedTab />} />
                 <Route path="/cart/closed-tab" element={<ClosedTab />} />
               </Route>   
             </Routes>

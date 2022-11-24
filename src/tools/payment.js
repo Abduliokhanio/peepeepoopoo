@@ -47,7 +47,7 @@ class Payment extends Component {
       });
   };
 
-  recordOrder = async (reciept, tableNumber, merchant, user, dispatch, clearCart) => {
+  recordOrder = async (reciept, tableNumber, merchant, user, dispatch, clearCart, totalCost, tax) => {
     if (tableNumber === undefined) tableNumber = null;
     console.log('reciept: ', reciept);
     const recordRes = await supabasePrivate.from('past_orders').insert({
@@ -56,14 +56,15 @@ class Payment extends Component {
       orders: reciept.items,
       tip: reciept.tip,
       table_number: tableNumber,
-      merchant: merchant
+      merchant: merchant,
+      total_cost: totalCost,
+      tax: tax
     });
     if (recordRes.error) {
       console.log(recordRes.error);
       return false;
     }
 
-    console.log('recordRes: ', recordRes);
     return true;
 
   };

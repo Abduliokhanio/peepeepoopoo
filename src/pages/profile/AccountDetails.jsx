@@ -107,7 +107,7 @@ export default function AccountDetails() {
 
   return (
     <Box>
-      <Navbar title="Your details" showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
+      <Navbar title="Your details" showBackButton={true} />
       <VStack 
         pt={6}
         spacing={4}

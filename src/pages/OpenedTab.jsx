@@ -8,9 +8,11 @@ import {
   Flex, Heading, VStack, Text, Button, Box, Spacer, StackDivider, Divider
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import {updateCart, setIsTabOpen, clearCart } from '../context/slices/cartSlice';
+import {updateCart, setIsTabOpen, setOrderTotal, setOrderTax } from '../context/slices/cartSlice';
 import Payment from '../tools/payment';
 import AppleGooglePay from '../tools/collectjs';
+import {BiEdit} from 'react-icons/bi';
+import { Icon } from '@chakra-ui/icons';
 
 export default function OrderConfirmed() {
   const CollectJS = new AppleGooglePay();
@@ -21,7 +23,7 @@ export default function OrderConfirmed() {
   const cart = useSelector(state => state.cart.items);
   const subTotal = cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (0.0825))).toFixed(2);
-  const tip = (subTotalWithTax*0.15).toFixed(2);
+  const tip = useSelector(state => state.cart.tip);
   const totalCost = (parseFloat(subTotalWithTax)+parseFloat(tip)).toFixed(2);
   
   const orderType = useSelector(state => state.cart.orderType);
@@ -40,7 +42,7 @@ export default function OrderConfirmed() {
   useEffect(() => {
     configCollectJS();
     setPreviousRecord();
-  }, []);
+  }, [cart]);
 
   const prefillFields = (savedData) => {
     console.log('savedData', savedData);
@@ -87,6 +89,9 @@ export default function OrderConfirmed() {
       'type': 'sale',
       'amount': totalCost
     };
+
+    dispatch(setOrderTotal(totalCost));
+    dispatch(setOrderTax(8.25));
     
     payment.setCardPayment({
       ccnumber: cardNumber, ccexp: cardExpiry, cvv: cardCvv
@@ -137,12 +142,13 @@ export default function OrderConfirmed() {
                   <Spacer />
                   <Flex alignItems='center'>
                     <Text mr="2" fontSize={'12'} color='gray.700'>(8.25%)</Text>
-                    <Text pr="1">${subTotalWithTax}</Text>
+                    <Text pr="1">${(subTotalWithTax-subTotal).toFixed(2)}</Text>
                   </Flex>
                 </Flex>
-                <Flex>
+                <Flex onClick={() => navigate('/cart/tips')}>
                   <Text>Tip</Text>
                   <Spacer />
+                  <Icon mr="2" h="6" w="6" as={BiEdit} />
                   <Text>${tip}</Text>
                 </Flex>
                 <Divider py="2" borderColor='gray.300'/>
@@ -153,7 +159,6 @@ export default function OrderConfirmed() {
                 </Flex>
               </VStack>
             </Box>
-              
             <VStack
               pos="fixed"
               bottom="0" 

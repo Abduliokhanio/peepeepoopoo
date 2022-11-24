@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
-// import { supabasePrivate } from '../services/supabasePrivate';
 import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -14,68 +13,25 @@ import { setOrderTip, updateCart } from '../context/slices/cartSlice';
 export default function TipsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const cart = useSelector(state => state.cart.items);
   const merchantStore = useSelector(state => state.merchant);
   const pendingOrders = cart.filter(order => order.orderSent === false);
-  const hasPaymentMethod = useSelector(state => state.customer.hasPaymentMethod);
-  const customerName = useSelector(state => state.customer.name);
-  const orderType = useSelector(state => state.cart.orderType);
-  const tableNumber = useSelector(state => state.merchant.tableNumber);
-
   const [loading, setLoading] = useState(false);
-  const [subTotal, setSubTotal] = useState(pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
-  const [subTotalWithTax, setSubTotalWithTax] = useState((subTotal + (subTotal * (0.0825))).toFixed(2));
-  const [tip, setTip] = useState((subTotalWithTax*0.15).toFixed(2));
-  const [totalCost, setTotalCost] = useState(subTotalWithTax+tip);
+
+  const [subTotal, setSubTotal] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
+  const [subTotalWithTax, setSubTotalWithTax] =  useState((subTotal + (subTotal * (0.0825))).toFixed(2));
+  const [tip, setTip] =  useState( useSelector(state => state.cart.tip));
+  const [totalCost, setTotalCost] =  useState((parseFloat(subTotalWithTax)+parseFloat(tip)).toFixed(2));
 
   const [isFirstButtonSelected, setIsFirstButtonSelected] = useState(true);
   const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
   const [isThirdButtonSelected, setIsThirdButtonSelected] = useState(false);
 
-  // supabasePrivate
-  //   .channel('private:orders')
-  //   .on('postgres_changes', { event: 'INSERT', schema: 'private', table: 'orders' }, payload => handleTicketSent(payload))
-  //   .subscribe();
-
-  // const handlePlaceOrder = async () => {
-  //   setLoading(true);
-  //   dispatch(setOrderTip(tip));
-  //   await sendOrderToKDS();
-  // };
-
-  // const sendOrderToKDS = async () => {
-  //   const ticket = await supabasePrivate.from('orders').insert({
-  //     customer_id: user.id,
-  //     room_id: `admin-${merchantStore.urlPath}`,
-  //     customer_name: customerName,
-  //     orders: pendingOrders, // list of orders or cart items
-  //     order_type: orderType,
-  //     table_number: tableNumber,
-  //     created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
-  //   });
-
-  //   console.log('ticket: ', ticket);
-  //   if (ticket.status !== 201) throw `${ticket.err}: Error sending order`;
-  // };
-
-  // const updatePendingOrders = async () => {
-  //   await pendingOrders.forEach((order) => {
-  //     dispatch(updateCart({...order, orderSent: true}));
-  //   });
-  // };
-
-  // const handleTicketSent = async (payload) => {
-  //   console.log('ORDER SENT SUCCESS', payload);
-  //   await updatePendingOrders();
-  //   navigate('/cart/order-confirmed');
-  // };
-
-  /////////////////////////////
+  // todo: preselect
 
   const handleContinue = () => {
     dispatch(setOrderTip(tip));
-    navigate('/cart/order-confirmed');
+    navigate('/cart/opened-tab');
   };
 
   const handleFirstButton = () => {
@@ -103,7 +59,7 @@ export default function TipsPage() {
     <Box bg="#f6f6f6" minH="100vh">
       <Flex direction="column">
         <Navbar title={'Tips'} showBackButton={true} />
-        <Stack mt="32">
+        <Stack mt="80px">
           <Container>
             <Heading mb="1rem" fontSize={'2rem'}>Show your support ❤️</Heading>
             <Text>100% of your tips goes to the wait staff</Text>
@@ -148,7 +104,6 @@ export default function TipsPage() {
             </Stack>
           </Container>
         </Stack>
-        <Divider mt="16" mb="4" />
 
       </Flex>
       <PlaceOrderButton 

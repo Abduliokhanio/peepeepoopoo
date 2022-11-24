@@ -19,7 +19,6 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
   const orderTip = useSelector(state => state.cart.tip);
-  const hasPaymentMethod = useSelector(state => state.customer.hasPaymentMethod);
 
   const merchantStore = useSelector(state => state.merchant);
   const customerName = useSelector(state => state.customer.name);
@@ -45,7 +44,7 @@ export default function CheckoutPage() {
     if (orderTip === null) navigate('/cart/tips');
     // TODO: change back to catch missing payment method
     // else if (hasPaymentMethod === false) navigate('/user/payment-method');
-    else navigate('/cart/order-confirmed');
+    else navigate('/cart/opened-tab');
     
     setLoading(false);
   };
@@ -76,7 +75,7 @@ export default function CheckoutPage() {
   const handleTicketSent = async (payload) => {
     console.log('ORDER SENT SUCCESS', payload);
     await updatePendingOrders();
-    navigate('/cart/order-confirmed');
+    navigate('/cart/opened-tab');
   };
 
   return (

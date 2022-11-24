@@ -4,8 +4,8 @@ import {
   Flex, Spacer, Heading, Box, extendTheme
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, Icon } from '@chakra-ui/icons';
+import {RiShoppingCart2Line} from 'react-icons/ri';
 import { MdOutlineAccountCircle } from 'react-icons/md';
-import MenuDrawer from './MenuDrawer';
 
 export default function NavBar({ title, showBackButton, showLeftButton, showAccountButton }) {
   const navigate = useNavigate();
@@ -21,15 +21,17 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAcco
       return null;
     }
     return (
-      <MenuDrawer />
+      <Box onClick={() => navigate('/user/account')}>
+        <Icon color="white" mt="1.5" h="8" w="8" as={MdOutlineAccountCircle} />
+      </Box>
     );
   };
 
   const rightNavButton = (showAccountButton) => {
     if (showAccountButton) {
       return (
-        <Box onClick={() => navigate('/user/account')}>
-          <Icon color="white" mt="1.5" h="8" w="8" as={MdOutlineAccountCircle} />
+        <Box onClick={() => navigate('/cart/opened-tab')}>
+          <Icon color="white" mt="1.5" h="8" w="8" as={RiShoppingCart2Line} />
         </Box>
       );
     }
