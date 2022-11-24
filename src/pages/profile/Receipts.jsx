@@ -13,7 +13,7 @@ export default function Orders() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [orders, setOrders] = useState([]);
+  const [receipts, setReceipts] = useState([]);
 
   useEffect(() => {
     fetchOrders();
@@ -31,11 +31,11 @@ export default function Orders() {
     setLoading(false);
     if (error) throw error;
     console.log('data: ', data);
-    setOrders(data);
+    setReceipts(data);
   };
 
-  const displayOrders = () => {
-    return orders.map(order => {
+  const displayReceipts = () => {
+    return receipts.map(order => {
       const newDate = new Date(order.created_at).toLocaleDateString();
       return (
         <Tr key={order.id}>
@@ -62,7 +62,7 @@ export default function Orders() {
             </Tr>
           </Thead>
           <Tbody>
-            {displayOrders()}
+            {displayReceipts()}
           </Tbody>
         </Table>
       </TableContainer>

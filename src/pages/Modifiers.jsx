@@ -18,7 +18,7 @@ export default function ModifiersPage() {
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
-  const pendingOrders = cart.filter(item => item.orderSent === false);
+  const pendingOrders = cart.filter(item => item.sentToKitchen === false);
 
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct.item.price);
@@ -80,9 +80,10 @@ export default function ModifiersPage() {
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
         modifiers: null, // TODO: add initial modifiers
-        orderSent: false,
+        sentToKitchen: false,
+        paid: false,  
+        prepComplete: false,
         customerRecieved: false,
-        orderPaid: false  
       };
         
       console.log('add new order to cart: ', cartOrderInsert);

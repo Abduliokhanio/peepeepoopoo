@@ -10,7 +10,7 @@ export default function CheckoutButton() {
 
   const cartTotalCount = cart.reduce((acc, item) => acc + parseInt(item.quantity), 0);
   const cartTotalPrice = cart.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
-  const pendingOrders = cart.filter(item => item.orderSent === false);
+  const pendingOrders = cart.filter(item => item.sentToKitchen === false);
   const pendingOrdersTotalCount = pendingOrders.reduce((acc, item) => acc + parseInt(item.quantity), 0);
   const pendingOrdersTotalPrice = pendingOrders.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
   const unPaidOrders = cart.filter(item => item.paid === false);

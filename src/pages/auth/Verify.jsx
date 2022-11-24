@@ -7,7 +7,7 @@ import Navbar from '../../components/Navbar';
 import {
   PinInput, PinInputField, Flex, HStack, FormControl, Box, Heading, FormHelperText, Input, VStack, Text, Button, InputGroup, InputLeftAddon, InputLeftElement,
 } from '@chakra-ui/react';
-import { useSelector, dispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setFirstName, setLastName } from '../../context/slices/customerSlice';
 
 export default function Verify() {

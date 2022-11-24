@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Payment from '../tools/payment';
-import {clearCart } from '../context/slices/cartSlice';
+import { clearCart, setIsTabOpen } from '../context/slices/cartSlice';
 
 export default function ClosedTab() {
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ export default function ClosedTab() {
     if (recordOrder) {
       setOrderRecorded(true);
       dispatch(clearCart());
+      dispatch(setIsTabOpen(false));
     } else {
       alert('error recording order');
     }

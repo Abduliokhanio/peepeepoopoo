@@ -26,7 +26,7 @@ export default function CheckoutPage() {
   const orderType = useSelector(state => state.cart.orderType);
   const orderTax = useSelector(state => state.cart.orderTax);
 
-  const pendingOrders = cart.filter(item => item.orderSent === false);
+  const pendingOrders = cart.filter(item => item.sentToKitchen === false);
   const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
   const tip = (subTotalWithTax*orderTip).toFixed(2);
