@@ -21,19 +21,16 @@ export default function CheckoutPage() {
   const orderTip = useSelector(state => state.cart.tip);
 
   const merchantStore = useSelector(state => state.merchant);
-  const customerName = useSelector(state => state.customer.name);
+  const customerFirstName = useSelector(state => state.customer.firstName);
+  const customerLastName = useSelector(state => state.customer.lastName);
   const orderType = useSelector(state => state.cart.orderType);
   const orderTax = useSelector(state => state.cart.orderTax);
 
   const pendingOrders = cart.filter(item => item.orderSent === false);
   const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
-  const tip = (subTotalWithTax*0.15).toFixed(2);
+  const tip = (subTotalWithTax*orderTip).toFixed(2);
   const totalCost = subTotalWithTax+tip;
-
-  useEffect(() => {
-    console.log('ordertax', orderTax);
-  },[]);
 
   supabasePrivate
     .channel('private:orders')
@@ -58,7 +55,7 @@ export default function CheckoutPage() {
     const ticket = await supabasePrivate.from('orders').insert({
       customer_id: user.id,
       room_id: `admin-${merchantStore.urlPath}`,
-      customer_name: customerName,
+      customer_name: customerFirstName + ' ' + customerLastName,
       orders: pendingOrders, // list of orders or cart items
       order_type: orderType,
       table_number: tableNumber,

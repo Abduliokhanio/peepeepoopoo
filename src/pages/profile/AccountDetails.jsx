@@ -50,7 +50,7 @@ export default function AccountDetails() {
       .eq('id', user.id);
 
     if (querySavedData.error) throw querySavedData.error;
-    if (querySavedData.data.length > 0) prefillFields(querySavedData.data[0]);
+    prefillFields(querySavedData.data[0]);
   };
 
   const checkForInputErrors = () => {
