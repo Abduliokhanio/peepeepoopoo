@@ -23,12 +23,17 @@ export default function CheckoutPage() {
   const merchantStore = useSelector(state => state.merchant);
   const customerName = useSelector(state => state.customer.name);
   const orderType = useSelector(state => state.cart.orderType);
+  const orderTax = useSelector(state => state.cart.orderTax);
 
   const pendingOrders = cart.filter(item => item.orderSent === false);
   const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
-  const subTotalWithTax = (subTotal + (subTotal * (0.0825))).toFixed(2);
+  const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
   const tip = (subTotalWithTax*0.15).toFixed(2);
   const totalCost = subTotalWithTax+tip;
+
+  useEffect(() => {
+    console.log('ordertax', orderTax);
+  },[]);
 
   supabasePrivate
     .channel('private:orders')

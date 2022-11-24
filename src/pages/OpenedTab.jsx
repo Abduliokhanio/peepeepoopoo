@@ -21,8 +21,9 @@ export default function OrderConfirmed() {
   const { user } = useAuth();
   const payment = new Payment(process.env.REACT_APP_STC_SK);
   const cart = useSelector(state => state.cart.items);
+  const orderTax = useSelector(state => state.cart.orderTax);
   const subTotal = cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
-  const subTotalWithTax = (subTotal + (subTotal * (0.0825))).toFixed(2);
+  const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
   const tip = useSelector(state => state.cart.tip);
   const totalCost = (parseFloat(subTotalWithTax)+parseFloat(tip)).toFixed(2);
   
@@ -90,7 +91,7 @@ export default function OrderConfirmed() {
       'amount': totalCost
     };
 
-    dispatch(setOrderTotal(totalCost));
+    dispatch(setOrderTotal(parseFloat(totalCost)));
     dispatch(setOrderTax(8.25));
     
     payment.setCardPayment({

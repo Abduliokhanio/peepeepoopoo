@@ -11,7 +11,7 @@ import {
 import { CheckIcon, EditIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setTableNumber } from '../context/slices/merchantSlice';
-import { setOrderType } from '../context/slices/cartSlice';
+import { setOrderTax, setOrderType } from '../context/slices/cartSlice';
 
 export default function CategoriesPage() {
   const cart = useSelector(state => state.cart.items);
@@ -72,13 +72,14 @@ export default function CategoriesPage() {
 
     const fetchMerchant = await supabasePublic
       .from('merchants')
-      .select('id, name, url_path').match({
+      .select('id, name, url_path, sales_tax').match({
         url_path: merchantURLPath
       });
 
     // if (fetchMerchant.data.length === 0) navigate('/404');
-    if (fetchMerchant.data.length === 0 ) throw fetchMerchant.error;
-
+    if (fetchMerchant.error) throw fetchMerchant.error;
+   
+    dispatch(setOrderTax(fetchMerchant.data[0].sales_tax));
     dispatch(setMerchantID(fetchMerchant.data[0].id));
     dispatch(setBrandName(fetchMerchant.data[0].name));
    

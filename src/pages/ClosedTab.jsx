@@ -17,23 +17,21 @@ export default function ClosedTab() {
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.cart.tableNumber);
   const merchant = useSelector(state => state.merchant.brandName);
-  const totalCost = useSelector(state => state.cart.orderTotal);
-  const tax = useSelector(state => state.cart.orderTax);
   const payment = new Payment(process.env.REACT_APP_STC_SK);
   const reciept = useSelector(state => state.cart);
   const [orderRecorded, setOrderRecorded] = useState(false);
 
   useEffect(() => {
-    const recordOrder = payment.recordOrder(reciept, tableNumber, merchant, user, dispatch, clearCart, totalCost, tax);
+    const recordOrder = payment.recordOrder(reciept, tableNumber, merchant, user);
     if (recordOrder) {
       setOrderRecorded(true);
+      dispatch(clearCart());
     } else {
       alert('error recording order');
     }
   },[]);    
   
   const handleReturnButton = () => {
-    dispatch(clearCart());
     navigate(`/${merchantURLPath}`);
   };
 

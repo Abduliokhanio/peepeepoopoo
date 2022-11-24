@@ -46,10 +46,10 @@ export const cartSlice = createSlice({
       state.isTicketCompleted = action.payload;
     },
     setOrderTotal: (state, action) => {
-      state.total = action.payload;
+      state.orderTotal = action.payload;
     },
     setOrderTax: (state, action) => {
-      state.tax = action.payload;
+      state.orderTax = action.payload;
     }
   }
 });
