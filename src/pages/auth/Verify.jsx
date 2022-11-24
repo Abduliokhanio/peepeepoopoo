@@ -7,10 +7,12 @@ import Navbar from '../../components/Navbar';
 import {
   PinInput, PinInputField, Flex, HStack, FormControl, Box, Heading, FormHelperText, Input, VStack, Text, Button, InputGroup, InputLeftAddon, InputLeftElement,
 } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useSelector, dispatch } from 'react-redux';
+import { setFirstName, setLastName } from '../../context/slices/customerSlice';
 
 export default function Verify() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useAuth();
   const customerNumber = useSelector((state) => state.customer.mobileNumber);
   const merchantURL = useSelector((state) => state.merchant.urlPath);
@@ -38,13 +40,15 @@ export default function Verify() {
   };
 
   const isNewCustomer = async () => {
-    const { error } = await supabasePrivate
+    const { data, error } = await supabasePrivate
       .from('customers')
       .select('*').eq('id', user.id);
 
     console.log('error add: ', error);
 
     if (error) addNewCustomer(); 
+    dispatch(setFirstName(data[0].first_namee));
+    dispatch(setLastName(data[0].last_name));
     navigate(-2);
   };
 
