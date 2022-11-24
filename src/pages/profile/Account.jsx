@@ -21,12 +21,14 @@ export default function AccountPage() {
   };
 
   const checkRecords = async (option) => {
+    if (user === null) navigate('/auth/signup');
     const customer = await supabasePrivate
       .from('customers')
       .select('*')
-      .eq({
+      .match({
         id: user.id 
       });
+      
     if (customer.error) navigate('/auth/signup');
     else handleSelect(option);
   };

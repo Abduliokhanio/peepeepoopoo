@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/Auth';
 import { supabasePrivate } from '../../services/supabasePrivate';
 import Navbar from '../../components/Navbar';
 import {
@@ -10,38 +11,20 @@ import { useSelector } from 'react-redux';
 
 export default function Verify() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const customerNumber = useSelector((state) => state.customer.mobileNumber);
   const merchantURL = useSelector((state) => state.merchant.urlPath);
   const [isCodeError, setIsCodeError] = useState(false);
   const [codeMessage, setCodeMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  supabasePrivate.auth.onAuthStateChange((event) => {
-    if (event == 'SIGNED_IN') isNewCustomer();
-  });
-
-  const isNewCustomer = async (e) => {
-    const { data, error } = await supabasePrivate
-      .from('customers')
-      .select().eq({
-        id: user.id
-      });
-
-    if (error) throw error;
-    if (data.length === 0) addNewCustomer(); 
-    navigate('/cart/checkout');
-  };
-
   const handleVerify = async (code) => { 
-
+    setLoading(true);
     let { session, error } = await supabasePrivate.auth.verifyOtp({
       phone: '+1' + customerNumber,
       token: code,
-      type: 'sms',
+      type: 'sms'
     });
-
-    console.log('session: ', session);
-    console.log('error: ', error);
 
     if (error) {
       setIsCodeError(true);
@@ -49,10 +32,23 @@ export default function Verify() {
       throw error;
     }
 
+    await isNewCustomer();
+
     setLoading(false);
   };
 
-  const addNewCustomer = async (e) => {
+  const isNewCustomer = async () => {
+    const { error } = await supabasePrivate
+      .from('customers')
+      .select('*').eq('id', user.id);
+
+    console.log('error add: ', error);
+
+    if (error) addNewCustomer(); 
+    navigate(-2);
+  };
+
+  const addNewCustomer = async () => {
     const { error } = await supabasePrivate
       .from('customers')
       .insert({
@@ -60,6 +56,13 @@ export default function Verify() {
       });
 
     if (error) throw error;
+    navigate(-2);
+  };
+
+  const handleResend = async (e) => {
+    await supabasePrivate.auth.signInWithOtp({
+      phone: '+1' + customerNumber
+    });
   };
 
   return (
@@ -90,11 +93,13 @@ export default function Verify() {
               <PinInputField />
             </PinInput>
           </HStack>
+          
           {isCodeError ? (
             <FormHelperText mt="6" color="red.500">
               {codeMessage}
             </FormHelperText>
           ) : null}
+          <Button onClick={handleResend} mt="8">Retry</Button>
         </FormControl>
       </VStack>
     </Box>
