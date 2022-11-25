@@ -22,7 +22,7 @@ export default function Orders() {
   const fetchOrders = async () => {
     setLoading(true);
     const { data, error } = await supabasePrivate
-      .from('past_orders')
+      .from('receipts')
       .select('*')
       .eq('customer_id', user.id)
       .order('created_at', {
