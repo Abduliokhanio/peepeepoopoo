@@ -16,3 +16,8 @@ In the DB each Each product has a modifier group Each modifier group had modifie
 #### User Flow
 Categories -> products -> modifiers -> checkout -> tip
 tip -> 
+
+Status: sentToKitchen, prepReady, customerReceived, paid
+
+Every day batch:
+- send completed orders to reciepts table, charge open carts

@@ -15,14 +15,7 @@ export default function CheckoutButton() {
   const pendingOrdersTotalPrice = pendingOrders.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
   const unPaidOrders = cart.filter(item => item.paid === false);
   const unPaidOrdersTotalPrice = unPaidOrders.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
-  
-  const cartUnpaidCount = unPaidOrders.reduce((acc, item) => acc + parseInt(item.quantity), 0);
-  const isTabOpen = useSelector(state => state.merchant.isTabOpen);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log('pendingOrders', pendingOrders);
-  }, [cart]);
 
   return (pendingOrders.length > 0 ? (
     <Flex

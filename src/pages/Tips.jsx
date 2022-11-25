@@ -15,13 +15,13 @@ export default function TipsPage() {
   const navigate = useNavigate();
   const cart = useSelector(state => state.cart.items);
   const merchantStore = useSelector(state => state.merchant);
-  const pendingOrders = cart.filter(order => order.orderSent === false);
+  const pendingOrders = cart.filter(order => order.sentToKitchen === false);
   const orderTax = useSelector(state => state.cart.orderTax);
   const [loading, setLoading] = useState(false);
 
   const [subTotal, setSubTotal] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
   const [subTotalWithTax, setSubTotalWithTax] =  useState((subTotal + (subTotal * (orderTax/100))).toFixed(2));
-  const [tip, setTip] =  useState( useSelector(state => state.cart.tip));
+  const [tip, setTip] =  useState(useSelector(state => state.cart.tip));
   const [totalCost, setTotalCost] =  useState((parseFloat(subTotalWithTax)+parseFloat(tip)).toFixed(2));
 
   const [isFirstButtonSelected, setIsFirstButtonSelected] = useState(true);
@@ -108,7 +108,7 @@ export default function TipsPage() {
       <PlaceOrderButton 
         isLoading={loading} 
         subTotal={subTotal}
-        tip={parseFloat(tip)} 
+        tip={parseFloat(tip).toFixed(2)} 
         handleOnClick={() => handleContinue()} 
         subTotalWithTax={subTotalWithTax} 
         buttonLabel={'Continue'} />

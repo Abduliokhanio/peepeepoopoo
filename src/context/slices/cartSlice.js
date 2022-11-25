@@ -5,11 +5,9 @@ export const cartSlice = createSlice({
   initialState: {
     items: [],
     tip: null,
-    isTabOpen: false,
     orderType: null,
     orderTotal: null,
-    orderTax: null,
-    ticketCompleted: false,
+    orderTax: null
   },
   reducers: {
     addToCart: (state, action) => {
@@ -39,12 +37,6 @@ export const cartSlice = createSlice({
     setOrderType: (state, action) => {
       state.orderType = action.payload;
     },
-    setIsTabOpen: (state, action) => {
-      state.isTabOpen = action.payload;
-    },
-    setIsTicketCompleted: (state, action) => {
-      state.isTicketCompleted = action.payload;
-    },
     setOrderTotal: (state, action) => {
       state.orderTotal = action.payload;
     },
@@ -61,8 +53,6 @@ export const {
   removeFromCart,
   setOrderTip,
   setOrderType,
-  setIsTabOpen,
-  setIsTicketCompleted,
   clearCart,
   setOrderTotal,
   setOrderTax

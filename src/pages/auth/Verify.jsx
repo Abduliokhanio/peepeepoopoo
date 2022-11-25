@@ -20,6 +20,10 @@ export default function Verify() {
   const [codeMessage, setCodeMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
+  supabasePrivate.auth.onAuthStateChange((event) => {
+    if (event == 'SIGNED_IN') navigate(`/${merchantURL}`);
+  });
+
   const handleVerify = async (code) => { 
     setLoading(true);
     let { session, error } = await supabasePrivate.auth.verifyOtp({
@@ -31,37 +35,47 @@ export default function Verify() {
     if (error) {
       setIsCodeError(true);
       setCodeMessage(error.message);
+      setLoading(false);
       throw error;
     }
-
-    await isNewCustomer();
-
-    setLoading(false);
+    fetchCustomerData();
   };
 
-  const isNewCustomer = async () => {
+  const fetchCustomerData = async () => {
     const { data, error } = await supabasePrivate
       .from('customers')
-      .select('*').eq('id', user.id);
-
-    console.log('error add: ', error);
-
-    if (error) addNewCustomer(); 
-    dispatch(setFirstName(data[0].first_namee));
-    dispatch(setLastName(data[0].last_name));
-    navigate(-2);
-  };
-
-  const addNewCustomer = async () => {
-    const { error } = await supabasePrivate
-      .from('customers')
-      .insert({
-        id: user.id
+      .select('first_name, last_name').match({
+        id: user.id 
       });
-
     if (error) throw error;
-    navigate(-2);
+    dispatch(setFirstName(data[0].first_name));
+    dispatch(setLastName(data[0].last_name));
   };
+
+  // const isNewCustomer = async () => {
+  //   const { data, error } = await supabasePrivate
+  //     .from('customers')
+  //     .select('*').eq('id', user.id);
+
+  //   console.log('error add: ', error);
+
+  //   if (error) addNewCustomer(); 
+  //   dispatch(setFirstName(data[0].first_namee));
+  //   dispatch(setLastName(data[0].last_name));
+  //   navigate(-2);
+    
+  // };
+
+  // const addNewCustomer = async () => {
+  //   const { error } = await supabasePrivate
+  //     .from('customers')
+  //     .insert({
+  //       id: user.id
+  //     });
+
+  //   if (error) throw error;
+  //   navigate(-2);
+  // };
 
   const handleResend = async (e) => {
     await supabasePrivate.auth.signInWithOtp({

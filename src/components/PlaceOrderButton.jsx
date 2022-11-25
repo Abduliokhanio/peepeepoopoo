@@ -40,7 +40,7 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
           <Spacer />
           <Flex alignItems='center'>
             <Text mr="2" fontSize={'12'} color='gray.700'>(8.25%)</Text>
-            <Text pr="1">${(subTotalWithTax-subTotal).toFixed(2)}</Text>
+            <Text>${(subTotalWithTax-subTotal).toFixed(2)}</Text>
           </Flex>
         </Flex>
         {tip === null || tip === undefined ? null : (

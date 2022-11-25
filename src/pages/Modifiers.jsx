@@ -67,7 +67,7 @@ export default function ModifiersPage() {
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
         modifiers: null, // TODO: update modifiers
-        orderSent: merchantStoreSelectedProduct.orderSent,
+        sentToKitchen: merchantStoreSelectedProduct.sentToKitchen,
         customerRecieved: merchantStoreSelectedProduct.customerRecieved,
         orderPaid: merchantStoreSelectedProduct.paid 
       };
@@ -80,10 +80,8 @@ export default function ModifiersPage() {
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
         modifiers: null, // TODO: add initial modifiers
-        sentToKitchen: false,
-        paid: false,  
-        prepComplete: false,
-        customerRecieved: false,
+        status: 'pending',
+        sentToKitchen: false
       };
         
       console.log('add new order to cart: ', cartOrderInsert);

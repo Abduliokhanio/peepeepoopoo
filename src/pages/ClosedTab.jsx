@@ -1,38 +1,20 @@
 /* eslint-disable no-undef */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Navbar from '../components/Navbar';
-import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import {
   Flex, Heading, VStack, Text, Button, Link, Box
 } from '@chakra-ui/react';
-import { useSelector, useDispatch } from 'react-redux';
-import Payment from '../tools/payment';
-import { clearCart, setIsTabOpen } from '../context/slices/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart } from '../context/slices/cartSlice';
 
 export default function ClosedTab() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useAuth();
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
-  const tableNumber = useSelector(state => state.cart.tableNumber);
-  const merchant = useSelector(state => state.merchant.brandName);
-  const payment = new Payment(process.env.REACT_APP_STC_SK);
-  const reciept = useSelector(state => state.cart);
-  const [orderRecorded, setOrderRecorded] = useState(false);
-
-  useEffect(() => {
-    const recordOrder = payment.recordOrder(reciept, tableNumber, merchant, user);
-    if (recordOrder) {
-      setOrderRecorded(true);
-      dispatch(clearCart());
-      dispatch(setIsTabOpen(false));
-    } else {
-      alert('error recording order');
-    }
-  },[]);    
   
   const handleReturnButton = () => {
+    dispatch(clearCart());
     navigate(`/${merchantURLPath}`);
   };
 
@@ -53,7 +35,7 @@ export default function ClosedTab() {
               <Heading size="lg">Thanks for visiting!</Heading>
               <Text textAlign="center">{localStorage.getItem('merchantName')}</Text>
             </VStack>
-            <Button isLoading={!orderRecorded} onClick={handleReturnButton} _hover={{
+            <Button onClick={handleReturnButton} _hover={{
               bg: 'black'
             }} size="lg" bg="black" color='white' width="100%">Return to Menu</Button>
           </VStack>

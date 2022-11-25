@@ -1,9 +1,7 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
-import { supabasePrivate } from '../services/supabasePrivate';
 import jsonToQueryString from '../tools/jsonToQueryString';
 import queryStringToJSON from '../tools/queryStringToJSON';
-import { useNavigate } from 'react-router-dom';
 
 class Payment extends Component {
 
@@ -12,20 +10,17 @@ class Payment extends Component {
     this.security_key = security_key;
   }
 
-  processSale = (saleParams, navigate) => {
-    // Object.assign(saleParams, this.security_key, this.card, this.billing, this.shipping);
+  processSale = (saleParams, recordCustomerReciept, ticketID) => {
     const requestOptions = Object.assign(saleParams, this.card);
-    this.paymentRequest(requestOptions, navigate);
+    this.paymentRequest(requestOptions, recordCustomerReciept, ticketID);
   };
 
   setCardPayment = (cardInfo) => this.card = cardInfo;
   setBilling = (billingInfo) => this.billing = billingInfo;
   setShipping = (shippingInfo) => this.shipping = shippingInfo;
 
-  paymentRequest = (requestOptions, navigate) => {
-    console.log('security_key', this.security_key);
+  paymentRequest = (requestOptions, recordCustomerReciept, ticketID) => {
     requestOptions.security_key = this.security_key;
-    console.log('requestOptions', requestOptions);
     console.log('query', jsonToQueryString(requestOptions));
 
     fetch(`https://cors-anywhere.herokuapp.com/https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(requestOptions)}`, {
@@ -37,7 +32,7 @@ class Payment extends Component {
 
           if (jsonQuery.responsetext === 'SUCCESS') {
             console.log('Payment successful: ', jsonQuery);
-            navigate('/cart/closed-tab');
+            await recordCustomerReciept(ticketID);
             return;
           }
 
@@ -45,28 +40,6 @@ class Payment extends Component {
           throw `${jsonQuery.responsetext}: Error making payment`;
         });
       });
-  };
-
-  recordOrder = async (reciept, tableNumber, merchant, user) => {
-    if (tableNumber === undefined) tableNumber = null;
-    console.log('reciept: ', reciept);
-    const recordRes = await supabasePrivate.from('past_orders').insert({
-      customer_id: user.id,
-      order_type: reciept.orderType,
-      orders: reciept.items,
-      tip: reciept.tip,
-      table_number: tableNumber,
-      merchant: merchant,
-      total_cost: reciept.total,
-      tax: reciept.tax
-    });
-    if (recordRes.error) {
-      console.log(recordRes.error);
-      return false;
-    }
-
-    return true;
-
   };
 
 }
