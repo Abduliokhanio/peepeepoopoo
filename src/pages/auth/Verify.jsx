@@ -48,6 +48,7 @@ export default function Verify() {
         id: user.id 
       });
     if (error) throw error;
+
     dispatch(setFirstName(data[0].first_name));
     dispatch(setLastName(data[0].last_name));
   };

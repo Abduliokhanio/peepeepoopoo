@@ -24,7 +24,6 @@ export default function AccountDetails() {
 
   useEffect(() => {
     setPreviousRecord();
-    console.log(user.id);
   }, [false]);
 
   const showAlert = (message, status) => {
@@ -148,7 +147,7 @@ export default function AccountDetails() {
 
         <FormControl>
           <FormLabel fontSize='sm' mb='2'>Mobile number</FormLabel>
-          <Input isDisabled value={phoneNumber} placeholder='Required' size='md' width="100%" />
+          <Input isDisabled defaultValue={phoneNumber} size='md' width="100%" />
         </FormControl>
       </VStack>
 
