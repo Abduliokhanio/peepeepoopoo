@@ -126,7 +126,8 @@ export default function OrderConfirmed() {
         ticket_id: ticketID,
         item: item.item, 
         // modifiiers: item.modifiers,
-        status: 'sentToKitchen'
+        status: 'sentToKitchen',
+        quantity: item.quantity
       });
 
       if (error) throw `${error}: Error sending order`;
