@@ -96,11 +96,17 @@ export default function ProductsPage() {
   };
 
   return (
-    <Box bg="#f6f6f6" pb="300px">
+    <Box bg="#1e1e1e" pb="300px">
       <Flex direction="column">
         <Navbar title={merchantStoreBrandName} showBackButton={true} />
         <Box py="4" pl="6">
-          <Select bg="white" maxW="200" value={selectedCategory} onChange={(option) => handleCategorySelect(option)}>
+          <Select 
+            bg='#242424' 
+            color="#dadada"
+            borderColor={'#242424'}
+            maxW="200" value={selectedCategory} 
+            iconColor="#bababa"
+            onChange={(option) => handleCategorySelect(option)}>
             {currentProducts.length === 0 ? null : displayMenuSelections()}
           </Select>
         </Box>

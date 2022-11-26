@@ -224,9 +224,10 @@ export default function OrderConfirmed() {
               blur="40%" 
               spacing={4}
               align="stretch">
-              <Button isLoading={loadingKeepTabOpen} disabled={loadingPayment} onClick={() => handleKeepTabOpen()} w="100%" _hover={{
-                bg: 'black'
-              }} size="lg" bg="black" color="white">Keep Tab Open</Button>
+              <Button
+                isLoading={loadingKeepTabOpen} disabled={loadingPayment} onClick={() => handleKeepTabOpen()} w="100%" _hover={{
+                  bg: 'black'
+                }} size="lg" bg="black" color="white">Keep Tab Open</Button>
               
               {paymentChoice === 'Apple Pay' ? (
                 <Button id="applePayButton" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab | Apple Pay</Button>

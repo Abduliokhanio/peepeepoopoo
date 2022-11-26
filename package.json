@@ -11,10 +11,12 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^29.2.3",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
     "buffer": "^6.0.3",
     "env-cmd": "^10.1.0",
-    "magic-sdk": "^10.0.0",
-    "querystring": "^0.2.1",
     "react": "^18.2.0",
     "react-credit-cards-2": "^0.9.0",
     "react-dom": "^18.2.0",
@@ -28,6 +30,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "short-unique-id": "^4.4.4",
+    "typescript": "^4.9.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -36,7 +39,8 @@
     "build": "env-cmd -f .env.local react-scripts build",
     "build:prod": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.js src/**/*.jsx"
   },
   "eslintConfig": {
     "extends": [

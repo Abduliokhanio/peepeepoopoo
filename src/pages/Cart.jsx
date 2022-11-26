@@ -1,15 +1,12 @@
 /* eslint-disable no-undef */
 import React, {useState, useEffect} from 'react';
 import { useAuth } from '../context/Auth';
-import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
-import {VStack, Box, Text, Button} from '@chakra-ui/react';
+import {VStack, Box, Text, } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import CartItemCard from '../components/CartItemCard';
 import PlaceOrderButton from '../components/PlaceOrderButton';
-import { setSelectedProduct } from '../context/slices/merchantSlice';
-import {updateCart} from '../context/slices/cartSlice';
 
 export default function CheckoutPage() {
   const cart = useSelector(state => state.cart.items);
@@ -39,7 +36,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <Box bg="#f6f6f6" minH="100vh" pb="300px">
+    <Box bg="#f6f9fc" minH="100vh" pb="300px">
       <Navbar title="Order" showBackButton={true} />
       <VStack
         pt={6}

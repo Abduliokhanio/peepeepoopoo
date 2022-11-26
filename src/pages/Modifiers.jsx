@@ -15,6 +15,7 @@ export default function ModifiersPage() {
   const uid = new ShortUniqueId({
     length: 10 
   });
+  
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
@@ -46,11 +47,11 @@ export default function ModifiersPage() {
   const checkCart = async () => { 
     setLoading(true);
     const itemInCart = cart.find(item => item.id === merchantStoreSelectedProduct.id);
-    console.log('itemInCart: ', itemInCart);
+    
     if (itemInCart === undefined) {
       setIsItemInCart(false); 
       setItemCount(merchantStoreSelectedProduct.quantity);
-      console.log('new itemCount: ', itemCount);
+
     } else {
       isItemInCart ? setItemCount(1) : setItemCount(itemInCart.quantity);
       setItemCount(itemInCart.quantity);
@@ -98,24 +99,39 @@ export default function ModifiersPage() {
   };
 
   return (
-    <Box>
+    <Box bg="#1e1e1e" minH="100vh">
       <Box h="60px">
         <Navbar title={merchantStoreName} showBackButton={true}  />
       </Box>
       {merchantStoreSelectedProduct.item.image_url !== null ? (
         <Image h="175" w="100vw" mb="4" objectFit="cover" src={merchantStoreSelectedProduct.item.image_url} alt="menu" />
       ) : <Divider mb="8" />}
-      <Container>
+      <Container h="100%">
         
         <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
-          <Heading mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
-          <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
-          <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
-          <Textarea minH="150" mt="8" placeholder='Special requests' />
+          <Heading color="#dadada" fontFamily={'Inter'} mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
+          <Text color="#bababa" fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
+          <Text color="#bababa" fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
+          <Textarea minH="150" mt="8" color="#bababa" bg="#242424" borderColor={'#363636'} placeholder='Special requests' />
           <HStack mt="8" maxW='320px' flexGrow={true}>
-            <Button py='4' h="100%" maxH="64px" minW="64px" {...inc}>+</Button>
-            <Input py='4' maxW="100px" textAlign={'center'} h="100%" maxH="64px" {...input} />
-            <Button py='4' h="100%" maxH="64px" minW="64px" {...dec}>-</Button>
+            <Button 
+              border="1px solid #363636" 
+              bg="transparent"
+              color="#bababa" 
+              py='4' 
+              h="100%" 
+              maxH="64px" 
+              minW="64px" {...inc}>+</Button>
+            <Input focusBorderColor={'#363636'} py='4' maxW="100px" color="#bababa" bg="#242424" borderColor={'#363636'}  textAlign={'center'} h="100%" maxH="64px" {...input} />
+            <Button 
+              py='4' 
+              h="100%" 
+              bg="transparent" 
+              border="1px solid #363636" 
+              maxH="64px" 
+              color="#bababa" 
+              minW="64px" 
+              {...dec}>-</Button>
           </HStack>
         </Flex>
 
@@ -123,9 +139,10 @@ export default function ModifiersPage() {
           pos="fixed"
           bottom="0" 
           left="0"
-          bg="RGBA(255, 255, 255, 0.90)" 
+          backdropFilter="blur(5px)"
+          borderTop='1px solid rgba(255, 255, 255, 0.1)'
+          bg='rgba(22, 22, 22, 0.7)'
           py="4" 
-          blur="40%" 
           w="100%" 
           justifyContent="center"
           direction="column"

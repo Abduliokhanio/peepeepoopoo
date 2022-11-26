@@ -22,23 +22,24 @@ export default function CheckoutButton() {
       onClick={() => navigate('/cart/checkout')}
       pos="fixed"
       bottom="0" 
-      bg="RGBA(255, 255, 255, 0.90)" 
+      backdropFilter="blur(5px)"
+      borderTop='1px solid rgba(255, 255, 255, 0.1)'
+      bg='rgba(22, 22, 22, 0.7)'
       py="4" 
-      blur="40%" w="100%" 
-      justifyContent="center"
-      borderTop="1px solid #e8e8e8">
+      w="100%" 
+      justifyContent="center">
       <Box
         mx="6"
         w="100%"
         py="5"
         borderRadius="md"
-        backgroundColor={'black'}
+        backgroundColor={'#085F63'}
       >
         <Flex justifyContent='space-around' alignItems="center">
           <Box px="3" py="1" bg="white" borderRadius="md">
             <Text color="black" fontWeight="bold">{pendingOrdersTotalCount}</Text>
           </Box>
-          <Heading color="white" fontWeight='semibold' size="md">View order</Heading>
+          <Heading fontFamily={'Inter'} color="white" fontWeight='semibold' size="md">View order</Heading>
           <Text color="white" mt="1" fontSize='1.1em' fontWeight='semibold'>${pendingOrdersTotalPrice.toFixed(2)}</Text>
         </Flex>
       </Box>

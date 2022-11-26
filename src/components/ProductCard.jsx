@@ -20,17 +20,21 @@ export default function ProductItem({title, desc, price, qty, page, imageURL, ..
   };
 
   return (
-    <Box shadow="xs" bg="white" borderRadius='lg' overflow='hidden' borderWidth="0.5px" {...rest}>
+    <Box
+      shadow="xs" 
+      backgroundColor={'#242424'}
+      border={'1px solid #363636'} 
+      borderRadius='lg' overflow='hidden' borderWidth="0.5px" {...rest}>
       <Flex h="125" direction="row">
         {imageURL !== null ? (
           <Image h="100%" maxW="125" objectFit="cover" src={imageURL} alt="menu" />
         ) : null}
         <Flex ml="4" my="1" direction='column' justifyContent="space-around">
           <Stack w="100%" textAlign="left">
-            <Heading fontSize="xl">{title}</Heading>
-            <Text fontSize="sm">{desc}</Text>
+            <Heading color="#dadada" fontSize="xl">{title}</Heading>
+            <Text color="#dadada" fontSize="sm">{desc}</Text>
           </Stack>
-          <Text w="100%" textAlign="left" fontSize="lg">${priceLength()}</Text>
+          <Text color="#dadada" w="100%" textAlign="left" fontSize="lg">${priceLength()}</Text>
         </Flex>
       </Flex>
     </Box>

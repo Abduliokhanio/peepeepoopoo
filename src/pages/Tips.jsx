@@ -63,7 +63,8 @@ export default function TipsPage() {
             <Heading mb="1rem" fontSize={'2rem'}>Show your support ❤️</Heading>
             <Text>100% of your tips goes to the wait staff</Text>
             <Stack mt="16" direction="column" spacing={4}>
-              <Button size="lg"
+              <Button
+                size="lg"
                 onClick={() => handleFirstButton()}
                 bg={isFirstButtonSelected === true ? '#000000' : 'white'}
                 _focus={{
@@ -75,7 +76,8 @@ export default function TipsPage() {
                 <Text pr="1">${(subTotalWithTax*0.15).toFixed(2)}</Text>
                 <Text>(15%)</Text>
               </Button>
-              <Button size="lg" 
+              <Button
+                size="lg" 
                 onClick={handleSecondButton}
                 bg={isSecondButtonSelected === true ? '#000000' : 'white'}
                 _focus={{

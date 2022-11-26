@@ -171,13 +171,29 @@ export default function CategoriesPage() {
   };
 
   return (
-    <Box bg="#f6f6f6">
+    <Box 
+      bg="#1e1e1e">
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
-        <VStack py="16" backgroundImage={bannerImageURL} backgroundSize="cover" backgroundPosition="center" mb="8">
+        <VStack 
+          py={'20'}
+          backgroundImage={bannerImageURL} 
+          backgroundSize="cover" 
+          backgroundPosition="center" 
+          mb="8">
           {tableQRNumber === null ? (
-            <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
-              <Text fontSize="mg" fontWeight='semibold'>Pickup</Text>
+            <Flex 
+              backdropFilter="blur(3px)"
+              bg='rgba(240, 240, 240, 0.7)'            
+              px="9"
+              py="3"
+              borderWidth="1px"
+              borderColor="gray.300"
+              justifyContent="space-around"
+              borderRadius="100px"
+              direction="row"
+              alignItems='center'>
+              <Text color="#1e1e1e" fontSize="lg" fontWeight='semibold'>Pickup</Text>
               
             </Flex>
           ) : (
@@ -187,7 +203,16 @@ export default function CategoriesPage() {
               value={tableQRNumber}
               onChange={(value) => setCurrentTableNumber(value)}
             >
-              <Flex bg="white" px="5" py="3" borderWidth="1px" borderColor="gray.300" justifyContent="space-around" borderRadius="100px" direction="row" alignItems='center'>
+              <Flex 
+                bg="white" 
+                px="5" 
+                py="3" 
+                borderWidth="1px" 
+                borderColor="gray.300" 
+                justifyContent="space-around"
+                borderRadius="100px"
+                direction="row" 
+                alignItems='center'>
                 <Flex alignItems='center'>
                   <Text fontSize="mg" fontWeight='semibold'>Table</Text>
                   <Input w='100%' mx="2" maxW="14" as={EditableInput} />
@@ -199,9 +224,9 @@ export default function CategoriesPage() {
           )}
 
         </VStack>
-        <Stack pb='115' px="6" bg="#F9FBFC">
+        <Stack pb='115' px="6">
           {tableQRNumber === null ? (
-            <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Prep time is currently 15 minutes</Text>
+            <Text color="#dadada" mb="2" fontWeight="semibold" textAlign="left" w='100%'>Prep time is currently 15 minutes</Text>
           ) : (
             <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
           )}

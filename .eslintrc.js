@@ -28,12 +28,12 @@ module.exports = {
     'eslint:recommended'
   ],
   rules: {
+    'react/jsx-first-prop-new-line': [1, 'multiline'],
     'react/no-children-prop': [0],
     'react/prop-types': 'off',
-    'react/jsx-props-no-multi-spaces': [1],
     'consistent-return': 2,
     'no-unused-vars': 0,
-    'indent': [1, 2],
+    'indent': ['error', 2],
     'no-else-return': 1,
     'semi': [1, 'always'],
     'space-unary-ops': 2,
@@ -50,7 +50,7 @@ module.exports = {
         'multiline': true
       },
       'ExportDeclaration': {
-        'multiline': true, 'minProperties': 3
+        'multiline': true, 'minProperties': 2
       }
     }]
   },

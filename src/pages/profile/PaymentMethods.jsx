@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/Auth';
 import { supabasePrivate } from '../../services/supabasePrivate';
 import {
-  Stack, HStack, Text, Box, VStack, Button, Flex, Heading, FormHelperText
+  Stack, HStack, Text, Box, VStack, Flex, Heading,
 } from '@chakra-ui/react';
 import { Icon, ChevronRightIcon } from '@chakra-ui/icons';
 import { MdPayment } from 'react-icons/md';
@@ -114,7 +114,8 @@ export default function PaymentMethods() {
     
       <Box px="6">
         <Heading size="lg" textAlign={'left'} mt="6">Add  Payment Methods</Heading>
-        <Flex onClick={() => navigate('/user/new-card')} 
+        <Flex
+          onClick={() => navigate('/user/new-card')} 
           py="6" 
           justifyContent="space-between">
           <HStack spacing="4">

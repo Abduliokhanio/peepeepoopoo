@@ -35,9 +35,10 @@ export default function ClosedTab() {
               <Heading size="lg">Thanks for visiting!</Heading>
               <Text textAlign="center">{localStorage.getItem('merchantName')}</Text>
             </VStack>
-            <Button onClick={handleReturnButton} _hover={{
-              bg: 'black'
-            }} size="lg" bg="black" color='white' width="100%">Return to Menu</Button>
+            <Button
+              onClick={handleReturnButton} _hover={{
+                bg: 'black'
+              }} size="lg" bg="black" color='white' width="100%">Return to Menu</Button>
           </VStack>
         </Flex>
       </Flex>
