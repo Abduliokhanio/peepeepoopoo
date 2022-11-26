@@ -19,7 +19,7 @@ export default function MenuItem({title, desc, price, qty, page, imageURL, ...re
         <Image maxH="150" w="100%" objectFit="cover" src={imageURL} alt="menu" />
       )}
       <Stack pl="4" py="2" textAlign="left">
-        <Heading color="#dadada" fontFamily={'Inter'} fontSize="xl" mt='2'>{title}</Heading>
+        <Heading color="#dadada" fontSize="xl" mt='2'>{title}</Heading>
         <Text color="#bababa" fontSize="sm">{desc}</Text>
       </Stack>
     </Box>

@@ -109,7 +109,7 @@ export default function ModifiersPage() {
       <Container h="100%">
         
         <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
-          <Heading color="#dadada" fontFamily={'Inter'} mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
+          <Heading color="#dadada" mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
           <Text color="#bababa" fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
           <Text color="#bababa" fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
           <Textarea minH="150" mt="8" color="#bababa" bg="#242424" borderColor={'#363636'} placeholder='Special requests' />

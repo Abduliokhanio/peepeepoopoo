@@ -54,7 +54,6 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAcco
         {navButton(showBackButton)}
         <Spacer />
         <Heading 
-          fontFamily={'Inter'} 
           color="#dadada" 
           fontSize="lg">{title}</Heading>
         <Spacer />

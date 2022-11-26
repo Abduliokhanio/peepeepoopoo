@@ -39,7 +39,7 @@ export default function CheckoutButton() {
           <Box px="3" py="1" bg="white" borderRadius="md">
             <Text color="black" fontWeight="bold">{pendingOrdersTotalCount}</Text>
           </Box>
-          <Heading fontFamily={'Inter'} color="white" fontWeight='semibold' size="md">View order</Heading>
+          <Heading color="white" fontWeight='semibold' size="md">View order</Heading>
           <Text color="white" mt="1" fontSize='1.1em' fontWeight='semibold'>${pendingOrdersTotalPrice.toFixed(2)}</Text>
         </Flex>
       </Box>
