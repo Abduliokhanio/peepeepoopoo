@@ -4,8 +4,8 @@ import {
   Flex, Spacer, Heading, Box, extendTheme
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, Icon } from '@chakra-ui/icons';
-import {CgShoppingCart} from 'react-icons/cg';
-import { MdOutlineAccountCircle } from 'react-icons/md';
+import { CiShoppingCart } from 'react-icons/ci';
+import { CiUser } from 'react-icons/ci';
 
 export default function NavBar({ title, showBackButton, showLeftButton, showAccountButton }) {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAcco
     }
     return (
       <Box onClick={() => navigate('/user/account')}>
-        <Icon color="#888" mt="1.5" h="8" w="8" as={MdOutlineAccountCircle} />
+        <Icon color="gray.400" mt="1.5" h="7" w="7" as={CiUser} />
       </Box>
     );
   };
@@ -31,7 +31,7 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAcco
     if (showAccountButton) {
       return (
         <Box onClick={() => navigate('/cart/opened-tab')}>
-          <Icon color="#888" mt="1.5" h="8" w="8" as={CgShoppingCart} />
+          <Icon color="gray.400" mt="1.5" h="8" w="8" as={CiShoppingCart} />
         </Box>
       );
     }
@@ -48,7 +48,7 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAcco
       zIndex={10}
       backdropFilter="blur(5px)"
       borderBottom='1px solid rgba(255, 255, 255, 0.1)'
-      bg='rgba(22, 22, 22, 0.7)'
+      bg='black'
     >
       <Flex px="6" h="16" alignItems="center">
         {navButton(showBackButton)}

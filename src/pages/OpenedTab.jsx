@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {updateCart, setOrderTotal, setOrderTax } from '../context/slices/cartSlice';
 import Payment from '../tools/payment';
 import AppleGooglePay from '../tools/collectjs';
-import {BiEdit} from 'react-icons/bi';
+import {CiEdit} from 'react-icons/ci';
 import { Icon } from '@chakra-ui/icons';
 
 export default function OrderConfirmed() {
@@ -37,7 +37,7 @@ export default function OrderConfirmed() {
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
 
-  const [lastFour, setLastFour] = useState('');
+  const [lastFour, setLastFour] = useState(null);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [paymentChoice, setPaymentChoice] = useState(null);
   const [loadingKeepTabOpen, setLoadingKeepTabOpen] = useState(false);
@@ -112,7 +112,7 @@ export default function OrderConfirmed() {
       order_type: orderType,
       table_number: tableNumber
     }).select();
-
+    console.log(user.id, merchantStore.urlPath, customerFirstName + ' ' + customerLastName, orderType, tableNumber);
     if (error) throw `${error}: Error sending ticket`;
     await sendOrderToKDS(data[0].id);
     return data[0].id;
@@ -156,8 +156,8 @@ export default function OrderConfirmed() {
   
   return (
     <Box bg="#f6f6f6" minH="100vh">
-      <Navbar title={'Summary'} showLeftButton={false} />
-      <Flex pb="300px" direction="column">
+      <Navbar title={'Tab'} showLeftButton={false} />
+      <Flex pt={5} pb="300px" direction="column">
         <Flex
           direction="column"
         >
@@ -190,7 +190,7 @@ export default function OrderConfirmed() {
                 <Flex>
                   <Text>Subtotal</Text>
                   <Spacer />
-                  <Text>${subTotal}</Text>
+                  <Text>${subTotal.toFixed(2)}</Text>
                 </Flex> 
                 <Flex>
                   <Text>Tax</Text>
@@ -203,7 +203,7 @@ export default function OrderConfirmed() {
                 <Flex onClick={() => navigate('/cart/tips')}>
                   <Text>Tip</Text>
                   <Spacer />
-                  <Icon mr="2" h="6" w="6" as={BiEdit} />
+                  <Icon mr="2" h="6" w="6" as={CiEdit} />
                   <Text>${tip}</Text>
                 </Flex>
                 <Divider py="2" borderColor='gray.300'/>
@@ -235,7 +235,7 @@ export default function OrderConfirmed() {
                 paymentChoice === 'Google Pay' ? (
                   <Button id="googlePayButton" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab | Google Pay</Button>
                 ) : (
-                  <Button id="customPayButton" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab | •••• {lastFour}</Button>
+                  <Button id="customPayButton" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab {lastFour === null ? null : `| •••• ${lastFour}` }</Button>
                 ) }
             </VStack>
           </VStack>

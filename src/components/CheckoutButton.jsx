@@ -7,14 +7,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CheckoutButton() {
   const cart = useSelector(state => state.cart.items);
-
-  const cartTotalCount = cart.reduce((acc, item) => acc + parseInt(item.quantity), 0);
-  const cartTotalPrice = cart.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
   const pendingOrders = cart.filter(item => item.sentToKitchen === false);
   const pendingOrdersTotalCount = pendingOrders.reduce((acc, item) => acc + parseInt(item.quantity), 0);
   const pendingOrdersTotalPrice = pendingOrders.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
   const unPaidOrders = cart.filter(item => item.paid === false);
-  const unPaidOrdersTotalPrice = unPaidOrders.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
   const navigate = useNavigate();
 
   return (pendingOrders.length > 0 ? (
@@ -24,7 +20,7 @@ export default function CheckoutButton() {
       bottom="0" 
       backdropFilter="blur(5px)"
       borderTop='1px solid rgba(255, 255, 255, 0.1)'
-      bg='rgba(22, 22, 22, 0.7)'
+      bg="RGBA(255, 255, 255, 0.90)" 
       py="4" 
       w="100%" 
       justifyContent="center">
@@ -33,7 +29,7 @@ export default function CheckoutButton() {
         w="100%"
         py="5"
         borderRadius="md"
-        backgroundColor={'#085F63'}
+        bg='black'
       >
         <Flex justifyContent='space-around' alignItems="center">
           <Box px="3" py="1" bg="white" borderRadius="md">

@@ -88,7 +88,7 @@ export default function Verify() {
     <Box>
       <Navbar title="Create account" showBackButton={true} />
       <VStack
-        pt="32"
+        pt="20"
         spacing={4}
         align="stretch"
         px="6"
@@ -97,7 +97,7 @@ export default function Verify() {
           <Heading size="lg">
             Verifying +1{customerNumber}
           </Heading>
-          <Text textAlign="center">Enter the digits that was sent to you</Text>
+          <Text textAlign="center">Enter the code sent to your phone</Text>
         </VStack>
         <FormControl isInvalid={isCodeError}>
           <HStack justifyContent="center" w="100%" >

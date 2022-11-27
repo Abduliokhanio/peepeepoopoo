@@ -11,14 +11,11 @@ import PlaceOrderButton from '../components/PlaceOrderButton';
 export default function CheckoutPage() {
   const cart = useSelector(state => state.cart.items);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
-
+  const merchantStoreBrandName = useSelector(state => state.merchant.brandName);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
   const orderTip = useSelector(state => state.cart.tip);
   const orderTax = useSelector(state => state.cart.orderTax);
-
   const pendingOrders = cart.filter(item => item.sentToKitchen === false);
   const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
@@ -37,7 +34,7 @@ export default function CheckoutPage() {
 
   return (
     <Box bg="#f6f9fc" minH="100vh" pb="300px">
-      <Navbar title="Order" showBackButton={true} />
+      <Navbar title={merchantStoreBrandName} showBackButton={true} />
       <VStack
         pt={6}
         spacing={4}

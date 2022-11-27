@@ -7,20 +7,26 @@ export default function MenuItem({title, desc, price, qty, page, imageURL, ...re
 
   return (
     <Box 
-      backgroundColor={'#242424'}
-      border={'1px solid #363636'}
+      bg='white'
       cursor={'default'}
       minH="150" 
       shadow="xs" 
       borderRadius='lg' 
       overflow='hidden' 
-      borderWidth="0.5px" {...rest}>
+      display={!imageURL ? 'flex' : 'block'}
+      justifyContent={!imageURL ? 'center' : 'none'}  
+      alignItems={!imageURL ? 'center' : 'none'}
+      borderWidth="0.5px" 
+      {...rest}>
       {!imageURL ? null : (
         <Image maxH="150" w="100%" objectFit="cover" src={imageURL} alt="menu" />
       )}
-      <Stack pl="4" py="2" textAlign="left">
-        <Heading color="#dadada" fontSize="xl" mt='2'>{title}</Heading>
-        <Text color="#bababa" fontSize="sm">{desc}</Text>
+      <Stack 
+        pl="4" 
+        py="2" 
+        h="100%" >
+        <Heading fontSize="xl" mt='2'>{title}</Heading>
+        <Text fontSize="sm">{desc}</Text>
       </Stack>
     </Box>
   );

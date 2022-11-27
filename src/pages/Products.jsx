@@ -16,7 +16,6 @@ export default function ProductsPage() {
   const cart = useSelector(state => state.cart.items);
   const merchantStore = useSelector(state => state.merchant);
   const merchantStoreProducts = useSelector(state => state.merchant.products);
-  const merchantStoreBrandName = useSelector(state => state.merchant.brandName);
   const merchantStoreCategoryID = useSelector(state => state.merchant.selectedCategoryID);
   const merchantStoreCategoryName = useSelector(state => state.merchant.selectedCategoryName);
   const [selectedCategory , setSelectedCategory] = useState(merchantStoreCategoryID);
@@ -96,16 +95,14 @@ export default function ProductsPage() {
   };
 
   return (
-    <Box bg="#1e1e1e" pb="300px">
+    <Box bg="#f6f6f6" pb="300px">
       <Flex direction="column">
-        <Navbar title={merchantStoreBrandName} showBackButton={true} />
+        <Navbar title={merchantStoreCategoryName} showBackButton={true} />
         <Box py="4" pl="6">
           <Select 
-            bg='#242424' 
-            color="#dadada"
-            borderColor={'#242424'}
-            maxW="200" value={selectedCategory} 
-            iconColor="#bababa"
+            borderColor={'gray.300'}
+            maxW="200" 
+            value={selectedCategory} 
             onChange={(option) => handleCategorySelect(option)}>
             {currentProducts.length === 0 ? null : displayMenuSelections()}
           </Select>

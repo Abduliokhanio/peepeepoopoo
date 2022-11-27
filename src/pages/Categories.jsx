@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabasePublic } from '../services/supabasePublic';
 import Navbar from '../components/Navbar';
-import MenuCard from '../components/MenuCard';
+import MenuCard from '../components/CategoryCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
 import {
@@ -43,7 +43,6 @@ export default function CategoriesPage() {
     if (window.location.pathname.includes('table')) {
       tableNumber = window.location.pathname.match(/table\/(.*)/);
       setCurrentTableNumber(tableNumber[1]);
-      dispatch(setOrderType('dineIn'));
       if (host.includes('orderahead.io')) {
         merchantURLPath = window.location.href.match(/orderahead.io\/(.*)\/table/);
         setMerchantURL(merchantURLPath[1]);
@@ -51,12 +50,13 @@ export default function CategoriesPage() {
         merchantURLPath = window.location.href.match(/localhost:3000\/(.*)\/table/);
         setMerchantURL(merchantURLPath[1]);
       }
-      
+      dispatch(setOrderType('dineIn'));
       return merchantURLPath[1];
     } 
 
     merchantURLPath = window.location.pathname.replace(/\//g,'');
     dispatch(setOrderType('Pickup'));
+    setCurrentTableNumber(null);
     setMerchantURL(merchantURLPath);
     return merchantURLPath;
   };
@@ -172,15 +172,14 @@ export default function CategoriesPage() {
 
   return (
     <Box 
-      bg="#1e1e1e">
+      bg="#f6f6f6">
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
         <VStack 
           py={'20'}
           backgroundImage={bannerImageURL} 
           backgroundSize="cover" 
-          backgroundPosition="center" 
-          mb="8">
+          backgroundPosition="center">
           {tableQRNumber === null ? (
             <Flex 
               backdropFilter="blur(3px)"
@@ -204,7 +203,8 @@ export default function CategoriesPage() {
               onChange={(value) => setCurrentTableNumber(value)}
             >
               <Flex 
-                bg="white" 
+                backdropFilter="blur(3px)"
+                bg='rgba(240, 240, 240, 0.7)'   
                 px="5" 
                 py="3" 
                 borderWidth="1px" 
@@ -226,7 +226,7 @@ export default function CategoriesPage() {
         </VStack>
         <Stack pb='115' px="6">
           {tableQRNumber === null ? (
-            <Text color="#dadada" mb="2" fontWeight="semibold" textAlign="left" w='100%'>Prep time is currently 15 minutes</Text>
+            <Text mt="8" mb="2" fontWeight="semibold" textAlign="left" w='100%'>Prep time is currently 15 minutes</Text>
           ) : (
             <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
           )}

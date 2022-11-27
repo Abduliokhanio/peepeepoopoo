@@ -109,7 +109,7 @@ export default function TipsPage() {
       </Flex>
       <PlaceOrderButton 
         isLoading={loading} 
-        subTotal={subTotal}
+        subTotal={subTotal.toFixed(2)}
         tip={parseFloat(tip).toFixed(2)} 
         handleOnClick={() => handleContinue()} 
         subTotalWithTax={subTotalWithTax} 
