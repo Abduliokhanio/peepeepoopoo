@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import {supabasePublic} from '../services/supabasePublic';
 import ModifierButton from '../components/ModifierButton';
 import {
   Heading, Image, Container, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
@@ -8,6 +9,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, updateCart } from '../context/slices/cartSlice';
 import ShortUniqueId from 'short-unique-id';
+import { Formik, Field, Form } from 'formik';
 
 export default function ModifiersPage() {
   const dispatch = useDispatch();
@@ -19,12 +21,16 @@ export default function ModifiersPage() {
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
-  const pendingOrders = cart.filter(item => item.sentToKitchen === false);
 
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct.item.price);
   const [itemCount, setItemCount] = useState(1);
   const [isItemInCart, setIsItemInCart] = useState(false);
+
+  const [modifierGroups, setModifierGroups] = useState([]);
+  const [modifiers, setModifiers] = useState([]);
+  const [selectedModifiers, setSelectedModifiers] = useState([]);
+  const [specialRequest, setSpecialRequest] = useState('');
 
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
@@ -58,6 +64,9 @@ export default function ModifiersPage() {
       setIsItemInCart(true); 
       console.log('old itemCount: ', itemCount);
     }
+
+    const modifierGroupsRes = await fetchModifierGroups();
+    await fetchModifiers(modifierGroupsRes);
     setLoading(false);
   };
   
@@ -98,8 +107,72 @@ export default function ModifiersPage() {
     setTotalPrice(count * merchantStoreSelectedProduct.item.price);
   };
 
+  const fetchModifierGroups = async () => {
+    const { data, error } = await supabasePublic.from('modifiergroups')
+      .select('*')
+      .match({
+        'product_id': merchantStoreSelectedProduct.item.id
+      });
+
+    console.log('modifier groups: ', data);
+    if (error) throw error;
+    setModifierGroups(data);
+    return data;
+  };
+
+  const fetchModifiers = async (modifierGroupsRes) => {
+    await modifierGroupsRes.forEach(async (modifierGroupRes) => {
+      const { data, error } = await supabasePublic.from('modifiers')
+        .select('*')
+        .match({
+          'modifier_groups_id': modifierGroupRes.id
+        });
+      if (error) throw error;
+      console.log('data: ', data);
+      setModifiers({
+        data: [...modifiers, ...data]
+      });
+      
+    });
+    console.log('aaa', modifiers);
+  };
+
+  const displayModifiers = async (modifierGroup) => {
+    const rightModifers = await modifiers.filter(modifier => modifier.modifier_groups_id === modifierGroup.id);
+    console.log('rightModifers: ', rightModifers);
+    // modifiers.map(modifier => {
+    //   return(
+    //     <label key={modifier.id}>
+    //       <Field type="checkbox" name={modifier.name} value="One" />
+    //       {modifier.name}
+    //     </label>
+    //   ); 
+    //   // return(modifierGroup.id === modifier.modifier_groups_id ? (
+    //   //   <label key={modifier.id}>
+    //   //     <Field type="checkbox" name={modifier.name} value="One" />
+    //   //     {modifier.name}
+    //   //   </label>
+    //   // ) : null);
+    // })
+    return(<Text>hi</Text>);
+  };
+
+  const handleCheckedModifiers = (e) => {
+    // const modifier = {
+    //   id: e.target.value,
+    //   name: e.target.name,
+    //   price: e.target.dataset.price
+    // };
+    // setSelectedModifiers([...selectedModifiers, modifier]);
+    // console.log('selected modifiers: ', selectedModifiers);
+  };
+
+  const handleSpecialRequest = (e) => {
+    setSpecialRequest(e.target.value);
+  };
+
   return (
-    <Box bg="#1e1e1e" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Box h="60px">
         <Navbar title={merchantStoreName} showBackButton={true}  />
       </Box>
@@ -109,27 +182,69 @@ export default function ModifiersPage() {
       <Container h="100%">
         
         <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
-          <Heading color="#dadada" mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
-          <Text color="#bababa" fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
-          <Text color="#bababa" fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
-          <Textarea minH="150" mt="8" color="#bababa" bg="#242424" borderColor={'#363636'} placeholder='Special requests' />
+          <Heading mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
+          <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
+          <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
+          
+          {modifierGroups.length > 1 ? (
+            modifierGroups.map((modifierGroup) => {
+              return (modifierGroup.product_id === merchantStoreSelectedProduct.item.id ? (
+                <Box key={modifierGroup.id} mb='4'>
+                  <Formik
+                    initialValues={{
+                      checked: [],
+                    }}
+                  >
+                    {({ values }) => (
+                      <Form
+                        onChange={(e) => handleCheckedModifiers(e)}>
+                        <Heading size={'lg'}>{modifierGroup.name}</Heading>
+                        <div role="group" aria-labelledby="checkbox-group">
+                          <Flex direction={'column'}>
+                            {/* {modifiers.length > 1 ? displayModifiers(modifierGroup) : null} */}
+                          </Flex>
+                        </div>
+
+                      </Form>
+                    )}
+                  </Formik>
+                </Box>
+              ) : null); 
+            })
+          ) : null}
+          
+          <Textarea 
+            onChange={(e) => handleSpecialRequest(e)} 
+            background={'#f6f6f6'}
+            minH="150"
+            mt="8"
+            placeholder='Special requests' />
           <HStack mt="8" maxW='320px' flexGrow={true}>
             <Button 
               border="1px solid #363636" 
-              bg="transparent"
-              color="#bababa" 
+              bg={'black'}
+              color={'#f6f6f6'}
               py='4' 
               h="100%" 
               maxH="64px" 
               minW="64px" {...inc}>+</Button>
-            <Input focusBorderColor={'#363636'} py='4' maxW="100px" color="#bababa" bg="#242424" borderColor={'#363636'}  textAlign={'center'} h="100%" maxH="64px" {...input} />
+            <Input 
+              background={'#f6f6f6'}
+              focusBorderColor={'#363636'} 
+              py='4'
+              maxW="100px"
+              borderColor={'#363636'}
+              textAlign={'center'}
+              h="100%"
+              maxH="64px"
+              {...input} />
             <Button 
+              border="1px solid #363636" 
+              bg={'black'}
+              color={'#f6f6f6'}
               py='4' 
               h="100%" 
-              bg="transparent" 
-              border="1px solid #363636" 
               maxH="64px" 
-              color="#bababa" 
               minW="64px" 
               {...dec}>-</Button>
           </HStack>
@@ -141,7 +256,7 @@ export default function ModifiersPage() {
           left="0"
           backdropFilter="blur(5px)"
           borderTop='1px solid rgba(255, 255, 255, 0.1)'
-          bg='rgba(22, 22, 22, 0.7)'
+          bg="RGBA(255, 255, 255, 0.90)" 
           py="4" 
           w="100%" 
           justifyContent="center"

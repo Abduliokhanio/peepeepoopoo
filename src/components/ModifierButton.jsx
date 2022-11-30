@@ -24,7 +24,7 @@ export default function ModifierButton({handleOnClick, totalPrice, isItemInCart}
         py="5"
         mr='8'
         borderRadius="md"
-        backgroundColor={'#085F63'}
+        backgroundColor={'black'}
       >
         <Flex justifyContent='space-between' px="8" alignItems="center">
           <Heading color="white" fontWeight='semibold' size="md">{buttonLabelType()}</Heading>
