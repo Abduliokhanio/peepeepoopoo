@@ -8,16 +8,11 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
-  const [userPrivate, setUserPrivate] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const session = supabasePublic.auth.getSession();
-    const sessionPrivate = supabasePrivate.auth.getSession();
-
     setUser(session?.user ?? null);
-    setUserPrivate(sessionPrivate?.user ?? null);
-
     setLoading(false);
 
     supabasePublic.auth.getSession().then(({ data: { session } }) => {
