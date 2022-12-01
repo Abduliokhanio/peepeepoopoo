@@ -14,6 +14,7 @@ import Account from './pages/profile/Account';
 import AccountDetails from './pages/profile/AccountDetails';
 import Signup from './pages/auth/Signup';
 import Verify from './pages/auth/Verify';
+import LandingPage from './pages/LandingPage';
 import Modifiers from './pages/Modifiers';
 import Tips from './pages/Tips';
 import PageNotFound from './pages/PageNotFound';
@@ -28,7 +29,7 @@ function App() {
         <div className="App">
           <AuthProvider>
             <Routes>
-              <Route exact path="/" />
+              <Route exact path="/" element={<LandingPage />}/>
               <Route path="/:merchant" element={<Categories />} />
               <Route path="/:merchant/table/*" element={<Categories />} />
               <Route path="products" element={<Products />} />
