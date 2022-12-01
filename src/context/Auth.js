@@ -31,12 +31,12 @@ export const AuthProvider = ({ children }) => {
     });
 
     supabasePrivate.auth.getSession().then(({ data: { session } }) => {
-      setUserPrivate(session?.user ?? null);
+      setUser(session?.user ?? null);
       setLoading(false);
     });
 
     supabasePrivate.auth.onAuthStateChange((_event, session) => {
-      setUserPrivate(session?.user ?? null);
+      setUser(session?.user ?? null);
       setLoading(false);
     });
 
@@ -51,8 +51,7 @@ export const AuthProvider = ({ children }) => {
     signUp: data => supabasePublic.auth.signUp(data),
     loginIn: (data) => supabasePublic.auth.signInWithPassword(data),
     signOut: () => supabasePublic.auth.signOut(),
-    user,
-    userPrivate
+    user
   };
 
   // use a provider to pass down the value
