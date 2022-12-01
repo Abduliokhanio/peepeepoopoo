@@ -102,6 +102,7 @@ export default function Verify() {
         <FormControl isInvalid={isCodeError}>
           <HStack justifyContent="center" w="100%" >
             <PinInput 
+              otp
               onComplete={(code) => handleVerify(code)}
               size="lg">
               <PinInputField />
