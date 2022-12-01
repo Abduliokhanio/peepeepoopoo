@@ -41,6 +41,18 @@ export default function Verify() {
     fetchCustomerData();
   };
 
+  const fetchCustomerData = async () => {
+    const { data, error } = await supabasePrivate
+      .from('customers')
+      .select('first_name, last_name').match({
+        id: user.id 
+      });
+    if (error) throw error;
+
+    dispatch(setFirstName(data[0].first_name));
+    dispatch(setLastName(data[0].last_name));
+  };
+
   const isNewCustomer = async () => {
     const { data, error } = await supabasePrivate
       .from('customers')
