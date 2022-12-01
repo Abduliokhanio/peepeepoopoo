@@ -20,9 +20,9 @@ export default function Verify() {
   const [codeMessage, setCodeMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  supabasePrivate.auth.onAuthStateChange((event) => {
-    if (event == 'SIGNED_IN') isNewCustomer();
-  });
+  // supabasePrivate.auth.onAuthStateChange((event) => {
+  //   if (event == 'SIGNED_IN') isNewCustomer();
+  // });
 
   const handleVerify = async (code) => { 
     setLoading(true);
@@ -38,20 +38,20 @@ export default function Verify() {
       setLoading(false);
       throw error;
     }
-    fetchCustomerData();
+    isNewCustomer();
   };
 
-  const fetchCustomerData = async () => {
-    const { data, error } = await supabasePrivate
-      .from('customers')
-      .select('first_name, last_name').match({
-        id: user.id 
-      });
-    if (error) throw error;
+  // const fetchCustomerData = async () => {
+  //   const { data, error } = await supabasePrivate
+  //     .from('customers')
+  //     .select('first_name, last_name').match({
+  //       id: user.id 
+  //     });
+  //   if (error) throw error;
 
-    dispatch(setFirstName(data[0].first_name));
-    dispatch(setLastName(data[0].last_name));
-  };
+  //   dispatch(setFirstName(data[0].first_name));
+  //   dispatch(setLastName(data[0].last_name));
+  // };
 
   const isNewCustomer = async () => {
     const { data, error } = await supabasePrivate
@@ -60,11 +60,13 @@ export default function Verify() {
 
     console.log('error add: ', error);
 
-    if (error) addNewCustomer(); 
+    if (error) {
+      addNewCustomer(); 
+      return;
+    }
     dispatch(setFirstName(data[0].first_namee));
     dispatch(setLastName(data[0].last_name));
     navigate(`/${merchantURL}`);
-    
   };
 
   const addNewCustomer = async () => {
