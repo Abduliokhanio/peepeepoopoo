@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/Auth';
 import { supabasePrivate } from '../../services/supabasePrivate';
 import Navbar from '../../components/Navbar';
 import {
@@ -13,16 +12,15 @@ import { setFirstName, setLastName } from '../../context/slices/customerSlice';
 export default function Verify() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useAuth();
   const customerNumber = useSelector((state) => state.customer.mobileNumber);
   const merchantURL = useSelector((state) => state.merchant.urlPath);
   const [isCodeError, setIsCodeError] = useState(false);
   const [codeMessage, setCodeMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // supabasePrivate.auth.onAuthStateChange((event) => {
-  //   if (event == 'SIGNED_IN') isNewCustomer();
-  // });
+  supabasePrivate.auth.onAuthStateChange((event, session) => {
+    if (event == 'SIGNED_IN') isNewCustomer(session.user.id);
+  });
 
   const handleVerify = async (code) => { 
     setLoading(true);
@@ -38,46 +36,32 @@ export default function Verify() {
       setLoading(false);
       throw error;
     }
-    isNewCustomer();
   };
 
-  // const fetchCustomerData = async () => {
-  //   const { data, error } = await supabasePrivate
-  //     .from('customers')
-  //     .select('first_name, last_name').match({
-  //       id: user.id 
-  //     });
-  //   if (error) throw error;
-
-  //   dispatch(setFirstName(data[0].first_name));
-  //   dispatch(setLastName(data[0].last_name));
-  // };
-
-  const isNewCustomer = async () => {
-    const { data, error } = await supabasePrivate
+  const isNewCustomer = async (userID) => {
+    const { data } = await supabasePrivate
       .from('customers')
-      .select('*').eq('id', user.id);
+      .select('*').eq('id', userID);
 
-    console.log('error add: ', error);
-
-    if (error) {
-      addNewCustomer(); 
+    if (data.length === 0) {
+      addNewCustomer(userID); 
       return;
     }
+
     dispatch(setFirstName(data[0].first_namee));
     dispatch(setLastName(data[0].last_name));
     navigate(`/${merchantURL}`);
   };
 
-  const addNewCustomer = async () => {
+  const addNewCustomer = async (userID) => {
     const { error } = await supabasePrivate
       .from('customers')
       .insert({
-        id: user.id
+        id: userID
       });
 
     if (error) throw error;
-    navigate(`/${merchantURL}`);
+    navigate('/user/account-details');
   };
 
   const handleResend = async (e) => {
