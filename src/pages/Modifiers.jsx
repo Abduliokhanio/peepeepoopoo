@@ -4,12 +4,11 @@ import Navbar from '../components/Navbar';
 import {supabasePublic} from '../services/supabasePublic';
 import ModifierButton from '../components/ModifierButton';
 import {
-  Heading, Image, Checkbox, CheckboxGroup, Stack, Container, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
+  Heading, Image, Checkbox, CheckboxGroup, Stack, StackDivider, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, updateCart } from '../context/slices/cartSlice';
 import ShortUniqueId from 'short-unique-id';
-import { Formik, Field, Form } from 'formik';
 
 export default function ModifiersPage() {
   const dispatch = useDispatch();
@@ -145,24 +144,31 @@ export default function ModifiersPage() {
       {merchantStoreSelectedProduct.item.image_url !== null ? (
         <Image h="175" w="100vw" mb="4" objectFit="cover" src={merchantStoreSelectedProduct.item.image_url} alt="menu" />
       ) : <Divider mb="8" />}
-      <Container h="100%">
+      <Box h="100%" pb="200px">
         
         <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
-          <Heading mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
-          <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
-          <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
+          <Box px="6" mb="8">
+            <Heading mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
+            <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
+            <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
+          </Box>
           
           {modifierGroups.length > 1 ? (
             modifierGroups.map((modifierGroup) => {
               return (modifierGroup.product_id === merchantStoreSelectedProduct.item.id ? (
                 <Box key={modifierGroup.id} mb='4'>
-                  <Heading size={'lg'}>{modifierGroup.name}</Heading>
-                  <Text>{modifierGroup.description}</Text>
+                  <Box py="4" px="6" mb="2" bg="gray.100">
+                    <Heading size={'md'}>{modifierGroup.name}</Heading>
+                    <Text>{modifierGroup.description}</Text>
+                  </Box>
                   <CheckboxGroup>
-                    <Stack direction='column'>
+                    <Stack 
+                      direction='column' 
+                      px="6"
+                      divider={<StackDivider borderColor='gray.200' />}>
                       {modifierGroup?.modifiers?.map(modifier => {
                         return(
-                          <Checkbox key={modifier.id} value={modifier.name}>{modifier.name}</Checkbox>
+                          <Checkbox py="3" key={modifier.id} value={modifier.name}>{modifier.name}</Checkbox>
                         );  
                       })}
                     </Stack>
@@ -171,13 +177,19 @@ export default function ModifiersPage() {
               ) : null); 
             })
           ) : null}
-          <Textarea 
-            onChange={(e) => handleSpecialRequest(e)} 
-            background={'#f6f6f6'}
-            minH="150"
-            mt="8"
-            placeholder='Special requests' />
-          <HStack mt="8" maxW='320px' flexGrow={true}>
+          <Box px="6">
+            <Textarea 
+              onChange={(e) => handleSpecialRequest(e)} 
+              background={'#f6f6f6'}
+              minH="150"
+              mt="8"
+              placeholder='Special requests' />
+          </Box>
+          <HStack 
+            mt="8" 
+            px="6"
+            maxW='320px' 
+            flexGrow={true}>
             <Button 
               border="1px solid #363636" 
               bg={'black'}
@@ -222,7 +234,7 @@ export default function ModifiersPage() {
         >
           <ModifierButton isItemInCart={isItemInCart} handleOnClick={handleCartButtoon} numberOfItems={itemCount} totalPrice={totalPrice} />
         </Flex>
-      </Container>
+      </Box>
       
     </Box>
   );
