@@ -34,7 +34,7 @@ export const cartSlice = createSlice({
     setOrderTip: (state, action) => {
       state.tip = action.payload;
     },
-    setOrderType: (state, action) => {
+    updateOrderMethod: (state, action) => {
       state.orderType = action.payload;
     },
     setOrderTotal: (state, action) => {
@@ -52,7 +52,7 @@ export const {
   updateCart,
   removeFromCart,
   setOrderTip,
-  setOrderType,
+  updateOrderMethod,
   clearCart,
   setOrderTotal,
   setOrderTax
