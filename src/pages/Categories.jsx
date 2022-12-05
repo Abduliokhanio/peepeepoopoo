@@ -225,7 +225,11 @@ export default function CategoriesPage() {
             borderBottomWidth="1px"
             px="6" 
             bg="white">
-            <Text fontSize={'lg'}>Table {currentTableNumber}</Text>
+            {currentTableNumber ? (
+              <Text fontSize={'lg'}>Table {currentTableNumber}</Text>
+            ) : (
+              <Text fontSize={'lg'}>Where are you seated?</Text>
+            )}
             <Button onClick={changeTableDisclosure.onOpen}>Change</Button>
           </Flex>
         ) : null}
