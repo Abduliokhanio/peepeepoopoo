@@ -225,17 +225,13 @@ export default function CategoriesPage() {
 
         </VStack>
         <Stack pb='115' px="6">
-          {tableQRNumber === null ? (
-            <Text mt="8" mb="2" fontWeight="semibold" textAlign="left" w='100%'>Prep time is currently 15 minutes</Text>
-          ) : (
-            <Text mb="2" fontWeight="semibold" textAlign="left" w='100%'>Order to your table</Text>
-          )}
           
           <InfiniteScroll
             dataLength={merchantStore.menuOptions === null || merchantStore.menuOptions === undefined ? 0 : merchantStore.menuOptions.length} 
             next={fetchMoreData}
           >
             <VStack
+              mt="8"
               spacing='6'
               align="stretch"
             >

@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import {supabasePublic} from '../services/supabasePublic';
 import ModifierButton from '../components/ModifierButton';
 import {
-  Heading, Image, Container, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
+  Heading, Image, Checkbox, CheckboxGroup, Stack, Container, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, updateCart } from '../context/slices/cartSlice';
@@ -21,17 +21,14 @@ export default function ModifiersPage() {
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
-
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct.item.price);
   const [itemCount, setItemCount] = useState(1);
   const [isItemInCart, setIsItemInCart] = useState(false);
-
   const [modifierGroups, setModifierGroups] = useState([]);
   const [modifiers, setModifiers] = useState([]);
   const [selectedModifiers, setSelectedModifiers] = useState([]);
   const [specialRequest, setSpecialRequest] = useState('');
-
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
       step: 1,
@@ -65,8 +62,8 @@ export default function ModifiersPage() {
       console.log('old itemCount: ', itemCount);
     }
 
-    const modifierGroupsRes = await fetchModifierGroups();
-    await fetchModifiers(modifierGroupsRes);
+    const modifierGroupsData = await fetchModifierGroups();
+    await fetchModifiers(modifierGroupsData);
     setLoading(false);
   };
   
@@ -120,51 +117,20 @@ export default function ModifiersPage() {
     return data;
   };
 
-  const fetchModifiers = async (modifierGroupsRes) => {
-    await modifierGroupsRes.forEach(async (modifierGroupRes) => {
+  const fetchModifiers = async (modifierGroupsData) => {
+    const hydratedModifierGroups = modifierGroupsData.map(async (modifierGroup) => {
       const { data, error } = await supabasePublic.from('modifiers')
         .select('*')
         .match({
-          'modifier_groups_id': modifierGroupRes.id
+          'modifier_groups_id': modifierGroup.id
         });
-      if (error) throw error;
-      console.log('data: ', data);
-      setModifiers({
-        data: [...modifiers, ...data]
-      });
-      
+      return {
+        ...modifierGroup, modifiers: data 
+      };
     });
-    console.log('aaa', modifiers);
-  };
 
-  const displayModifiers = async (modifierGroup) => {
-    const rightModifers = await modifiers.filter(modifier => modifier.modifier_groups_id === modifierGroup.id);
-    console.log('rightModifers: ', rightModifers);
-    // modifiers.map(modifier => {
-    //   return(
-    //     <label key={modifier.id}>
-    //       <Field type="checkbox" name={modifier.name} value="One" />
-    //       {modifier.name}
-    //     </label>
-    //   ); 
-    //   // return(modifierGroup.id === modifier.modifier_groups_id ? (
-    //   //   <label key={modifier.id}>
-    //   //     <Field type="checkbox" name={modifier.name} value="One" />
-    //   //     {modifier.name}
-    //   //   </label>
-    //   // ) : null);
-    // })
-    return(<Text>hi</Text>);
-  };
-
-  const handleCheckedModifiers = (e) => {
-    // const modifier = {
-    //   id: e.target.value,
-    //   name: e.target.name,
-    //   price: e.target.dataset.price
-    // };
-    // setSelectedModifiers([...selectedModifiers, modifier]);
-    // console.log('selected modifiers: ', selectedModifiers);
+    setModifierGroups(await Promise.all(hydratedModifierGroups));
+    console.log('hydrated modifier groups: ', await Promise.all(hydratedModifierGroups));
   };
 
   const handleSpecialRequest = (e) => {
@@ -190,29 +156,21 @@ export default function ModifiersPage() {
             modifierGroups.map((modifierGroup) => {
               return (modifierGroup.product_id === merchantStoreSelectedProduct.item.id ? (
                 <Box key={modifierGroup.id} mb='4'>
-                  <Formik
-                    initialValues={{
-                      checked: [],
-                    }}
-                  >
-                    {({ values }) => (
-                      <Form
-                        onChange={(e) => handleCheckedModifiers(e)}>
-                        <Heading size={'lg'}>{modifierGroup.name}</Heading>
-                        <div role="group" aria-labelledby="checkbox-group">
-                          <Flex direction={'column'}>
-                            {/* {modifiers.length > 1 ? displayModifiers(modifierGroup) : null} */}
-                          </Flex>
-                        </div>
-
-                      </Form>
-                    )}
-                  </Formik>
+                  <Heading size={'lg'}>{modifierGroup.name}</Heading>
+                  <Text>{modifierGroup.description}</Text>
+                  <CheckboxGroup>
+                    <Stack direction='column'>
+                      {modifierGroup?.modifiers?.map(modifier => {
+                        return(
+                          <Checkbox key={modifier.id} value={modifier.name}>{modifier.name}</Checkbox>
+                        );  
+                      })}
+                    </Stack>
+                  </CheckboxGroup>
                 </Box>
               ) : null); 
             })
           ) : null}
-          
           <Textarea 
             onChange={(e) => handleSpecialRequest(e)} 
             background={'#f6f6f6'}
