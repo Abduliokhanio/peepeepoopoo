@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  Box, Text, Heading, Stack, Flex, Image
+  Box, Text, Heading, Stack, Flex, Image, IconButton, Icon
 } from '@chakra-ui/react';
+import { BsHeart } from 'react-icons/bs';
 
 export default function ProductItem({title, desc, price, qty, page, imageURL, ...rest}) 
 {
@@ -33,7 +34,13 @@ export default function ProductItem({title, desc, price, qty, page, imageURL, ..
             <Heading fontSize="xl">{title}</Heading>
             <Text fontSize="sm">{desc}</Text>
           </Stack>
-          <Text w="100%" textAlign="left" fontSize="lg">${priceLength()}</Text>
+          <Flex direction={'row'} alignItems={'center'}>
+            <Text w="100%" textAlign="left" fontSize="lg">${priceLength()}</Text>
+            <IconButton
+              bg="transparent"
+              icon={<Icon color="gray.500" h="5" w="5" as={BsHeart} />}
+            />
+          </Flex>
         </Flex>
       </Flex>
     </Box>

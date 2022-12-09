@@ -101,7 +101,7 @@ export default function OrderConfirmed() {
     payment.processSale({
       'type': 'sale',
       'amount': totalCost
-    }, recordCustomerReciept, ticketID);
+    }, recordCustomerReciept, ticketID, setLoadingPayment);
   };
 
   const sendTicketToKDS = async () => {
