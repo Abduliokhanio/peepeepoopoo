@@ -47,8 +47,6 @@ export default function ProductsPage() {
   };
 
   const displayMenuSelections = () => {
-    // console.log(merchantStore.menuOptions);
-    
     return (merchantStore.menuOptions.map((menu, index) =>  (
       <option key={index} value={menu.id}>{menu.name}</option>)
     ));
@@ -63,12 +61,10 @@ export default function ProductsPage() {
   };
 
   const displayProducts = () => {
-    // console.log('display products:', merchantStoreProducts);
-    
     return(
       currentProducts.map((product, index) => (<ProductItem
         key={index}
-        onClick={() => handleProductSelect(product)}
+        product={product}
         title={product.name}
         desc={product.description}
         price={product.price}
@@ -76,22 +72,18 @@ export default function ProductsPage() {
       />)));
   };
 
-  const handleProductSelect = (product) => {   
-    const cartItem = {
-      id: uid(), item: product, quantity: 1, modifiers: null 
-    };  
-    dispatch(setSelectedProduct(cartItem));
-    navigate('/modifiers');
-  };
+  // const handleProductSelect = (product) => {   
+  //   const cartItem = {
+  //     id: uid(), item: product, quantity: 1, modifiers: null 
+  //   };  
+  //   dispatch(setSelectedProduct(cartItem));
+  //   navigate('/modifiers');
+  // };
 
   const handleCategorySelect = async (option) => {
-    console.log('options.target.value:', option.target.value);
-   
-    // dispatch(setCategoryName(option.target.value));
     dispatch(setCategoryID(parseInt(option.target.value)));
     setSelectedCategory(parseInt(option.target.value));
     filterSelectedProducts(parseInt(option.target.value));
-    console.log('selectedCategory:', selectedCategory);
   };
 
   return (
@@ -102,6 +94,7 @@ export default function ProductsPage() {
           <Select 
             borderColor={'gray.300'}
             maxW="200" 
+            bg="white"
             value={selectedCategory} 
             onChange={(option) => handleCategorySelect(option)}>
             {currentProducts.length === 0 ? null : displayMenuSelections()}
