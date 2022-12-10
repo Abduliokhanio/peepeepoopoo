@@ -129,12 +129,22 @@ export default function CategoriesPage() {
 
   const displayMenus = () => {
     return(
-      merchantStore.menuOptions.map((menu, index) => (<MenuCard
-        key={index}
-        onClick={() => handleMenuSelect(menu.id, menu.name)}
-        title={menu.name}
-        desc={menu.description}
-      />)));
+      merchantStore.menuOptions.map((menu, index) => (
+        <Flex 
+          key={index} 
+          onClick={() => handleMenuSelect(menu.id, menu.name)}
+          borderBottom='1px' 
+          borderColor='gray.200' 
+          px="6" 
+          py="6" 
+          justifyContent="space-between">
+          <VStack spacing="1">
+            <Text  textAlign={'left'} fontSize="xl" w="100%">{menu.name}</Text>
+            <Text  textAlign={'left'} fontSize="sm" w="100%" color="gray.500">{menu.description}</Text>
+          </VStack>
+          <ChevronRightIcon />
+        </Flex>
+      )));
   };
 
   const fetchMoreData = () => {
