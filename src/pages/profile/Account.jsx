@@ -34,6 +34,12 @@ export default function AccountPage() {
     else handleSelect(option);
   };
 
+  const handleLogout = async () => {
+    const { error } = await supabasePrivate.auth.signOut();
+    if (error) console.log('Error signing out: ', error);
+    else navigate('/auth/signup');
+  };
+
   return (
     <Stack backgroundColor="#F9FBFC;" direction="column" minH="100vh" h="100%">
       <Navbar title="Your account" showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
@@ -63,6 +69,8 @@ export default function AccountPage() {
           <ChevronRightIcon />
         </Flex>
       </Box>
+
+      <Text onClick={() => handleLogout()} position={'absolute'} bottom={10} left={10}>Logout</Text>
     </Stack>
   );
 }

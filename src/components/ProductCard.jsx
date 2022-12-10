@@ -1,27 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ShortUniqueId from 'short-unique-id';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAuth } from '../context/Auth';
 import {
   Box, Text, Heading, Stack, Flex, Image, IconButton, Icon
 } from '@chakra-ui/react';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { setSelectedProduct } from '../context/slices/merchantSlice';
+import { supabasePrivate } from '../services/supabasePrivate';
 
 export default function ProductItem({product, title, desc, price, qty, page, imageURL, ...rest}) 
-{
+{ 
+  const { user } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uid = new ShortUniqueId({
     length: 10 
   });
+  const merchantID = useSelector(state => state.merchant.merchantID);
+
   const [isFavorite, setIsFavorite] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
+
+  useEffect(() => {
+    isFavorited();
+  }, []);
+
+  useEffect(() => {
+    if (firstLoad === false) handleFavorite();
+  }, [isFavorite]);
+
+  if (user === null) navigate('/auth/signup');
+
+  const isFavorited = () => {
+    supabasePrivate.from('customers_favorites').select('*').eq('product_id', product.id).then(({ data, error }) => {
+      if (error) throw error;
+      if (data.length > 0) setIsFavorite(true); 
+      setFirstLoad(false);
+    });
+  };
+
+  const handleFavorite = () => {
+    console.log('h1');
+
+    if (isFavorite === true && firstLoad === false) {
+      supabasePrivate.from('customers_favorites').select('*').eq('product_id', product.id).then(({ data, error }) => {
+        if (error) throw error;
+        if (data.length === 0) {
+          supabasePrivate.from('customers_favorites').insert([
+            {
+              product_id: product.id, 
+              merchant_id: merchantID,
+              customer_id: user.id
+            }
+          ]).then(({ error }) => {
+            if (error) throw error;
+          });   
+        }
+      });
+      
+    } else {
+      supabasePrivate.from('customers_favorites').delete().eq('product_id', product.id).then(({ error }) => {
+        if (error) throw error;
+      });
+    }
+  };
 
   const handleElementClick = (e) => {
-    console.log(e);
     if (e === 'favoriteButtonOutline' || e === 'favoriteButtonFilled') {
       setIsFavorite(!isFavorite);
-      console.log('like button clicked');
     }
     if (e === 'productTitle' || e === 'productDesc' || e === 'productPrice') handleProductSelect(product);
   };

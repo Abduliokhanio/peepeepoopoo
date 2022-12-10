@@ -6,7 +6,7 @@ export const customerSlice = createSlice({
     mobileNumber: null,
     firstName: null,
     lastName: null,
-    emailAddress:null,
+    emailAddress: null,
     hasPaymentMethod: false
   },
   reducers: {
