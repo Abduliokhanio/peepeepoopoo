@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabasePublic } from '../services/supabasePublic';
@@ -12,6 +13,7 @@ import { ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setTableNumber } from '../context/slices/merchantSlice';
 import { setOrderTax, updateOrderMethod } from '../context/slices/cartSlice';
+import { amplitude } from 'amplitude-js';
 
 export default function CategoriesPage() {
   const cart = useSelector(state => state.cart.items);
@@ -24,6 +26,7 @@ export default function CategoriesPage() {
   const [currentTableNumber, setCurrentTableNumber] = useState(null);
   const [merchantURL, setMerchantURL] = useState(null);
   const [bannerImageURL, setBannerImageURL] = useState(null);
+  const [merchantName, setMerchantName] = useState(null);
   const [orderMethod, setOrderMethod] = useState(currentTableNumber ? 'Dine-in' : 'Pickup');
 
   useEffect(() => {
@@ -35,6 +38,10 @@ export default function CategoriesPage() {
     const merchantID = await fetchMerchantInfo(merchantURLPath);
     await fetchMenu(merchantID);
     await fetchProducts(merchantID);
+    amplitude.getInstance().init(process.env.REACT_APP_AMPLITUDE_KEY);
+    amplitude.getInstance().logEvent({
+      merchant: merchantName
+    });
     
   };
 
@@ -85,6 +92,7 @@ export default function CategoriesPage() {
     dispatch(setOrderTax(fetchMerchant.data[0].sales_tax));
     dispatch(setMerchantID(fetchMerchant.data[0].id));
     dispatch(setBrandName(fetchMerchant.data[0].name));
+    setMerchantName(fetchMerchant.data[0].name);
    
     return fetchMerchant.data[0].id;
   };
