@@ -1,5 +1,4 @@
 [[redirects]]
-  from = "/"
-  to = "syrbal.com"
+  from = "/*"
+  to = "/"
   status = 200
-
