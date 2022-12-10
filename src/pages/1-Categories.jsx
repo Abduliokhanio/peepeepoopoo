@@ -13,7 +13,7 @@ import { ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setTableNumber } from '../context/slices/merchantSlice';
 import { setOrderTax, updateOrderMethod } from '../context/slices/cartSlice';
-import amplitude, { track } from '@amplitude/analytics-browser';
+import { track, init } from '@amplitude/analytics-browser';
 
 export default function CategoriesPage() {
   const cart = useSelector(state => state.cart.items);
@@ -38,7 +38,7 @@ export default function CategoriesPage() {
     const merchantID = await fetchMerchantInfo(merchantURLPath);
     await fetchMenu(merchantID);
     await fetchProducts(merchantID);
-    amplitude.init(process.env.REACT_APP_AMPLITUDE_KEY);
+    init(process.env.REACT_APP_AMPLITUDE_KEY);
     track('Page Visit', merchantName);
     
   };
