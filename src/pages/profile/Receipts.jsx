@@ -4,13 +4,12 @@ import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/Auth';
 import { supabasePrivate } from '../../services/supabasePrivate';
 import {
-  Box, TableContainer, Table, TableCaption, Thead, Tr, Th, Td, Tfoot, Tbody
+  Box, TableContainer, Table, Thead, Tr, Th, Td, Tbody
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 export default function Orders() {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [receipts, setReceipts] = useState([]);
@@ -40,7 +39,7 @@ export default function Orders() {
       return (
         <Tr key={order.id}>
           <Td>{newDate}</Td>
-          <Td>{order.merchant}</Td>
+          <Td>{order.merchant_name}</Td>
           <Td>{order.order_type}</Td>
           <Td>{order.total_cost}</Td>
         </Tr>
