@@ -136,7 +136,8 @@ export default function CategoriesPage() {
           borderBottom='1px' 
           borderColor='gray.200' 
           px="6" 
-          py="6" 
+          py="4" 
+          alignItems={'center'}
           justifyContent="space-between">
           <VStack spacing="1">
             <Text  textAlign={'left'} fontSize="xl" w="100%">{menu.name}</Text>
@@ -256,8 +257,7 @@ export default function CategoriesPage() {
             next={fetchMoreData}
           >
             <VStack
-              mt="8"
-              spacing='6'
+              mt="2"
               align="stretch"
             >
               {merchantStore.menuOptions === null || merchantStore.menuOptions === undefined ? null : displayMenus()}

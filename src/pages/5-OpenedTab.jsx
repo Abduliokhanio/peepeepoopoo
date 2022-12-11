@@ -13,6 +13,8 @@ import Payment from '../tools/payment';
 import AppleGooglePay from '../tools/collectjs';
 import {CiEdit} from 'react-icons/ci';
 import { Icon } from '@chakra-ui/icons';
+import SelectPaymentMethods from '../components/SelectPaymentMethods';
+import AddPaymentMethod from '../components/AddPaymentMethod';
 
 export default function OrderConfirmed() {
   const CollectJS = new AppleGooglePay();
@@ -161,7 +163,6 @@ export default function OrderConfirmed() {
         <Flex
           direction="column"
         >
-        
           <VStack px="6" mt="4">
             <Box bg="white" borderWidth="1px" width="100%" pt="6">
               {tableNumber === null ? (
@@ -212,8 +213,16 @@ export default function OrderConfirmed() {
                   <Spacer />
                   <Text fontSize={'2rems'} fontWeight={'bold'}>${totalCost}</Text>
                 </Flex>
+               
               </VStack>
+              
             </Box>
+            
+            <Box bg="white" borderWidth="1px" width="100%" pt="6">
+              {SelectPaymentMethods()}
+              {AddPaymentMethod()}
+            </Box>
+          
             <VStack
               pos="fixed"
               bottom="0" 

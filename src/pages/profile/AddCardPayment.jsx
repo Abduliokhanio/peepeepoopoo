@@ -105,25 +105,14 @@ export default function PaymentMethod() {
 
   return (
     <Box>
-      <Navbar showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
+      <Navbar title={'Add Card'} showBackButton={true} />
       <VStack 
-        pt="115px"
         pb="300px"
         spacing={4}
         align="stretch"
         px="6"
       > 
-        <Box mb="12"> 
-          <Cards
-            cvv={cardInfo.cvv}
-            expiry={cardInfo.expiry}
-            focused={cardInputFocus}
-            name={cardInfo.name}
-            number={cardInfo.number}
-          />
-        </Box>
-
-        <FormControl mt="32" isInvalid={isCardNumberError}>
+        <FormControl mt={16} isInvalid={isCardNumberError}>
           <FormLabel fontSize='sm'>Card Number</FormLabel>
           <Input 
             value={cardInfo.number}
