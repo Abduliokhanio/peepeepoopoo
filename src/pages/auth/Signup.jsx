@@ -86,6 +86,10 @@ export default function Login() {
           _loading={{
             bg: 'transparent' 
           }}
+          _hover={{
+            bg: 'black',
+            color: 'white'
+          }}
           mx="6"
           w="100%"
           h="65px"

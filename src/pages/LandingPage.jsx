@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text } from '@chakra-ui/react';
+import { Text, Flex, Image } from '@chakra-ui/react';
+import logo from '../assets/logo-horizontal-w.svg';
 // import Navbar from '../components/landingPage/Navbar';
 // import Hero from '../components/landingPage/Hero';
 // import FeatureLeft from '../components/landingPage/FeatureLeft';
@@ -13,7 +14,16 @@ import { Text } from '@chakra-ui/react';
 export default function LandingPage() {
   return (
     <>
-      <Text mt="20">Coming Soon...</Text>
+      <Flex
+        backgroundImage={'radial-gradient(circle farthest-corner at 100% 100%, rgba(122, 167, 255, 0.32), transparent 44%), radial-gradient(circle farthest-corner at 0% 100%, rgba(255, 1, 1, 0.15), transparent 32%)'} 
+        backgroundColor="#1d1d1d" 
+        direction="column" 
+        minH="100vh" 
+        h="100%">
+        <Flex mt="15%" mb="8" px="6" h="20" alignItems="center" justifyContent="center">
+          <Image maxW="300px" objectFit="contain" src={logo} />
+        </Flex>
+      </Flex>
       {/* <Navbar />
       <Hero />
       <FeatureRight 
