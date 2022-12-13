@@ -23,6 +23,7 @@ export default function LandingPage() {
         <Flex mt="15%" mb="8" px="6" h="20" alignItems="center" justifyContent="center">
           <Image maxW="300px" objectFit="contain" src={logo} />
         </Flex>
+        <Text color="#8b9095" fontWeight={'medium'} fontSize={'lg'}>Coming soon...</Text>
       </Flex>
       {/* <Navbar />
       <Hero />
