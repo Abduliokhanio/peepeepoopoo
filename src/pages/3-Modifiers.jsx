@@ -143,6 +143,15 @@ export default function ModifiersPage() {
     return (<Text>{modifierGroup.description}</Text>);
   };
 
+  const modifierGroupRequired = (modifierGroup) => {
+    if (modifierGroup.required) return (
+      <Box bg="gray.100" borderRadius={'md'} px={2} py={1}>
+        <Text fontSize={'xs'} color="gray.500" >Required</Text>
+      </Box>
+    );
+    return null;
+  };
+
   return (
     <Box bg="white" minH="100vh">
       <Box h="60px">
@@ -164,10 +173,12 @@ export default function ModifiersPage() {
             modifierGroups.map((modifierGroup) => {
               return (modifierGroup.product_id === merchantStoreSelectedProduct.item.id ? (
                 <Box key={modifierGroup.id} mb='4'>
-                  <Box py="4" px="6" mb="2" bg="gray.100">
-                    <Heading size={'md'}>{modifierGroup.name}</Heading>
+                  <Box py="4" px="6" mb="2" bg="gray.50">
+                    <Flex alignItems={'center'} justifyContent='space-between' mb={1}>
+                      <Heading size={'md'}>{modifierGroup.name}</Heading>
+                      {modifierGroupRequired(modifierGroup)}
+                    </Flex>
                     {modifierGroupDescription(modifierGroup)}
-                    {/* <Text>{modifierGroup.description}</Text> */}
                   </Box>
                   <CheckboxGroup>
                     <Stack 
@@ -188,7 +199,7 @@ export default function ModifiersPage() {
           <Box px="6">
             <Textarea 
               onChange={(e) => handleSpecialRequest(e)} 
-              background={'#f6f6f6'}
+              background={'gray.50'}
               minH="150"
               mt="8"
               placeholder='Special requests' />
