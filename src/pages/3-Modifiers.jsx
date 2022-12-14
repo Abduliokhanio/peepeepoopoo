@@ -25,7 +25,6 @@ export default function ModifiersPage() {
   const [itemCount, setItemCount] = useState(1);
   const [isItemInCart, setIsItemInCart] = useState(false);
   const [modifierGroups, setModifierGroups] = useState([]);
-  const [modifiers, setModifiers] = useState([]);
   const [selectedModifiers, setSelectedModifiers] = useState([]);
   const [specialRequest, setSpecialRequest] = useState('');
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
@@ -65,17 +64,16 @@ export default function ModifiersPage() {
     await fetchModifiers(modifierGroupsData);
     setLoading(false);
   };
-  
+
   const handleCartButtoon = () => {
     if (isItemInCart) {
       const cartItemUpdate = { 
         id: merchantStoreSelectedProduct.id, 
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
-        modifiers: null, // TODO: update modifiers
-        sentToKitchen: merchantStoreSelectedProduct.sentToKitchen,
-        customerRecieved: merchantStoreSelectedProduct.customerRecieved,
-        orderPaid: merchantStoreSelectedProduct.paid 
+        modifiers: selectedModifiers, 
+        specialRequest: specialRequest,
+        status: 'pending',
       };
 
       console.log('update cartItem to: ', cartItemUpdate);
@@ -85,9 +83,9 @@ export default function ModifiersPage() {
         id: uid(), 
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
-        modifiers: null, // TODO: add initial modifiers
+        modifiers: selectedModifiers,
+        specialRequest: specialRequest,
         status: 'pending',
-        sentToKitchen: false
       };
         
       console.log('add new order to cart: ', cartOrderInsert);
@@ -131,6 +129,20 @@ export default function ModifiersPage() {
     console.log('hydrated modifier groups: ', await Promise.all(hydratedModifierGroups));
   };
 
+  const handleCheckboxChange =  (e, modifier, modifierGroup) => {
+    const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
+
+    if (e.target.checked) {
+      if (selectedModifierCount < modifierGroup.select_max) {
+        setSelectedModifiers([...selectedModifiers, {
+          ...modifier, isChecked: true
+        }]);
+      } 
+    } else {
+      setSelectedModifiers(selectedModifiers.filter(item => item.id !== modifier.id));
+    }
+  };
+  
   const handleSpecialRequest = (e) => {
     setSpecialRequest(e.target.value);
   };
@@ -149,6 +161,23 @@ export default function ModifiersPage() {
       </Box>
     );
     return null;
+  };
+
+  const modifierDisableMax = (modifier, modifierGroup) => {
+
+    const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
+
+    if (selectedModifierCount < modifierGroup.select_max) {
+      return false;
+    }
+
+    // TODO: SET TRUE IF MODIFER IS IN MODIFIER GROUP
+  
+    if (selectedModifiers.filter(item => item.id === modifier.id).length === 0) {
+      return true;
+    }
+    
+    return false;
   };
 
   return (
@@ -186,7 +215,12 @@ export default function ModifiersPage() {
                       divider={<StackDivider borderColor='gray.200' />}>
                       {modifierGroup?.modifiers?.map(modifier => {
                         return(
-                          <Checkbox py="3" key={modifier.id} value={modifier.name}>{modifier.name}</Checkbox>
+                          <Checkbox 
+                            isDisabled={modifierDisableMax(modifier, modifierGroup)}
+                            onChange={(e) => handleCheckboxChange(e, modifier, modifierGroup)}
+                            py="3" 
+                            key={modifier.id} 
+                            value={modifier.name}>{modifier.name}</Checkbox>
                         );  
                       })}
                     </Stack>

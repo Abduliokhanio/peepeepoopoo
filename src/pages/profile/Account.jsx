@@ -36,7 +36,7 @@ export default function AccountPage() {
 
   const handleLogout = async () => {
     const { error } = await supabasePrivate.auth.signOut();
-    if (error) console.log('Error signing out: ', error);
+    if (error) throw error;
     else navigate('/auth/signup');
   };
 
