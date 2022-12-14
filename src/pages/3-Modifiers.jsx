@@ -109,11 +109,10 @@ export default function ModifiersPage() {
       .match({
         'product_id': merchantStoreSelectedProduct.item.id
       });
-
-    console.log('modifier groups: ', data);
     if (error) throw error;
-    setModifierGroups(data);
-    return data;
+    const sortModifierGroupOrder = data.sort((a, b) => b.required - a.required);
+    setModifierGroups(sortModifierGroupOrder);
+    return sortModifierGroupOrder;
   };
 
   const fetchModifiers = async (modifierGroupsData) => {
