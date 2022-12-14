@@ -89,23 +89,25 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
       borderRadius='lg' 
       overflow='hidden' 
       borderWidth="0.5px" {...rest}>
-      <Flex h="125" direction="row">
+      <Flex direction="column">
         {imageURL !== null ? (
           <Image 
             id='productImg'
-            h="100%" 
-            maxW="125" 
+            maxH="125px" 
             objectFit="cover"
             src={imageURL} 
             alt="menu" />
         ) : null}
         <Flex 
           mx="4" 
-          my="1"
+          mt="3"
+          mb="1"
           direction='column' 
-          w="100%" 
           justifyContent="space-around">
-          <Stack w="100%" textAlign="left">
+          <Stack 
+            id="productInfo"
+            w="100%" 
+            textAlign="left">
             <Heading 
               onClick={() => handleElementClick('productTitle')}
               fontSize="xl">{title}</Heading>
@@ -113,10 +115,15 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
               onClick={() => handleElementClick('productDesc')}
               fontSize="sm">{desc}</Text>
           </Stack>
-          <Flex direction={'row'} alignItems={'center'} justifyContent="space-between">
+          <Flex 
+            id="productPriceAndFavorite"
+            direction={'row'} 
+            alignItems={'center'} 
+            justifyContent="space-between">
             <Text 
+              id='productPrice'
+
               onClick={() => handleElementClick('productPrice')}
-              w="100%" 
               textAlign="left" 
               fontSize="lg">${price.toFixed(2)}</Text>
             {isFavorite ? (
@@ -132,6 +139,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
                     h="5"
                     w="5" 
                     as={BsHeartFill} /> } />
+  
             ) : (
               <IconButton
                 _focus={{
@@ -139,6 +147,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
                 }}
                 onClick={() => handleElementClick('favoriteButtonOutline')}
                 bg="transparent"
+                pb="0"
                 icon={
                   <Icon 
                     color='gray.500'
