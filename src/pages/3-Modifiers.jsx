@@ -136,6 +136,13 @@ export default function ModifiersPage() {
     setSpecialRequest(e.target.value);
   };
 
+  const modifierGroupDescription = (modifierGroup) => {
+    if (modifierGroup.select_count === 1) return (<Text>Select one</Text>);
+    else if (modifierGroup.select_count >= 2) return (<Text>Select up to {modifierGroup.select_count}</Text>);
+
+    return (<Text>{modifierGroup.description}</Text>);
+  };
+
   return (
     <Box bg="white" minH="100vh">
       <Box h="60px">
@@ -159,7 +166,8 @@ export default function ModifiersPage() {
                 <Box key={modifierGroup.id} mb='4'>
                   <Box py="4" px="6" mb="2" bg="gray.100">
                     <Heading size={'md'}>{modifierGroup.name}</Heading>
-                    <Text>{modifierGroup.description}</Text>
+                    {modifierGroupDescription(modifierGroup)}
+                    {/* <Text>{modifierGroup.description}</Text> */}
                   </Box>
                   <CheckboxGroup>
                     <Stack 
