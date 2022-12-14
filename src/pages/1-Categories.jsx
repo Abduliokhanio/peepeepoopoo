@@ -105,7 +105,9 @@ export default function CategoriesPage() {
       });
 
     if (fetchMenus.data.length === 0 ) throw fetchMenu.error;
-    dispatch(setMenuOptions(fetchMenus.data));
+    const sortedCategories = fetchMenus.data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
+    console.log('sortedCategories:', sortedCategories);
+    dispatch(setMenuOptions(sortedCategories));
     setLoadingMenu(false);
   };
 
