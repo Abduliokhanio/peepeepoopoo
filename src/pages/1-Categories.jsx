@@ -7,7 +7,7 @@ import MenuCard from '../components/CategoryCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
 import {
-  Stack, VStack, HStack, Button, Drawer, DrawerOverlay, DrawerBody, DrawerHeader, DrawerContent, useDisclosure, useEditableControls, Text, EditableInput, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
+  Stack, VStack, HStack, Image, Button, Drawer, DrawerOverlay, DrawerBody, DrawerHeader, DrawerContent, useDisclosure, useEditableControls, Text, EditableInput, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
 } from '@chakra-ui/react';
 import { ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -221,7 +221,7 @@ export default function CategoriesPage() {
           backgroundPosition="center">
           <Flex 
             backdropFilter="blur(3px)"
-            bg='rgba(240, 240, 240, 0.7)'            
+            bg='rgba(240, 240, 240, 0.8)'            
             px="6"
             py="3"
             borderWidth="1px"
@@ -238,6 +238,7 @@ export default function CategoriesPage() {
         </VStack>
         {orderMethod === 'Dine-in' ? (
           <Flex 
+            id="selectTableNumberWrapper"
             justifyContent={'space-between'} 
             alignItems={'center'}
             py="4"

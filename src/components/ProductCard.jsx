@@ -42,8 +42,6 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
   };
 
   const handleFavorite = () => {
-    console.log('h1');
-
     if (isFavorite === true && firstLoad === false) {
       supabasePrivate.from('customers_favorites').select('*').eq('product_id', product.id).then(({ data, error }) => {
         if (error) throw error;
@@ -71,7 +69,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
     if (e === 'favoriteButtonOutline' || e === 'favoriteButtonFilled') {
       setIsFavorite(!isFavorite);
     }
-    if (e === 'productTitle' || e === 'productDesc' || e === 'productPrice') handleProductSelect(product);
+    if (e === 'productSelect') handleProductSelect(product);
   };
 
   const handleProductSelect = (product) => {   
@@ -93,6 +91,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
         {imageURL !== null ? (
           <Image 
             id='productImg'
+            onClick={() => handleElementClick('productSelect')}
             maxH="125px" 
             objectFit="cover"
             src={imageURL} 
@@ -109,10 +108,10 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
             w="100%" 
             textAlign="left">
             <Heading 
-              onClick={() => handleElementClick('productTitle')}
+              onClick={() => handleElementClick('productSelect')}
               fontSize="xl">{title}</Heading>
             <Text 
-              onClick={() => handleElementClick('productDesc')}
+              onClick={() => handleElementClick('productSelect')}
               fontSize="sm">{desc}</Text>
           </Stack>
           <Flex 
@@ -122,8 +121,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
             justifyContent="space-between">
             <Text 
               id='productPrice'
-
-              onClick={() => handleElementClick('productPrice')}
+              onClick={() => handleElementClick('productSelect')}
               textAlign="left" 
               fontSize="lg">${price.toFixed(2)}</Text>
             {isFavorite ? (
