@@ -125,13 +125,16 @@ export default function OrderConfirmed() {
   };
 
   const sendOrderToKDS = async (ticketID) => {
+   
     await pendingOrders.forEach(async (item) => {
+      console.log(item.modifiers);
       const { error } = await supabasePrivate.from('orders').insert({
         customer_id: user.id,
         room_id: `admin-${merchantStore.urlPath}`,  
         ticket_id: ticketID,
         item: item.item, 
-        // modifiiers: item.modifiers,
+        modifiers: item.modifiers,
+        special_request: item.specialRequest,
         status: 'sentToKitchen',
         quantity: item.quantity
       });

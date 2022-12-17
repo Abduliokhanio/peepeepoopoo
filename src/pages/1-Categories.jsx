@@ -1,23 +1,38 @@
 /* eslint-disable no-undef */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabasePublic } from '../services/supabasePublic';
+import { supabasePrivate } from '../services/supabasePrivate';
 import Navbar from '../components/Navbar';
-import MenuCard from '../components/CategoryCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/CheckoutButton';
+import { useAuth } from '../context/Auth';
 import {
-  Stack, VStack, HStack, Image, Button, Drawer, DrawerOverlay, DrawerBody, DrawerHeader, DrawerContent, useDisclosure, useEditableControls, Text, EditableInput, Flex, Spacer, Editable, IconButton, EditablePreview, EditableControls, Input, ButtonGroup, Box
+  Stack, VStack, HStack, Button, Drawer, DrawerOverlay, DrawerBody, DrawerHeader, DrawerContent, useDisclosure, Text, Flex, Spacer, Input, Box
 } from '@chakra-ui/react';
 import { ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { setMerchantID, setProducts, setURLPath, setBrandName, setMenuOptions, setCategoryName, setCategoryID, setTableNumber } from '../context/slices/merchantSlice';
+import {setMerchantID, 
+  setProducts, 
+  setURLPath, 
+  setBrandName, 
+  setMenuOptions, 
+  setCategoryName,
+  setCategoryID, 
+  setTableNumber, 
+  updateBannerImageURL,
+  updateAddress } from '../context/slices/merchantSlice';
 import { setOrderTax, updateOrderMethod } from '../context/slices/cartSlice';
+import { setFirstName, setLastName } from '../context/slices/customerSlice';
 import { track, init } from '@amplitude/analytics-browser';
 
 export default function CategoriesPage() {
   const cart = useSelector(state => state.cart.items);
   const merchantStore = useSelector(state => state.merchant);
+  const customerFirstName = useSelector(state => state.customer.firstName);
+  const customerLastName = useSelector(state => state.customer.lastName);
+  const selectedOrderMethod = useSelector(state => state.cart.orderType);
+  const { user } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const orderMethodDisclosure = useDisclosure();
@@ -25,23 +40,38 @@ export default function CategoriesPage() {
   const [loadingMenu, setLoadingMenu] = useState(false);
   const [currentTableNumber, setCurrentTableNumber] = useState(null);
   const [merchantURL, setMerchantURL] = useState(null);
-  const [bannerImageURL, setBannerImageURL] = useState(null);
+  const [bannerImageURL, setBannerImageURL] = useState(useSelector(state => state.merchant.bannerImageURL));
   const [merchantName, setMerchantName] = useState(null);
-  const [merchantAddress, setMerchantAddress] = useState(null);
-  const [orderMethod, setOrderMethod] = useState(currentTableNumber ? 'Dine-in' : 'Pickup');
+  const [merchantAddress, setMerchantAddress] = useState(useSelector(state => state.merchant.address));
+  const [orderMethod, setOrderMethod] = useState(selectedOrderMethod);
 
   useEffect(() => {
     initPage();
   }, []);
 
   const initPage = async () => {
-    const merchantURLPath = await checkURLPath();
-    const merchantID = await fetchMerchantInfo(merchantURLPath);
-    await fetchMenu(merchantID);
-    await fetchProducts(merchantID);
+    if (selectedOrderMethod === null) {
+      const merchantURLPath = await checkURLPath();
+      const merchantID = await fetchMerchantInfo(merchantURLPath);
+      await fetchMenu(merchantID);
+      await fetchProducts(merchantID);
+    }
     init(process.env.REACT_APP_AMPLITUDE_KEY);
     track('Page Visit', merchantName);
-    
+    await fetchCustomerInfo();
+  };
+
+  const fetchCustomerInfo = async () => {
+    const customerInfo = await supabasePrivate
+      .from('customers')
+      .select('first_name, last_name')
+      .match({
+        id: user.id
+      });
+
+    if (customerInfo.error) throw customerInfo.error;
+    dispatch(setFirstName(customerInfo.data[0].first_name));
+    dispatch(setLastName(customerInfo.data[0].last_name));
   };
 
   const checkURLPath = async () => {
@@ -91,6 +121,7 @@ export default function CategoriesPage() {
     dispatch(setOrderTax(fetchMerchant.data[0].sales_tax));
     dispatch(setMerchantID(fetchMerchant.data[0].id));
     dispatch(setBrandName(fetchMerchant.data[0].name));
+    dispatch(updateAddress(fetchMerchant.data[0].street_address));
     setMerchantName(fetchMerchant.data[0].name);
     setMerchantAddress(fetchMerchant.data[0].street_address);
    
@@ -169,6 +200,7 @@ export default function CategoriesPage() {
       .getPublicUrl(merchantURLPath + '/banner');
       
     if (bannerImage.data.publicUrl.length > 1) setBannerImageURL(bannerImage.data.publicUrl);
+    dispatch(updateBannerImageURL(bannerImage.data.publicUrl));
     if (bannerImage.error) throw bannerImage.error;
   };
 

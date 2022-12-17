@@ -5,6 +5,8 @@ export const merchantSlice = createSlice({
   initialState: {
     merchantID: null,
     urlPath: null,
+    bannerImageURL: null,
+    address: null,
     brandName: null,
     tableNumber: null,
     menuOptions: null,
@@ -45,12 +47,30 @@ export const merchantSlice = createSlice({
     },
     setSelectedProduct: (state, action) => {
       state.selectedProduct = action.payload;
+    },
+    updateBannerImageURL: (state, action) => {
+      state.bannerImageURL = action.payload;
+    },
+    updateAddress: (state, action) => {
+      state.address = action.payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setMerchantID, setBrandName, setURLPath, setMenuOptions, setProducts, setCategoryName, setCategoryID, setTableNumber, setSelectedProduct } = merchantSlice.actions;
+export const {
+  setMerchantID,
+  setBrandName,
+  setURLPath,
+  setMenuOptions,
+  setProducts,
+  setCategoryName,
+  setCategoryID,
+  setTableNumber,
+  setSelectedProduct,
+  updateBannerImageURL,
+  updateAddress
+} = merchantSlice.actions;
 
 export default merchantSlice.reducer;
 
