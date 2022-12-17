@@ -92,7 +92,6 @@ export default function CategoriesPage() {
     dispatch(setMerchantID(fetchMerchant.data[0].id));
     dispatch(setBrandName(fetchMerchant.data[0].name));
     setMerchantName(fetchMerchant.data[0].name);
-    console.log(fetchMerchant.data[0].street_address);
     setMerchantAddress(fetchMerchant.data[0].street_address);
    
     return fetchMerchant.data[0].id;
@@ -215,9 +214,9 @@ export default function CategoriesPage() {
         </DrawerContent>
       </Drawer>
       <Flex direction="column">
-        <Navbar title={merchantStore.brandName} showBackButton={false} showAccountButton={true} />
+        <Navbar title={merchantStore.brandName} showBackButton={false} showAccButton={true} />
         <VStack 
-          py={'20'}
+          py={'12'}
           backgroundImage={bannerImageURL} 
           backgroundSize="cover" 
           backgroundPosition="center">
@@ -284,7 +283,7 @@ export default function CategoriesPage() {
         </Stack>
         <Spacer />
       </Flex>
-      {cart ? <CheckoutButton handleCheckout={handleCheckout} /> : null}
+      {cart.length > 1 ? <CheckoutButton handleCheckout={handleCheckout} /> : null}
     </Box>
   );
 }

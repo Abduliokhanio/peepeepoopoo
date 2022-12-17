@@ -1,16 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Flex, Spacer, Heading, Box, extendTheme
+  Flex, Spacer, Heading, Box, Icon
 } from '@chakra-ui/react';
-import { ChevronLeftIcon, Icon } from '@chakra-ui/icons';
-import { CiShoppingCart } from 'react-icons/ci';
-import { CiUser } from 'react-icons/ci';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
+import { CiShoppingCart, CiUser } from 'react-icons/ci';
 
-export default function NavBar({ title, showBackButton, showLeftButton, showAccountButton }) {
+export default function NavBar({ title, showBackButton, showLeftButton, showAccButton }) {
   const navigate = useNavigate();
 
-  const navButton = (showBackButton) => {
+  const navButton = () => {
     if (showBackButton) {
       return (
         <Box onClick={() => navigate(-1)}>
@@ -27,8 +26,8 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAcco
     );
   };
 
-  const rightNavButton = (showAccountButton) => {
-    if (showAccountButton) {
+  const rightNavButton = () => {
+    if (showAccButton) {
       return (
         <Box onClick={() => navigate('/cart/opened-tab')}>
           <Icon color="gray.400" mt="1.5" h="8" w="8" as={CiShoppingCart} />
@@ -57,7 +56,7 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAcco
           color="#dadada" 
           fontSize="lg">{title}</Heading>
         <Spacer />
-        {rightNavButton(showAccountButton)}
+        {showAccButton ? rightNavButton(showAccButton) : null}
       </Flex>
     </Box>
   );

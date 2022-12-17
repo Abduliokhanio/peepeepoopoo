@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CheckoutButton() {
   const cart = useSelector(state => state.cart.items);
-  const pendingOrders = cart.filter(item => item.sentToKitchen === false);
+  const pendingOrders = cart.filter(item => item.status === 'pending');
   const pendingOrdersTotalCount = pendingOrders.reduce((acc, item) => acc + parseInt(item.quantity), 0);
   const pendingOrdersTotalPrice = pendingOrders.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
   const unPaidOrders = cart.filter(item => item.paid === false);
