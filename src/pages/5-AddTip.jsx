@@ -28,6 +28,10 @@ export default function TipsPage() {
   const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
   const [isThirdButtonSelected, setIsThirdButtonSelected] = useState(false);
 
+  useEffect(() => {
+    if (tip === null) setTip((subTotalWithTax*0.15).toFixed(2));
+  },[]);
+
   const handleContinue = () => {
     dispatch(setOrderTip(tip));
     navigate('/cart/checkout');
