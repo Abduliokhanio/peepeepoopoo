@@ -214,7 +214,7 @@ export default function CategoriesPage() {
         </DrawerContent>
       </Drawer>
       <Flex direction="column">
-        <Navbar title={merchantStore.brandName} showBackButton={false} showAccButton={true} />
+        <Navbar title={merchantStore.brandName} showBackButton={false} showTabButton={true} />
         <VStack 
           py={'12'}
           backgroundImage={bannerImageURL} 

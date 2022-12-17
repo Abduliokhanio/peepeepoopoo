@@ -37,6 +37,7 @@ export default function OrderConfirmed() {
   
   const orderType = useSelector(state => state.cart.orderType);
   const pendingOrders = cart.filter(item => item.status === 'pending');
+  const sentToKitchenOrders = cart.filter(item => item.status === 'sentToKitchen');
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
 
@@ -77,19 +78,6 @@ export default function OrderConfirmed() {
     if (querySavedData.data.length > 0) prefillFields(querySavedData.data[0]);
   };
 
-  const handleKeepTabOpen = async () => { 
-    setLoadingKeepTabOpen(true);
-    await sendTicketToKDS();
-    await pendingOrders.forEach((order) => {
-      dispatch(updateCart({
-        ...order, sentToKitchen: true
-      }));
-    });
-    
-    navigate(`/${merchantURLPath}`);
-    setLoadingKeepTabOpen(false);
-  };
-
   const handlePayment = async () => {
     setLoadingPayment(true);
     
@@ -105,36 +93,6 @@ export default function OrderConfirmed() {
       'type': 'sale',
       'amount': totalCost
     }, recordCustomerReciept, ticketID, setLoadingPayment);
-  };
-
-  const sendTicketToKDS = async () => {
-    const { data , error } = await supabasePrivate.from('tickets').insert({
-      customer_id: user.id,
-      room_id: `admin-${merchantStore.urlPath}`,
-      customer_name: customerFirstName + ' ' + customerLastName,
-      order_type: orderType,
-      table_number: tableNumber
-    }).select();
-    console.log(user.id, merchantStore.urlPath, customerFirstName + ' ' + customerLastName, orderType, tableNumber);
-    if (error) throw `${error}: Error sending ticket`;
-    await sendOrderToKDS(data[0].id);
-    return data[0].id;
-  };
-
-  const sendOrderToKDS = async (ticketID) => {
-    await pendingOrders.forEach(async (item) => {
-      const { error } = await supabasePrivate.from('orders').insert({
-        customer_id: user.id,
-        room_id: `admin-${merchantStore.urlPath}`,  
-        ticket_id: ticketID,
-        item: item.item, 
-        // modifiiers: item.modifiers,
-        status: 'sentToKitchen',
-        quantity: item.quantity
-      });
-
-      if (error) throw `${error}: Error sending order`;
-    });
   };
 
   const recordCustomerReciept = async (ticketID) => {
@@ -171,7 +129,7 @@ export default function OrderConfirmed() {
               ) : (
                 <Heading pl="6" mb="6" size="md" textAlign="left">Table #{tableNumber}</Heading>
               )}
-              {cart.map((item, index) => {
+              {sentToKitchenOrders.map((item, index) => {
                 return(
                   <Flex 
                     mb="6"

@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/Auth';
 import PrivateRoute from './components/PrivateRoute';
 import Receipts from './pages/profile/Receipts';
-import Review from './pages/4-Review';
+import Cart from './pages/4-Cart';
 import Confirmation from './pages/7-Confirmation';
 import Checkout from './pages/6-Checkout';
 import Categories from './pages/1-Categories';
@@ -43,11 +43,11 @@ function App() {
                 <Route path='/user/payment-methods' element={<PaymentMethods />} />
                 <Route path='/user/account-details' element={<AccountDetails />} />
                 <Route path="/user/receipts" element={<Receipts />} />
-                <Route path="/cart/review" element={<Review />} />
                 <Route path="/cart/tip" element={<Tip />} />
                 <Route path="/cart/checkout" element={<Checkout />} />
                 <Route path="/cart/confirmation" element={<Confirmation />} />
                 <Route path="/cart/manage-tab" element={<ManageTab />} />
+                <Route path="/cart" element={<Cart />} />
               </Route>   
               <Route path="404" element={<PageNotFound />} />
             </Routes>

@@ -76,7 +76,7 @@ export default function ProductsPage() {
   return (
     <Box bg="#f6f6f6" pb="300px">
       <Flex direction="column">
-        <Navbar title={merchantStoreCategoryName} showBackButton={true} />
+        <Navbar title={merchantStoreCategoryName} showBackButton={true}  showTabButton={true}/>
         <Box py="4" pl="6">
           <Select 
             borderColor={'gray.300'}

@@ -38,6 +38,7 @@ export default function OrderConfirmed() {
   
   const orderType = useSelector(state => state.cart.orderType);
   const pendingOrders = cart.filter(item => item.status === 'pending');
+  const openTabOrders = cart.filter(item => item.status === 'sentToKitchen');
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
 
@@ -224,13 +225,13 @@ export default function OrderConfirmed() {
               <SelectPaymentMethods  heading={'Select your payment method'} />
               <AddPaymentMethod />
               {isIOS() ? null : (
-                <Box px="6"  mt={3} mb={pendingOrders.length > 0 ? '6' : '3'}>
+                <Box px="6" mt={3} mb={openTabOrders.length > 0 ? '6' : '3'}>
                   <Alert py={4} px={6} status='warning'>
                     <Text color="orange.600">Looking for Apple Pay? Swith to Safari</Text>
                   </Alert>
                 </Box>
               )}
-              {pendingOrders.length > 0 ? null : (
+              {openTabOrders.length > 0 ? null : (
                 <Flex
                   onClick={() => handleKeepTabOpen()} 
                   pb="6"
@@ -243,7 +244,25 @@ export default function OrderConfirmed() {
                 </Flex>
               )}
             </Box>
-          
+
+            {openTabOrders.length > 0 ? (
+              <Box 
+                px="6"
+                w="100%">
+                <Button 
+                  mt="6"
+                  onClick={() => handleKeepTabOpen()} 
+                  w="100%" 
+                  py="8"
+                  size="lg"
+                  variant={'outline'}
+                  borderColor="black">
+                  <TabIcon />
+                  <Text ml="4">Keep tab open</Text>
+                </Button>
+              </Box>       
+            ) : null}
+        
             <VStack
               pos="fixed"
               bottom="0" 

@@ -34,7 +34,7 @@ export default function CheckoutPage() {
 
   return (
     <Box bg="#f6f9fc" minH="100vh" pb="300px">
-      <Navbar title={merchantStoreBrandName} showBackButton={true} />
+      <Navbar title={'Cart'} showBackButton={true} />
       <VStack
         pt={6}
         spacing={4}

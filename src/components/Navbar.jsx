@@ -4,11 +4,14 @@ import {
   Flex, Spacer, Heading, Box, Icon
 } from '@chakra-ui/react';
 import TabIcon from './icons/TabIcon';
+import { useSelector } from 'react-redux';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { CiShoppingCart, CiUser } from 'react-icons/ci';
+import { CiUser } from 'react-icons/ci';
 
-export default function NavBar({ title, showBackButton, showLeftButton, showAccButton }) {
+export default function NavBar({ title, showBackButton, showLeftButton, showTabButton }) {
   const navigate = useNavigate();
+  const cart = useSelector(state => state.cart.items);
+  const openTabOrders = cart.filter(item => item.status === 'sentToKitchen');
 
   const navButton = () => {
     if (showBackButton) {
@@ -28,7 +31,7 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAccB
   };
 
   const rightNavButton = () => {
-    if (showAccButton) {
+    if (showTabButton) {
       return (
         <Box onClick={() => navigate('/cart/manage-tab')}>
           <TabIcon />
@@ -57,7 +60,9 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAccB
           color="#dadada" 
           fontSize="lg">{title}</Heading>
         <Spacer />
-        {showAccButton ? rightNavButton(showAccButton) : null}
+        {openTabOrders.length > 0 ? (
+          rightNavButton(showTabButton)
+        ) : null}
       </Flex>
     </Box>
   );
