@@ -30,7 +30,6 @@ export default function CategoriesPage() {
   const cart = useSelector(state => state.cart.items);
   const merchantStore = useSelector(state => state.merchant);
   const customerFirstName = useSelector(state => state.customer.firstName);
-  const customerLastName = useSelector(state => state.customer.lastName);
   const selectedOrderMethod = useSelector(state => state.cart.orderType);
   const { user } = useAuth();
   const dispatch = useDispatch();
@@ -58,7 +57,7 @@ export default function CategoriesPage() {
     }
     init(process.env.REACT_APP_AMPLITUDE_KEY);
     track('Page Visit', merchantName);
-    await fetchCustomerInfo();
+    if (customerFirstName === null) await fetchCustomerInfo();
   };
 
   const fetchCustomerInfo = async () => {
@@ -90,11 +89,13 @@ export default function CategoriesPage() {
         setMerchantURL(merchantURLPath[1]);
       }
       dispatch(updateOrderMethod('Dine-in'));
+      setOrderMethod('Dine-in');
       return merchantURLPath[1];
     } 
 
     merchantURLPath = window.location.pathname.replace(/\//g,'');
     dispatch(updateOrderMethod('Pickup'));
+    setOrderMethod('Pickup');
     updateTableNumber(null);
     setMerchantURL(merchantURLPath);
     return merchantURLPath;
