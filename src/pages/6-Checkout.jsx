@@ -27,6 +27,7 @@ export default function OrderConfirmed() {
   const merchantStore = useSelector(state => state.merchant);
   const customerFirstName = useSelector(state => state.customer.firstName);
   const customerLastName = useSelector(state => state.customer.lastName);
+  const orderMethod = useSelector(state => state.cart.orderType);
 
   const payment = new Payment(process.env.REACT_APP_STC_SK);
   const cart = useSelector(state => state.cart.items);
@@ -117,7 +118,7 @@ export default function OrderConfirmed() {
       order_type: orderType,
       table_number: tableNumber
     }).select();
-    console.log(user.id, merchantStore.urlPath, customerFirstName + ' ' + customerLastName, orderType, tableNumber);
+    console.log(customerFirstName + ' ' + customerLastName, orderType, tableNumber);
     if (error) throw `${error}: Error sending ticket`;
     await sendOrderToKDS(data[0].id);
     return data[0].id;
@@ -225,13 +226,14 @@ export default function OrderConfirmed() {
               <SelectPaymentMethods  heading={'Select your payment method'} />
               <AddPaymentMethod />
               {isIOS() ? null : (
-                <Box px="6" mt={3} mb={openTabOrders.length > 0 ? '6' : '3'}>
+                <Box px="6" mt={3} mb={openTabOrders.length > 0 || orderMethod === 'Pickup' ? '6' : '3'}>
                   <Alert py={4} px={6} status='warning'>
                     <Text color="orange.600">Looking for Apple Pay? Swith to Safari</Text>
                   </Alert>
                 </Box>
               )}
-              {openTabOrders.length > 0 ? null : (
+              
+              {openTabOrders.length === 0 && orderMethod === 'Dine-in' ? (
                 <Flex
                   onClick={() => handleKeepTabOpen()} 
                   pb="6"
@@ -242,10 +244,10 @@ export default function OrderConfirmed() {
                     <Text fontSize="xl">Start a tab</Text>
                   </HStack>
                 </Flex>
-              )}
+              ) : null}
             </Box>
 
-            {openTabOrders.length > 0 ? (
+            {openTabOrders.length > 0 && orderMethod === 'Dine-in' ? (
               <Box 
                 px="6"
                 w="100%">
@@ -260,7 +262,7 @@ export default function OrderConfirmed() {
                   <TabIcon />
                   <Text ml="4">Keep tab open</Text>
                 </Button>
-              </Box>       
+              </Box>   
             ) : null}
         
             <VStack

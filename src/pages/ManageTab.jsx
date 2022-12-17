@@ -80,8 +80,6 @@ export default function OrderConfirmed() {
 
   const handlePayment = async () => {
     setLoadingPayment(true);
-    
-    const ticketID = await sendTicketToKDS();
 
     dispatch(setOrderTotal(parseFloat(totalCost)));
     dispatch(setOrderTax(8.25));
@@ -200,12 +198,12 @@ export default function OrderConfirmed() {
               spacing={4}
               align="stretch">
               {paymentChoice === 'Apple Pay' ? (
-                <Button id="applePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Close Tab | Apple Pay</Button>
+                <Button id="applePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now | Apple Pay</Button>
               ) :
                 paymentChoice === 'Google Pay' ? (
-                  <Button id="googlePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Close Tab | Google Pay</Button>
+                  <Button id="googlePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now | Google Pay</Button>
                 ) : (
-                  <Button id="customPayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Close Tab</Button>
+                  <Button id="customPayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now</Button>
                 ) }
             </VStack>
           </VStack>
