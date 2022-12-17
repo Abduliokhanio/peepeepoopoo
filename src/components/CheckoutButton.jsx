@@ -15,7 +15,7 @@ export default function CheckoutButton() {
 
   return (pendingOrders.length > 0 ? (
     <Flex
-      onClick={() => navigate('/cart/checkout')}
+      onClick={() => navigate('/cart/review')}
       pos="fixed"
       bottom="0" 
       backdropFilter="blur(5px)"

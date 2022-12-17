@@ -30,7 +30,7 @@ export default function TipsPage() {
 
   const handleContinue = () => {
     dispatch(setOrderTip(tip));
-    navigate('/cart/opened-tab');
+    navigate('/cart/checkout');
   };
 
   const handleFirstButton = () => {

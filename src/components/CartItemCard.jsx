@@ -39,7 +39,7 @@ export default function CartItemCard({item}) {
             <Box backgroundColor={'gray.100'} borderRadius="2" mr="4" px="3.5" py="1" maxH='35px' maxW="35px">
               <Text textAlign="left" fontSize="lg">{itemInCart.quantity}</Text>
             </Box>
-            <Heading fontSize="1.5rem">{itemInCart.item.name}</Heading>
+            <Heading fontSize="1.25rem" mt="1">{itemInCart.item.name}</Heading>
           </Flex>
           <Text w="100%" textAlign="left" fontSize="lg">${itemTotalCost.toFixed(2)}</Text>
         </Stack>

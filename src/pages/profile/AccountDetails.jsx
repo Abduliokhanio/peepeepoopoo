@@ -100,7 +100,7 @@ export default function AccountDetails() {
     } else {
       showAlert('Changes saved', 'success');
       // todo if last page is checkout, redirect to checkout
-      navigate('/cart/checkout');
+      navigate('/cart/review');
       setLoading(false);
     }
   };

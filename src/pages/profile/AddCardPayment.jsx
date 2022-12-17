@@ -96,7 +96,7 @@ export default function PaymentMethod() {
     else {
       console.log('payment saved');
       // todo if last page is checkout, redirect to checkout
-      // navigate('/cart/checkout');
+      // navigate('/cart/review');
       navigate(-1);
     }
 

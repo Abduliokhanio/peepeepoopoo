@@ -21,7 +21,6 @@ export default function ClosedTab() {
   return (
     <Box>
       <Flex direction="column">
-        <Navbar title={'Tab Closed'} showLeftButton={false} />
         <Flex
           mt="12"
           direction="column"

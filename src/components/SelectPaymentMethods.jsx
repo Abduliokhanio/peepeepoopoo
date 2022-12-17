@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from 'react';
-
+import isIOS from '../tools/isIOS';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useAuth } from '../context/Auth';
 import { Box, Heading, Flex, VStack, HStack, Text, Icon } from '@chakra-ui/react';
 import { MdPayment } from 'react-icons/md';
 import { FaCcApplePay } from 'react-icons/fa';
 
-function iOS() {
-  return [
-    'iPad Simulator',
-    'iPhone Simulator',
-    'iPod Simulator',
-    'iPad',
-    'iPhone',
-    'iPod'
-  ].includes(navigator.platform)
-  // iPad on iOS 13 detection
-  || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
-}
-
-export default function SelectPaymentMethods() {
+export default function SelectPaymentMethods({ heading }) {
   const { user } = useAuth();
-  const isIOS = iOS();
   const [paymentChoice, setPaymentChoice] = useState(null);
   const [lastFour, setLastFour] = useState('');
 
@@ -58,10 +44,13 @@ export default function SelectPaymentMethods() {
     <Box>
       {lastFour.length > 0 ? (
         <Box>
-          <Heading size="md" textAlign={'left'} px="6" mb="5">Saved Payment Methods</Heading>
+          {heading ? (
+            <Heading size="md" textAlign={'left'} px="6" mb="5">{heading}</Heading>
+          ) : null}
           <Flex 
             direction={'column'}
             px="6" 
+            mb="2"
             w="100%">
             <VStack w="100%" spacing={3} alignItems={'left'}>
               <HStack 
@@ -70,17 +59,17 @@ export default function SelectPaymentMethods() {
                 border={paymentChoice === 'cardPay' ? '1.5px solid #30a46c' : null}
                 onClick={() => handlePaymentChoice('cardPay')}
                 borderRadius="md">
-                <Icon h="6" w="6" as={MdPayment} />
+                <Icon h="8" w="8" as={MdPayment} />
                 <Text fontSize="xl">•••• {lastFour}</Text>
               </HStack>
-              {isIOS ? (
+              {isIOS() ? (
                 <HStack 
                   spacing="4" 
                   p="4"
                   onClick={() => handlePaymentChoice('Apple Pay')}
                   border={paymentChoice === 'Apple Pay' ? '1.5px solid #30a46c' : null}
-                  borderRadius="md">
-                  <Icon h="6" w="6" as={FaCcApplePay} />
+                  borderRadius="sm">
+                  <Icon h="8" w="8" as={FaCcApplePay} />
                   <Text fontSize="xl">Apple Pay</Text>
                 </HStack>
               ) : null}

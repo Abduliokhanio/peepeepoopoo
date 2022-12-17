@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Flex, Spacer, Heading, Box, Icon
 } from '@chakra-ui/react';
+import TabIcon from './icons/TabIcon';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { CiShoppingCart, CiUser } from 'react-icons/ci';
 
@@ -29,8 +30,8 @@ export default function NavBar({ title, showBackButton, showLeftButton, showAccB
   const rightNavButton = () => {
     if (showAccButton) {
       return (
-        <Box onClick={() => navigate('/cart/opened-tab')}>
-          <Icon color="gray.400" mt="1.5" h="8" w="8" as={CiShoppingCart} />
+        <Box onClick={() => navigate('/cart/manage-tab')}>
+          <TabIcon />
         </Box>
       );
     }

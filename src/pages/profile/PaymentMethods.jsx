@@ -14,8 +14,8 @@ export default function PaymentMethods() {
     <Stack backgroundColor="#F9FBFC;" direction="column" minH="100vh" h="100%">
       <Navbar title={OrderType} showBackButton={true} />
       <Box pt='8'>
-        {SelectPaymentMethods()}
-        {AddPaymentMethod()}
+        <SelectPaymentMethods heading={'Saved payment method'} />
+        <AddPaymentMethod heading={'Add your payment method'} />
       </Box>
     </Stack>
   );

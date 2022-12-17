@@ -24,10 +24,10 @@ export default function CheckoutPage() {
 
   const handleContinue = async () => {
     setLoading(true);
-    if (orderTip === null) navigate('/cart/tips');
+    if (orderTip === null) navigate('/cart/tip');
     // TODO: change back to catch missing payment method
     // else if (hasPaymentMethod === false) navigate('/user/payment-method');
-    else navigate('/cart/opened-tab');
+    else navigate('/cart/checkout');
     
     setLoading(false);
   };

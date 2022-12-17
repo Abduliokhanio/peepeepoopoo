@@ -4,8 +4,9 @@ import Navbar from '../components/Navbar';
 import { useAuth } from '../context/Auth';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
+import isIOS from '../tools/isIOS';
 import {
-  Flex, Heading, VStack, Text, Button, Box, Spacer, StackDivider, Divider
+  Flex, Heading, VStack, Text, Button, Box, Spacer, Divider, Alert
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import {updateCart, setOrderTotal, setOrderTax } from '../context/slices/cartSlice';
@@ -35,7 +36,7 @@ export default function OrderConfirmed() {
   const totalCost = (parseFloat(subTotalWithTax)+parseFloat(tip)).toFixed(2);
   
   const orderType = useSelector(state => state.cart.orderType);
-  const pendingOrders = cart.filter(item => item.sentToKitchen === false);
+  const pendingOrders = cart.filter(item => item.status === 'pending');
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
 
@@ -153,12 +154,12 @@ export default function OrderConfirmed() {
     });
 
     if (error) throw `${error}: Error recording customer reciept`;
-    navigate('/cart/closed-tab');
+    navigate('/cart/confirmation');
   };
   
   return (
     <Box bg="#f6f6f6" minH="100vh">
-      <Navbar title={'Tab'} showLeftButton={false} />
+      <Navbar title={'Manage Tab'} showBackButton={true}/>
       <Flex pt={5} pb="300px" direction="column">
         <Flex
           direction="column"
@@ -201,7 +202,7 @@ export default function OrderConfirmed() {
                     <Text pr="1">${(subTotalWithTax-subTotal).toFixed(2)}</Text>
                   </Flex>
                 </Flex>
-                <Flex onClick={() => navigate('/cart/tips')}>
+                <Flex onClick={() => navigate('/cart/tip')}>
                   <Text>Tip</Text>
                   <Spacer />
                   <Icon mr="2" h="6" w="6" as={CiEdit} />
@@ -219,8 +220,15 @@ export default function OrderConfirmed() {
             </Box>
             
             <Box bg="white" borderWidth="1px" width="100%" pt="6">
-              {SelectPaymentMethods()}
-              {AddPaymentMethod()}
+              <SelectPaymentMethods heading={'Select your payment method'} />
+              <AddPaymentMethod />
+              {isIOS() ? null : (
+                <Box px="6" mt={3} mb={6}>
+                  <Alert py={4} px={6} status='warning'>
+                    <Text color="orange.600">Looking for Apple Pay? Swith to Safari</Text>
+                  </Alert>
+                </Box>
+              )}
             </Box>
           
             <VStack
@@ -233,18 +241,13 @@ export default function OrderConfirmed() {
               blur="40%" 
               spacing={4}
               align="stretch">
-              <Button
-                isLoading={loadingKeepTabOpen} disabled={loadingPayment} onClick={() => handleKeepTabOpen()} w="100%" _hover={{
-                  bg: 'black'
-                }} size="lg" bg="black" color="white">Keep Tab Open</Button>
-              
               {paymentChoice === 'Apple Pay' ? (
-                <Button id="applePayButton" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab | Apple Pay</Button>
+                <Button id="applePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Close Tab | Apple Pay</Button>
               ) :
                 paymentChoice === 'Google Pay' ? (
-                  <Button id="googlePayButton" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab | Google Pay</Button>
+                  <Button id="googlePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Close Tab | Google Pay</Button>
                 ) : (
-                  <Button id="customPayButton" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" variant="outline" borderColor="black">Close Tab {lastFour === null ? null : `| •••• ${lastFour}` }</Button>
+                  <Button id="customPayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Close Tab</Button>
                 ) }
             </VStack>
           </VStack>

@@ -4,14 +4,14 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/Auth';
 import PrivateRoute from './components/PrivateRoute';
-import Orders from './pages/profile/Receipts';
-import Checkout from './pages/4-Cart';
-import ClosedTab from './pages/6-ClosedTab';
-import OpenedTab from './pages/5-OpenedTab';
+import Receipts from './pages/profile/Receipts';
+import Review from './pages/4-Review';
+import Confirmation from './pages/7-Confirmation';
+import Checkout from './pages/6-Checkout';
 import Categories from './pages/1-Categories';
 import Products from './pages/2-Products';
 import Modifiers from './pages/3-Modifiers';
-import Tips from './pages/3A-Tips';
+import Tip from './pages/5-AddTip';
 import Account from './pages/profile/Account';
 import AccountDetails from './pages/profile/AccountDetails';
 import Signup from './pages/auth/Signup';
@@ -20,6 +20,7 @@ import LandingPage from './pages/LandingPage';
 import PageNotFound from './pages/PageNotFound';
 import PaymentMethods from './pages/profile/PaymentMethods';
 import AddCardPayment from './pages/profile/AddCardPayment';
+import ManageTab from './pages/ManageTab';
 
 function App() {
 
@@ -41,11 +42,12 @@ function App() {
                 <Route path='/user/new-card' element={<AddCardPayment />} />
                 <Route path='/user/payment-methods' element={<PaymentMethods />} />
                 <Route path='/user/account-details' element={<AccountDetails />} />
-                <Route path="/user/receipts" element={<Orders />} />
+                <Route path="/user/receipts" element={<Receipts />} />
+                <Route path="/cart/review" element={<Review />} />
+                <Route path="/cart/tip" element={<Tip />} />
                 <Route path="/cart/checkout" element={<Checkout />} />
-                <Route path="/cart/tips" element={<Tips />} />
-                <Route path="/cart/opened-tab" element={<OpenedTab />} />
-                <Route path="/cart/closed-tab" element={<ClosedTab />} />
+                <Route path="/cart/confirmation" element={<Confirmation />} />
+                <Route path="/cart/manage-tab" element={<ManageTab />} />
               </Route>   
               <Route path="404" element={<PageNotFound />} />
             </Routes>
