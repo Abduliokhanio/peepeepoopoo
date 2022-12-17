@@ -4,11 +4,12 @@ import Navbar from '../components/Navbar';
 import {supabasePublic} from '../services/supabasePublic';
 import ModifierButton from '../components/ModifierButton';
 import {
-  Heading, Image, Checkbox, CheckboxGroup, Stack, StackDivider, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
+  Heading, Image, IconButton, Checkbox, CheckboxGroup, Stack, StackDivider, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, updateCart } from '../context/slices/cartSlice';
 import ShortUniqueId from 'short-unique-id';
+import {AiOutlinePlus, AiOutlineMinus} from 'react-icons/ai';
 
 export default function ModifiersPage() {
   const dispatch = useDispatch();
@@ -239,36 +240,67 @@ export default function ModifiersPage() {
           </Box>
           <HStack 
             mt="8" 
-            px="6"
-            maxW='320px' 
-            flexGrow={true}>
-            <Button 
-              border="1px solid #363636" 
-              bg={'black'}
-              color={'#f6f6f6'}
-              py='4' 
-              h="100%" 
-              maxH="64px" 
-              minW="64px" {...inc}>+</Button>
-            <Input 
-              background={'#f6f6f6'}
-              focusBorderColor={'#363636'} 
-              py='4'
-              maxW="100px"
-              borderColor={'#363636'}
-              textAlign={'center'}
-              h="100%"
-              maxH="64px"
-              {...input} />
-            <Button 
-              border="1px solid #363636" 
-              bg={'black'}
-              color={'#f6f6f6'}
-              py='4' 
-              h="100%" 
-              maxH="64px" 
-              minW="64px" 
-              {...dec}>-</Button>
+            mx="6"
+          >
+            <Flex
+              justifyContent={'center'}
+              borderRadius={'md'}
+              alignItems={'center'}
+              border={'2px solid #363636'}
+            >
+              <IconButton 
+                icon={<AiOutlinePlus />}
+                color={'black'}
+                _hover={{
+                  bg: 'white'
+                }}
+                _focusVisible={{
+                  outline: 'none',
+                  backgroundColor: 'transparent' 
+                }}
+                _active={{
+                  backgroundColor: 'transparent' 
+                }}
+                fontSize={'25'}
+                bg="transparent"
+                py="4"
+                pl="8"
+                pr="4"
+                h="100%" 
+                maxH="64px" 
+                minW="30px" {...inc} />
+              <Input 
+                _focusVisible={{
+                  outline: 'none'
+                }}
+                outline="none"
+                bg="transparent"
+                py='4'
+                alignItems={'center'}
+                px="0"
+                border="none"
+                maxW="50px"
+                fontSize={'20'}
+                textAlign={'center'}
+                h="100%"
+                {...input} />
+              <IconButton 
+                icon={<AiOutlineMinus />}
+                bg="transparent"
+                _hover={{
+                  bg: 'transparent'
+                }}
+                color={'black'}
+                fontSize={'25px'}
+                py='4' 
+                pl="4"
+                pr="8"
+                h="100%" 
+                maxH="64px" 
+                minW="30px" 
+                {...dec} />
+            </Flex>
+       
           </HStack>
         </Flex>
 

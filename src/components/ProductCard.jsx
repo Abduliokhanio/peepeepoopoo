@@ -123,6 +123,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
               id='productPrice'
               onClick={() => handleElementClick('productSelect')}
               textAlign="left" 
+              w="100%"
               fontSize="lg">${price.toFixed(2)}</Text>
             {isFavorite ? (
               <IconButton
