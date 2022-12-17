@@ -27,6 +27,7 @@ export default function CategoriesPage() {
   const [merchantURL, setMerchantURL] = useState(null);
   const [bannerImageURL, setBannerImageURL] = useState(null);
   const [merchantName, setMerchantName] = useState(null);
+  const [merchantAddress, setMerchantAddress] = useState(null);
   const [orderMethod, setOrderMethod] = useState(currentTableNumber ? 'Dine-in' : 'Pickup');
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function CategoriesPage() {
 
     const fetchMerchant = await supabasePublic
       .from('merchants')
-      .select('id, name, url_path, sales_tax').match({
+      .select('id, name, url_path, sales_tax, street_address').match({
         url_path: merchantURLPath
       });
 
@@ -91,6 +92,8 @@ export default function CategoriesPage() {
     dispatch(setMerchantID(fetchMerchant.data[0].id));
     dispatch(setBrandName(fetchMerchant.data[0].name));
     setMerchantName(fetchMerchant.data[0].name);
+    console.log(fetchMerchant.data[0].street_address);
+    setMerchantAddress(fetchMerchant.data[0].street_address);
    
     return fetchMerchant.data[0].id;
   };
@@ -251,7 +254,20 @@ export default function CategoriesPage() {
             )}
             <Button onClick={changeTableDisclosure.onOpen}>Change</Button>
           </Flex>
-        ) : null}
+        ) : (
+          orderMethod === 'Pickup' ? (
+            <Flex 
+              id="selectTableNumberWrapper"
+              justifyContent={'space-between'} 
+              alignItems={'center'}
+              py="4"
+              borderBottomWidth="1px"
+              px="6" 
+              bg="white">
+              {merchantAddress}
+            </Flex>
+          ) : null
+        )}
         <Stack pb='115' px="6">
          
           <InfiniteScroll

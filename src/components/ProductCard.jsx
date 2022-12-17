@@ -128,10 +128,16 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
             {isFavorite ? (
               <IconButton
                 _focus={{
-                  bg: 'transparent' 
+                  backgroundColor: 'white' 
+                }}
+                _hover={{
+                  backgroundColor: 'white' 
+                }}
+                _active={{
+                  backgroundColor: 'white' 
                 }}
                 onClick={() => handleElementClick('favoriteButtonFilled')}
-                bg="transparent"
+                bg="none"
                 icon={
                   <Icon 
                     color='red.500' 
@@ -142,10 +148,16 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
             ) : (
               <IconButton
                 _focus={{
-                  bg: 'transparent' 
+                  backgroundColor: 'white' 
+                }}
+                _hover={{
+                  backgroundColor: 'white' 
+                }}
+                _active={{
+                  backgroundColor: 'white' 
                 }}
                 onClick={() => handleElementClick('favoriteButtonOutline')}
-                bg="transparent"
+                bg ="none"
                 pb="0"
                 icon={
                   <Icon 

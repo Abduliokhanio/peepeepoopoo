@@ -290,6 +290,13 @@ export default function ModifiersPage() {
                 _hover={{
                   bg: 'transparent'
                 }}
+                _focusVisible={{
+                  outline: 'none',
+                  backgroundColor: 'transparent' 
+                }}
+                _active={{
+                  backgroundColor: 'transparent' 
+                }}
                 color={'black'}
                 fontSize={'25px'}
                 py='4' 
