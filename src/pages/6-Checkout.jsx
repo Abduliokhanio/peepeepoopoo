@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import isIOS from '../tools/isIOS';
-import {updateCart, setOrderTotal, setOrderTax } from '../context/slices/cartSlice';
+import {updateCart, setOrderTotal, setOrderTax, updateOrderMethod } from '../context/slices/cartSlice';
 import Payment from '../tools/payment';
 import AppleGooglePay from '../tools/collectjs';
 import {CiEdit} from 'react-icons/ci';
@@ -160,6 +160,7 @@ export default function OrderConfirmed() {
     });
 
     if (error) throw `${error}: Error recording customer reciept`;
+    dispatch(updateOrderMethod(null));
     navigate('/cart/confirmation');
   };
   

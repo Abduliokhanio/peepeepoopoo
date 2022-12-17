@@ -47,10 +47,6 @@ class Payment extends Component {
   invokeFunction = async (requestOptions, recordCustomerReciept, ticketID, setLoadingPayment) => {
     requestOptions.security_key = this.security_key;
 
-    // setResponseJson({
-    //   loading: true
-    // });
-
     const requestJson = {
       url: `https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(requestOptions)}`,
       method: 'POST',
@@ -63,13 +59,12 @@ class Payment extends Component {
     if (error) alert('Error making payment');
 
     const jsonQuery = queryStringToJSON(data);
-    console.log('from edge jsonQuery: ', jsonQuery);
     if (jsonQuery.responsetext === 'SUCCESS') {
-      console.log('Payment successful: ', jsonQuery);
+      console.log(jsonQuery);
       await recordCustomerReciept(ticketID);
       return;
     }
-    console.log('edge data', data);
+    console.log(data);
     setLoadingPayment(false);
   };
 
