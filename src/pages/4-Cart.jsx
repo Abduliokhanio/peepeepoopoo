@@ -16,7 +16,7 @@ export default function CheckoutPage() {
   const tableNumber = useSelector(state => state.merchant.tableNumber);
   const orderTip = useSelector(state => state.cart.tip);
   const orderTax = useSelector(state => state.cart.orderTax);
-  const pendingOrders = cart.filter(item => item.sentToKitchen === false);
+  const pendingOrders = cart.filter(item => item.status === 'pending');
   const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
   const tip = (subTotalWithTax*orderTip).toFixed(2);
