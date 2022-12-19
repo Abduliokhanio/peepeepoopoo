@@ -195,7 +195,7 @@ export default function OrderConfirmed() {
                 </Box>
               )}
               
-              {openTabOrders.length === 0 && orderMethod === 'Dine-in' ? (
+              {/* {openTabOrders.length === 0 && orderMethod === 'Dine-in' ? (
                 <Flex
                   onClick={() => handleKeepTabOpen()} 
                   pb="6"
@@ -206,9 +206,9 @@ export default function OrderConfirmed() {
                     <Text fontSize="xl">Start a tab</Text>
                   </HStack>
                 </Flex>
-              ) : null}
+              ) : null} */}
             </Box>
-
+            {/* 
             {openTabOrders.length > 0 && orderMethod === 'Dine-in' ? (
               <Box 
                 px="6"
@@ -225,7 +225,7 @@ export default function OrderConfirmed() {
                   <Text ml="4">Keep tab open</Text>
                 </Button>
               </Box>   
-            ) : null}
+            ) : null} */}
 
             <PaymentDetailsButton 
               isLoading={loadingPayment} 

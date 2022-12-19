@@ -205,47 +205,9 @@ export default function CategoriesPage() {
     if (bannerImage.error) throw bannerImage.error;
   };
 
-  const handleOrderMethod = (orderMethod) => {
-    setOrderMethod(orderMethod);
-    dispatch(updateOrderMethod(orderMethod));
-    orderMethodDisclosure.onClose();
-  };
-
   return (
     <Box 
       bg="#f6f6f6">
-      <Drawer placement={'bottom'} onClose={orderMethodDisclosure.onClose} isOpen={orderMethodDisclosure.isOpen}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth='1px'>How would you like to order?</DrawerHeader>
-          <DrawerBody>
-            <Flex onClick={() => handleOrderMethod('Dine-in')} borderBottom='1px' borderColor='gray.200' py="6" justifyContent="space-between">
-              <HStack spacing="4">
-                <Text fontSize="xl">Dine-in</Text>
-              </HStack>
-              <ChevronRightIcon fontSize="xl"/>
-            </Flex>
-            <Flex onClick={() => handleOrderMethod('Pickup')} borderBottom='1px' borderColor='gray.200' py="6" justifyContent="space-between">
-              <HStack spacing="4">
-                <Text fontSize="xl">Pickup</Text>
-              </HStack>
-              <ChevronRightIcon fontSize="xl"/>
-            </Flex>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-      <Drawer placement={'bottom'} onClose={changeTableDisclosure.onClose} isOpen={changeTableDisclosure.isOpen}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth='1px'>Where are you seated?</DrawerHeader>
-          <DrawerBody>
-            <Flex direction={'column'}>
-              <Input mt="2" onChange={(e) => updateTableNumber(e.target.value)} placeholder='Table number' size='lg' />
-              <Button onClick={changeTableDisclosure.onClose} my="4" bg={'black'} color={'white'} size='lg'>Confirm</Button>
-            </Flex>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showTabButton={true} />
         <VStack 
@@ -264,40 +226,30 @@ export default function CategoriesPage() {
             borderRadius="100px"
             direction="row"
             alignItems='center'
-            onClick={orderMethodDisclosure.onOpen}
           >
             <Text color="#1e1e1e" fontSize="lg" fontWeight='semibold'>{orderMethod}</Text>
-            <ChevronDownIcon ml="2" fontSize="xl"/>
           </Flex>
         </VStack>
         {orderMethod === 'Dine-in' ? (
-          <Box>
-            <Flex 
-              id="selectTableNumberWrapper"
-              justifyContent={'space-between'} 
-              alignItems={'center'}
-              py="4"
-              borderBottomWidth="1px"
-              px="6" 
-              bg="white">
-              {currentTableNumber ? (
-                <Text fontSize={'lg'}>Table {currentTableNumber}</Text>
-              ) : (
-                <Text fontSize={'lg'}>Where are you seated?</Text>
-              )}
-              <Button onClick={changeTableDisclosure.onOpen}>Change</Button>
-            </Flex>
-            <Flex
-              // onClick={() => handleKeepTabOpen()} 
-              pb="6"
-              px="6"
-              justifyContent="space-between">
-              <HStack spacing="4" p="4" >
-                {/* <TabIcon /> */}
-                <Text fontSize="xl">Start a tab</Text>
-              </HStack>
-            </Flex>
-          </Box>
+          null
+          // <Box>
+          //   <Flex
+          //     // onClick={() => handleKeepTabOpen()} 
+          //     pb="6"
+          //     px="6"
+          //     justifyContent="space-between">
+          //     <HStack 
+          //       mt={4}
+          //       bg="gray.200" 
+          //       spacing="4" 
+          //       w="100%"
+          //       p="4" >
+          //       {/* <TabIcon /> */}
+          //       <Box> </Box>
+          //       <Text fontSize="xl">Start a tab</Text>
+          //     </HStack>
+          //   </Flex>
+          // </Box>
         
         ) : (
           orderMethod === 'Pickup' ? (
