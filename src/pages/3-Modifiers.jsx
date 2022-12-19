@@ -231,12 +231,6 @@ export default function ModifiersPage() {
             })
           ) : null}
           <Box px="6">
-            <Textarea 
-              onChange={(e) => handleSpecialRequest(e)} 
-              background={'gray.50'}
-              minH="150"
-              mt="8"
-              placeholder='Special requests' />
           </Box>
           <HStack 
             mt="8" 
