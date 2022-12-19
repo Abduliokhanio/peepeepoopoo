@@ -52,6 +52,7 @@ export default function OrderConfirmed() {
   const [cardCvv, setCardCvv] = useState('');
 
   useEffect(() => {
+    if (user === null) navigate('/auth/signup');
     configCollectJS();
     setPreviousRecord();
   }, [cart]);

@@ -36,7 +36,6 @@ export default function CustomerDetails() {
   const prefillFields = (savedData) => {
     if (savedData.first_name !== null) setFirstName(savedData.first_name);
     if (savedData.email_address !== null) setEmailAddress(savedData.email_address);
-    if (savedData.mobile_number !== null) setPhoneNumber(savedData.mobile_number);
   };
 
   const setPreviousRecord = async (e) => {
@@ -115,13 +114,8 @@ export default function CustomerDetails() {
           </FormControl>
         </HStack>
 
-        <FormControl>
-          <FormLabel fontSize='sm' mb='2'>Mobile number</FormLabel>
-          <Input isDisabled defaultValue={phoneNumber} size='md' width="100%" />
-        </FormControl>
-
         <FormControl isInvalid={isEmailAddressError}>
-          <FormLabel fontSize='sm' mb='2'>Email address (optional)</FormLabel>
+          <FormLabel fontSize='sm' mb='2'>Email</FormLabel>
           <Input value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} placeholder='Email' size='md' width="100%" />
           {isEmailAddressError ? (
             <FormHelperText color="red.500" textAlign={'left'}>
