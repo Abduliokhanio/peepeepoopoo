@@ -8,9 +8,14 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/buttons/CheckoutButton';
 import { useAuth } from '../context/Auth';
 import {
-  Stack, VStack, HStack, Button, Drawer, DrawerOverlay, DrawerBody, DrawerHeader, DrawerContent, useDisclosure, Text, Flex, Spacer, Input, Box
+  Stack, 
+  VStack, 
+  Text, 
+  Flex,
+  Spacer, 
+  Box
 } from '@chakra-ui/react';
-import { ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import {setMerchantID, 
   setProducts, 
@@ -34,8 +39,6 @@ export default function CategoriesPage() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const orderMethodDisclosure = useDisclosure();
-  const changeTableDisclosure = useDisclosure();
   const [loadingMenu, setLoadingMenu] = useState(false);
   const [currentTableNumber, setCurrentTableNumber] = useState(null);
   const [merchantURL, setMerchantURL] = useState(null);
@@ -49,12 +52,10 @@ export default function CategoriesPage() {
   }, []);
 
   const initPage = async () => {
-    if (selectedOrderMethod === null) {
-      const merchantURLPath = await checkURLPath();
-      const merchantID = await fetchMerchantInfo(merchantURLPath);
-      await fetchMenu(merchantID);
-      await fetchProducts(merchantID);
-    }
+    const merchantURLPath = await checkURLPath();
+    const merchantID = await fetchMerchantInfo(merchantURLPath);
+    await fetchMenu(merchantID);
+    await fetchProducts(merchantID);
     init(process.env.REACT_APP_AMPLITUDE_KEY);
     track('Page Visit', merchantName);
     if (customerFirstName === null) await fetchCustomerInfo();
@@ -230,30 +231,10 @@ export default function CategoriesPage() {
             <Text color="#1e1e1e" fontSize="lg" fontWeight='semibold'>{orderMethod}</Text>
           </Flex>
         </VStack>
-        {orderMethod === 'Dine-in' ? (
-          null
-          // <Box>
-          //   <Flex
-          //     // onClick={() => handleKeepTabOpen()} 
-          //     pb="6"
-          //     px="6"
-          //     justifyContent="space-between">
-          //     <HStack 
-          //       mt={4}
-          //       bg="gray.200" 
-          //       spacing="4" 
-          //       w="100%"
-          //       p="4" >
-          //       {/* <TabIcon /> */}
-          //       <Box> </Box>
-          //       <Text fontSize="xl">Start a tab</Text>
-          //     </HStack>
-          //   </Flex>
-          // </Box>
-        
-        ) : (
+        {orderMethod === 'Dine-in' ? null : (
           orderMethod === 'Pickup' ? (
             <Flex 
+              textAlign={'left'}
               id="selectTableNumberWrapper"
               justifyContent={'space-between'} 
               alignItems={'center'}

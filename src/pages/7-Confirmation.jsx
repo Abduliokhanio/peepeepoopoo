@@ -15,6 +15,7 @@ export default function ClosedTab() {
   const dispatch = useDispatch();
   const customerName = useSelector(state => state.customer.firstName);
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
+  const orderTotal = useSelector(state => state.cart.orderTotal);
   
   const handleReturnButton = () => {
     dispatch(clearCart());
@@ -59,7 +60,7 @@ export default function ClosedTab() {
           px="6">
           <Flex pb="4">
             <Text fontSize={'2.25rems'} fontWeight={'bold'}>Order total</Text>
-            <Spacer /><Text>totalCost</Text>
+            <Spacer /><Text>${orderTotal}</Text>
           </Flex>
           <Flex 
             onClick={() => checkRecords('receipts')} 
