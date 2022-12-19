@@ -2,11 +2,12 @@
 import React, {useState, useEffect} from 'react';
 import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
-import {VStack, Box, Text, } from '@chakra-ui/react';
+import {VStack, Box, Text, Button } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import CartItemCard from '../components/CartItemCard';
-import PlaceOrderButton from '../components/PlaceOrderButton';
+import PaymentDetailsButton from '../components/PaymentDetailsButton';
+import {AiOutlinePlus} from 'react-icons/ai';
 
 export default function CheckoutPage() {
   const cart = useSelector(state => state.cart.items);
@@ -16,6 +17,7 @@ export default function CheckoutPage() {
   const tableNumber = useSelector(state => state.merchant.tableNumber);
   const orderTip = useSelector(state => state.cart.tip);
   const orderTax = useSelector(state => state.cart.orderTax);
+  const orderMedthod = useSelector(state => state.cart.orderType);
   const pendingOrders = cart.filter(item => item.status === 'pending');
   const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
@@ -34,7 +36,7 @@ export default function CheckoutPage() {
 
   return (
     <Box bg="#f6f9fc" minH="100vh" pb="300px">
-      <Navbar title={'Cart'} showBackButton={true} />
+      <Navbar title={orderMedthod} showBackButton={true} />
       <VStack
         pt={6}
         spacing={4}
@@ -53,10 +55,14 @@ export default function CheckoutPage() {
               item={item}
             />);
         } )}
+        <Button 
+          onClick={() => navigate(`/${merchantStore.merchantURLPath}`)}
+          leftIcon={<AiOutlinePlus />}
+        >Add items</Button>
       </VStack>
       {/* TODO: voucher / discount code & allergies text area */}
       
-      <PlaceOrderButton 
+      <PaymentDetailsButton 
         isLoading={loading} 
         subTotal={subTotal.toFixed(2)}
         handleOnClick={handleContinue} 

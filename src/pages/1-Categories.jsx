@@ -271,21 +271,34 @@ export default function CategoriesPage() {
           </Flex>
         </VStack>
         {orderMethod === 'Dine-in' ? (
-          <Flex 
-            id="selectTableNumberWrapper"
-            justifyContent={'space-between'} 
-            alignItems={'center'}
-            py="4"
-            borderBottomWidth="1px"
-            px="6" 
-            bg="white">
-            {currentTableNumber ? (
-              <Text fontSize={'lg'}>Table {currentTableNumber}</Text>
-            ) : (
-              <Text fontSize={'lg'}>Where are you seated?</Text>
-            )}
-            <Button onClick={changeTableDisclosure.onOpen}>Change</Button>
-          </Flex>
+          <Box>
+            <Flex 
+              id="selectTableNumberWrapper"
+              justifyContent={'space-between'} 
+              alignItems={'center'}
+              py="4"
+              borderBottomWidth="1px"
+              px="6" 
+              bg="white">
+              {currentTableNumber ? (
+                <Text fontSize={'lg'}>Table {currentTableNumber}</Text>
+              ) : (
+                <Text fontSize={'lg'}>Where are you seated?</Text>
+              )}
+              <Button onClick={changeTableDisclosure.onOpen}>Change</Button>
+            </Flex>
+            <Flex
+              // onClick={() => handleKeepTabOpen()} 
+              pb="6"
+              px="6"
+              justifyContent="space-between">
+              <HStack spacing="4" p="4" >
+                {/* <TabIcon /> */}
+                <Text fontSize="xl">Start a tab</Text>
+              </HStack>
+            </Flex>
+          </Box>
+        
         ) : (
           orderMethod === 'Pickup' ? (
             <Flex 

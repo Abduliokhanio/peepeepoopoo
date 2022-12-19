@@ -6,13 +6,34 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, subTotalWithTax, buttonLabel}) {
 
-  const [totalCost, setTotalCost] = useState((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2));
+  const revenueServiceFee = (subTotal*0.018).toFixed(2) || 0;
+  const [totalCost, setTotalCost] = useState((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2)+revenueServiceFee);
 
   useEffect(() => {
     if (tip === undefined) setTotalCost(subTotalWithTax);
     else setTotalCost((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2));
 
   }, [subTotal, tip]);
+
+  {/* <VStack
+              pos="fixed"
+              bottom="0" 
+              w="100%"
+              px="6"
+              bg="white"
+              py="4" 
+              blur="40%" 
+              spacing={4}
+              align="stretch">
+              {paymentChoice === 'Apple Pay' ? (
+                <Button id="applePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now | Apple Pay</Button>
+              ) :
+                paymentChoice === 'Google Pay' ? (
+                  <Button id="googlePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now  | Google Pay</Button>
+                ) : (
+                  <Button id="customPayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now </Button>
+                ) }
+            </VStack> */}
 
   return (
     <Flex
@@ -35,14 +56,6 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
           <Spacer />
           <Text>${subTotal}</Text>
         </Flex>
-        <Flex>
-          <Text>Tax</Text>
-          <Spacer />
-          <Flex alignItems='center'>
-            <Text mr="2" fontSize={'12'} color='gray.700'>(8.25%)</Text>
-            <Text>${(subTotalWithTax-subTotal).toFixed(2)}</Text>
-          </Flex>
-        </Flex>
         {tip === null || tip === undefined ? null : (
           <Flex>
             <Text>Tip</Text>
@@ -50,6 +63,13 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
             <Text>${tip}</Text>
           </Flex>
         )}
+        <Flex>
+          <Text>Venue Service Fee</Text>
+          <Spacer />
+          <Flex alignItems='center'>
+            <Text>${revenueServiceFee}</Text>
+          </Flex>
+        </Flex>
         <Flex pb="4">
           <Text fontSize={'2.25rems'} fontWeight={'bold'}>Total</Text>
           <Spacer />

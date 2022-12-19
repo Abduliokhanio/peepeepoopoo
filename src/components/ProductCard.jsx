@@ -31,8 +31,6 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
     if (firstLoad === false) handleFavorite();
   }, [isFavorite]);
 
-  if (user === null) navigate('/auth/signup');
-
   const isFavorited = () => {
     supabasePrivate.from('customers_favorites').select('*').eq('product_id', product.id).then(({ data, error }) => {
       if (error) throw error;
@@ -80,28 +78,86 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
     navigate('/modifiers');
   };
 
+  const displayFavoriteButton = () => {
+    if (isFavorite === true) {
+      return (    <IconButton
+        _focus={{
+          backgroundColor: 'white' 
+        }}
+        _hover={{
+          backgroundColor: 'white' 
+        }}
+        _active={{
+          backgroundColor: 'white' 
+        }}
+        onClick={() => handleElementClick('favoriteButtonFilled')}
+        bg="none"
+        icon={
+          <Icon 
+            color='red.500' 
+            h="5"
+            w="5" 
+            as={BsHeartFill} /> } />);
+    }
+  
+    return (
+      <IconButton
+        _focus={{
+          backgroundColor: 'white' 
+        }}
+        _hover={{
+          backgroundColor: 'white' 
+        }}
+        _active={{
+          backgroundColor: 'white' 
+        }}
+        onClick={() => handleElementClick('favoriteButtonOutline')}
+        bg ="whiteAlpha.800"
+        pb="0"
+        icon={
+          <Icon 
+            color='gray.500'
+            h="5"
+            w="5" 
+            as={BsHeart} /> } />
+    );
+    
+  };
+
   return (
     <Box
       shadow="xs" 
       backgroundColor={'white'}
       borderRadius='lg' 
       overflow='hidden' 
+      h="150px"
       borderWidth="0.5px" {...rest}>
-      <Flex direction="column">
-        {imageURL !== null ? (
-          <Image 
-            id='productImg'
-            onClick={() => handleElementClick('productSelect')}
-            maxH="125px" 
-            objectFit="cover"
-            src={imageURL} 
-            alt="menu" />
-        ) : null}
+      <Flex direction="row">
+        <Box
+          bg="gray.100"
+          position="relative"
+          h="150px" 
+          w="100%"
+          maxW="150px"> 
+          {imageURL !== null ? (
+            <Image 
+              position="relative"
+              id='productImg'
+              onClick={() => handleElementClick('productSelect')}
+              h="150px"
+              minW="150px"
+              objectFit="cover"
+              src={imageURL} 
+              alt="menu" />
+          ) : null}
+        </Box>
+       
         <Flex 
           mx="4" 
           mt="3"
           mb="1"
           direction='column' 
+          w="100%" 
           justifyContent="space-around">
           <Stack 
             id="productInfo"
@@ -109,13 +165,14 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
             textAlign="left">
             <Heading 
               onClick={() => handleElementClick('productSelect')}
-              fontSize="xl">{title}</Heading>
+              fontSize="1.35rem">{title}</Heading>
             <Text 
               onClick={() => handleElementClick('productSelect')}
               fontSize="sm">{desc}</Text>
           </Stack>
           <Flex 
             id="productPriceAndFavorite"
+            w="100%"
             direction={'row'} 
             alignItems={'center'} 
             justifyContent="space-between">
@@ -124,48 +181,9 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
               onClick={() => handleElementClick('productSelect')}
               textAlign="left" 
               w="100%"
-              fontSize="lg">${price.toFixed(2)}</Text>
-            {isFavorite ? (
-              <IconButton
-                _focus={{
-                  backgroundColor: 'white' 
-                }}
-                _hover={{
-                  backgroundColor: 'white' 
-                }}
-                _active={{
-                  backgroundColor: 'white' 
-                }}
-                onClick={() => handleElementClick('favoriteButtonFilled')}
-                bg="none"
-                icon={
-                  <Icon 
-                    color='red.500' 
-                    h="5"
-                    w="5" 
-                    as={BsHeartFill} /> } />
-  
-            ) : (
-              <IconButton
-                _focus={{
-                  backgroundColor: 'white' 
-                }}
-                _hover={{
-                  backgroundColor: 'white' 
-                }}
-                _active={{
-                  backgroundColor: 'white' 
-                }}
-                onClick={() => handleElementClick('favoriteButtonOutline')}
-                bg ="none"
-                pb="0"
-                icon={
-                  <Icon 
-                    color='gray.500'
-                    h="5"
-                    w="5" 
-                    as={BsHeart} /> } />
-            )}  
+              fontWeight={'medium'}
+              fontSize="1.25rem">${price.toFixed(2)}</Text>
+            {displayFavoriteButton()}
           </Flex>
         </Flex>
       </Flex>

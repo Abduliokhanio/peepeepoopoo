@@ -33,8 +33,8 @@ function App() {
               <Route exact path="/" element={<LandingPage />}/>
               <Route path="/:merchant" element={<Categories />} />
               <Route path="/:merchant/table/*" element={<Categories />} />
-              <Route path="products" element={<Products />} />
-              <Route path="modifiers" element={<Modifiers />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/modifiers" element={<Modifiers />} />
               <Route path="/user/account" element={<Account />} />
               <Route path="/auth/signup" element={<Signup />} />
               <Route path="/auth/verify" element={<Verify />} />

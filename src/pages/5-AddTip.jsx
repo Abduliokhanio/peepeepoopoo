@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import PlaceOrderButton from '../components/PlaceOrderButton';
+import PaymentDetailsButton from '../components/PaymentDetailsButton';
 import {
   Stack, Container, Flex, Button, Text, Box, Heading, HStack, Divider
 } from '@chakra-ui/react';
@@ -111,7 +111,7 @@ export default function TipsPage() {
         </Stack>
 
       </Flex>
-      <PlaceOrderButton 
+      <PaymentDetailsButton 
         isLoading={loading} 
         subTotal={subTotal.toFixed(2)}
         tip={parseFloat(tip).toFixed(2)} 

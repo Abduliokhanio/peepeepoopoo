@@ -77,7 +77,7 @@ export default function ProductsPage() {
     <Box bg="#f6f6f6" pb="300px">
       <Flex direction="column">
         <Navbar title={merchantStoreCategoryName} showBackButton={true}  showTabButton={true}/>
-        <Box py="4" pl="6">
+        <Box py="4" pl="2">
           <Select 
             borderColor={'gray.300'}
             maxW="200" 
@@ -87,7 +87,7 @@ export default function ProductsPage() {
             {currentProducts.length === 0 ? null : displayMenuSelections()}
           </Select>
         </Box>
-        <Stack pb='115' px="6">
+        <Stack pb='115' px="2">
           <InfiniteScroll
             dataLength={currentProducts.length === 0 ? 0 : merchantStoreProducts.length} 
             next={fetchMoreData}

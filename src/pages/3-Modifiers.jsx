@@ -93,7 +93,7 @@ export default function ModifiersPage() {
       dispatch(addToCart(cartOrderInsert));
     }
     
-    navigate(-1);
+    navigate('/cart/checkout');
   };
 
   const handleModifierCountInput = (count) => {

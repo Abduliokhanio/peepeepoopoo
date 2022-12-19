@@ -12,8 +12,8 @@ import isIOS from '../tools/isIOS';
 import {updateCart, setOrderTotal, setOrderTax, updateOrderMethod } from '../context/slices/cartSlice';
 import Payment from '../tools/payment';
 import AppleGooglePay from '../tools/collectjs';
-import {CiEdit} from 'react-icons/ci';
-import { Icon } from '@chakra-ui/icons';
+import CustomerDetails from '../components/CustomerDetails';
+import PaymentDetailsButton from '../components/PaymentDetailsButton';
 import TabIcon from '../components/icons/TabIcon';
 import SelectPaymentMethods from '../components/SelectPaymentMethods';
 import AddPaymentMethod from '../components/AddPaymentMethod';
@@ -165,69 +165,27 @@ export default function OrderConfirmed() {
   };
   
   return (
-    <Box bg="#f6f6f6" minH="100vh">
-      <Navbar title={'Checkout'} showBackButton={true} />
-      <Flex pt={5} pb="300px" direction="column">
+    <Box minH="100vh">
+      <Navbar title={orderType} showBackButton={true} />
+      <Flex pb="300px" direction="column">
         <Flex
           direction="column"
         >
-          <VStack px="6" mt="4">
-            <Box bg="white" borderWidth="1px" width="100%" pt="6">
+          <VStack>
+            <Box pt="6" bg="white" width="100%" >
               {tableNumber === null ? (
-                <Heading pl="6" mb="6" size="md" textAlign="left">{orderType}</Heading>
+                null
               ) : (
                 <Heading pl="6" mb="6" size="md" textAlign="left">Table #{tableNumber}</Heading>
               )}
-              {cart.map((item, index) => {
-                return(
-                  <Flex 
-                    mb="6"
-                    key={index}
-                    px="6">
-                    <Box backgroundColor={'gray.100'} borderRadius="2" mr="4" px="3.5" maxH="35px" py="1">
-                      <Text textAlign="left" fontSize="lg">{item.quantity}</Text>
-                    </Box>
-                    <Text fontWeight='bold' textAlign='left' fontSize={'1.25rem'}>{item.item.name}</Text>
-                  </Flex>
-                );}
-              )}
-              <VStack
-                mt="8"
-                spacing={2}
-                align="stretch"
-                px="6">
-                <Flex>
-                  <Text>Subtotal</Text>
-                  <Spacer />
-                  <Text>${subTotal.toFixed(2)}</Text>
-                </Flex> 
-                <Flex>
-                  <Text>Tax</Text>
-                  <Spacer />
-                  <Flex alignItems='center'>
-                    <Text mr="2" fontSize={'12'} color='gray.700'>(8.25%)</Text>
-                    <Text pr="1">${(subTotalWithTax-subTotal).toFixed(2)}</Text>
-                  </Flex>
-                </Flex>
-                <Flex onClick={() => navigate('/cart/tip')}>
-                  <Text>Tip</Text>
-                  <Spacer />
-                  <Icon mr="2" h="6" w="6" as={CiEdit} />
-                  <Text>${tip}</Text>
-                </Flex>
-                <Divider py="2" borderColor='gray.300'/>
-                <Flex pb="4" pt="2">
-                  <Text fontSize={'2rems'} fontWeight={'bold'}>Total</Text>
-                  <Spacer />
-                  <Text fontSize={'2rems'} fontWeight={'bold'}>${totalCost}</Text>
-                </Flex>
-               
-              </VStack>
+
+              <Heading size="md" textAlign={'left'} px="6" mb="5">Your Details</Heading>
+              <CustomerDetails />
               
             </Box>
             
-            <Box bg="white" borderWidth="1px" width="100%" pt="6">
-              <SelectPaymentMethods  heading={'Select your payment method'} />
+            <Box pt={6} bg="white" width="100%">
+              <SelectPaymentMethods heading={'Select your payment method'} />
               <AddPaymentMethod />
               {isIOS() ? null : (
                 <Box px="6" mt={3} mb={openTabOrders.length > 0 || orderMethod === 'Pickup' ? '6' : '3'}>
@@ -268,26 +226,15 @@ export default function OrderConfirmed() {
                 </Button>
               </Box>   
             ) : null}
-        
-            <VStack
-              pos="fixed"
-              bottom="0" 
-              w="100%"
-              px="6"
-              bg="white"
-              py="4" 
-              blur="40%" 
-              spacing={4}
-              align="stretch">
-              {paymentChoice === 'Apple Pay' ? (
-                <Button id="applePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now | Apple Pay</Button>
-              ) :
-                paymentChoice === 'Google Pay' ? (
-                  <Button id="googlePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now  | Google Pay</Button>
-                ) : (
-                  <Button id="customPayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now </Button>
-                ) }
-            </VStack>
+
+            <PaymentDetailsButton 
+              isLoading={loadingPayment} 
+              tip={tip}
+              subTotal={subTotal.toFixed(2)}
+              handleOnClick={handlePayment} 
+              subTotalWithTax={subTotalWithTax} 
+              totalCost={totalCost} 
+              buttonLabel={'Pay'} />
           </VStack>
 
         </Flex>
