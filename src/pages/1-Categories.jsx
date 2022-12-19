@@ -5,7 +5,7 @@ import { supabasePublic } from '../services/supabasePublic';
 import { supabasePrivate } from '../services/supabasePrivate';
 import Navbar from '../components/Navbar';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import CheckoutButton from '../components/CheckoutButton';
+import CheckoutButton from '../components/buttons/CheckoutButton';
 import { useAuth } from '../context/Auth';
 import {
   Stack, VStack, HStack, Button, Drawer, DrawerOverlay, DrawerBody, DrawerHeader, DrawerContent, useDisclosure, Text, Flex, Spacer, Input, Box

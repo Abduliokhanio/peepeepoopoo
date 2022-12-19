@@ -13,7 +13,7 @@ import {updateCart, setOrderTotal, setOrderTax, updateOrderMethod } from '../con
 import Payment from '../tools/payment';
 import AppleGooglePay from '../tools/collectjs';
 import CustomerDetails from '../components/CustomerDetails';
-import PaymentDetailsButton from '../components/PaymentDetailsButton';
+import PaymentDetailsButton from '../components/buttons/PaymentDetailsButton';
 import TabIcon from '../components/icons/TabIcon';
 import SelectPaymentMethods from '../components/SelectPaymentMethods';
 import AddPaymentMethod from '../components/AddPaymentMethod';

@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import {VStack, Box, Text, Button } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
-import CartItemCard from '../components/CartItemCard';
-import PaymentDetailsButton from '../components/PaymentDetailsButton';
+import CartItemCard from '../components/cards/CartItemCard';
+import PaymentDetailsButton from '../components/buttons/PaymentDetailsButton';
 import {AiOutlinePlus} from 'react-icons/ai';
 
 export default function CheckoutPage() {

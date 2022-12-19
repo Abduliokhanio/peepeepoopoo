@@ -4,9 +4,9 @@ import {
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { removeFromCart } from '../context/slices/cartSlice';
+import { removeFromCart } from '../../context/slices/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import { setSelectedProduct } from '../context/slices/merchantSlice';
+import { setSelectedProduct } from '../../context/slices/merchantSlice';
 
 export default function CartItemCard({item}) {
 

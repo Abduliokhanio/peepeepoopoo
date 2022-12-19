@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import PaymentDetailsButton from '../components/PaymentDetailsButton';
+import PaymentDetailsButton from '../components/buttons/PaymentDetailsButton';
 import {
   Stack, Container, Flex, Button, Text, Box, Heading, HStack, Divider
 } from '@chakra-ui/react';

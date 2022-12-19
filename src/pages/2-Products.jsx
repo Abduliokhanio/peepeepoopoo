@@ -1,9 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import ProductItem from '../components/ProductCard';
+import ProductItem from '../components/cards/ProductCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import CheckoutButton from '../components/CheckoutButton';
+import CheckoutButton from '../components/buttons/CheckoutButton';
 import ShortUniqueId from 'short-unique-id';
 import {
   Stack, VStack, Select, Flex, Spacer, Box

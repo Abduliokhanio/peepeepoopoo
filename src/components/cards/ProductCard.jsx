@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ShortUniqueId from 'short-unique-id';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth } from '../context/Auth';
+import { useAuth } from '../../context/Auth';
 import {
   Box, Text, Heading, Stack, Flex, Image, IconButton, Icon
 } from '@chakra-ui/react';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
-import { setSelectedProduct } from '../context/slices/merchantSlice';
-import { supabasePrivate } from '../services/supabasePrivate';
+import { setSelectedProduct } from '../../context/slices/merchantSlice';
+import { supabasePrivate } from '../../services/supabasePrivate';
 
 export default function ProductItem({product, title, desc, price, qty, page, imageURL, ...rest}) 
 { 

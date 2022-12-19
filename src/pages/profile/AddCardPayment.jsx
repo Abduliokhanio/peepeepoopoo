@@ -112,14 +112,14 @@ export default function PaymentMethod() {
         align="stretch"
         px="6"
       > 
-        <FormControl mt={16} isInvalid={isCardNumberError}>
+        <FormControl mt={8} isInvalid={isCardNumberError}>
           <FormLabel fontSize='sm'>Card Number</FormLabel>
           <Input 
             value={cardInfo.number}
             onChange={handleCardInputChange} 
             name="number" 
             onFocus={(e) => setCardInputFocus(e.target.name)} 
-            placeholder='xxxx xxxx xxxx xxxx' 
+            placeholder='Card number' 
             size='md' width="100%" />
           {isCardNumberError ? (
             <FormHelperText color="red.500">
@@ -129,13 +129,13 @@ export default function PaymentMethod() {
         </FormControl>
 
         <FormControl isInvalid={isCardNameError}>
-          <FormLabel fontSize='sm'>Full Name</FormLabel>
+          <FormLabel fontSize='sm'>Name</FormLabel>
           <Input 
             value={cardInfo.name} 
             name={'name'} 
             onChange={handleCardInputChange} 
             onFocus={(e) => setCardInputFocus(e.target.name)}
-            placeholder='Required' size='md' width="100%" />
+            placeholder='Name' size='md' width="100%" />
           {isCardNameError ? (
             <FormHelperText color="red.500">
                 Please enter name displayed on the card
@@ -159,13 +159,13 @@ export default function PaymentMethod() {
             ) : null}
           </FormControl>
           <FormControl isInvalid={isCardCvvError}>
-            <FormLabel fontSize='sm'>CVV</FormLabel>
+            <FormLabel fontSize='sm'>CVC</FormLabel>
             <Input 
               value={cardInfo.cvvv} 
               name={'cvv'} 
               onChange={handleCardInputChange} 
               onFocus={(e) => setCardInputFocus(e.target.name)}
-              placeholder='Required' size='md' width="100%" />
+              placeholder='CVC' size='md' width="100%" />
             {isCardCvvError ? (
               <FormHelperText color="red.500">
                 Please enter 3 digits
