@@ -6,6 +6,7 @@ import { useAuth } from '../../context/Auth';
 import {
   Box, Text, Heading, Stack, Flex, Image, IconButton, Icon
 } from '@chakra-ui/react';
+import logoGray from '../../assets/logo-gray.svg';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { setSelectedProduct } from '../../context/slices/merchantSlice';
 import { supabasePrivate } from '../../services/supabasePrivate';
@@ -138,7 +139,8 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
           position="relative"
           h="150px" 
           w="100%"
-          maxW="150px"> 
+          maxW="150px"
+          minW="150px"> 
           {imageURL !== null ? (
             <Image 
               position="relative"
@@ -149,7 +151,17 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
               objectFit="cover"
               src={imageURL} 
               alt="menu" />
-          ) : null}
+          ) : (
+            <Flex
+              justifyContent={'center'}
+              alignItems={'center'}
+              w="100%"
+              h="100%"
+            >
+              <Image src={logoGray} alt="menu" />
+            </Flex>
+           
+          )}
         </Box>
        
         <Flex 
