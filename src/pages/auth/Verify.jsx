@@ -17,6 +17,15 @@ export default function Verify() {
   const [isCodeError, setIsCodeError] = useState(false);
   const [codeMessage, setCodeMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [seconds, setSeconds] = useState(20);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (seconds > 0) setSeconds(seconds - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [seconds]);
 
   supabasePrivate.auth.onAuthStateChange((event, session) => {
     if (event == 'SIGNED_IN') isNewCustomer(session.user.id);
@@ -105,7 +114,9 @@ export default function Verify() {
               {codeMessage}
             </FormHelperText>
           ) : null}
-          <Button onClick={handleResend} mt="8">Retry</Button>
+          <Button 
+            isDisabled={seconds > 0}
+            onClick={handleResend} mt="12">Resend code {seconds > 0 ? `(${seconds})` : null}</Button>
         </FormControl>
       </VStack>
     </Box>
