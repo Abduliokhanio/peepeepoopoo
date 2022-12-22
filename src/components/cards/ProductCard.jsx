@@ -147,7 +147,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
               position="relative"
               id='productImg'
               onClick={() => handleElementClick('productSelect')}
-              minH="150px"
+              h="150px"
               minW="150px"
               objectFit="cover"
               src={imageURL} 

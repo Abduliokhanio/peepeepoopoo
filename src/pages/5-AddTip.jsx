@@ -14,12 +14,10 @@ export default function TipsPage() {
   const navigate = useNavigate();
   const cart = useSelector(state => state.cart.items);
   const orderTax = useSelector(state => state.cart.orderTax);
-  const [loading, setLoading] = useState(false);
 
-  const [subTotal, setSubTotal] = useState(cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0));
-  const [subTotalWithTax, setSubTotalWithTax] =  useState((subTotal + (subTotal * (orderTax/100))).toFixed(2));
-  const [tip, setTip] =  useState(useSelector(state => state.cart.tip));
-  const [totalCost, setTotalCost] =  useState((parseFloat(subTotalWithTax)+parseFloat(tip)).toFixed(2));
+  const subTotal = cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
+  const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
+  const [tip, setTip] =  (useSelector(state => state.cart.tip));
 
   const [isFirstButtonSelected, setIsFirstButtonSelected] = useState(true);
   const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
