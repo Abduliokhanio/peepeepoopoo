@@ -13,7 +13,7 @@ export default function CheckoutPage() {
   const cart = useSelector(state => state.cart.items);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const merchantStoreBrandName = useSelector(state => state.merchant.brandName);
+  const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
   const orderTip = useSelector(state => state.cart.tip);
   const orderTax = useSelector(state => state.cart.orderTax);
@@ -55,7 +55,7 @@ export default function CheckoutPage() {
         <Box textAlign={'right'} pt={4}>
           <Button 
             maxW="200px"
-            onClick={() => navigate(`/${merchantStore.merchantURLPath}`)}
+            onClick={() => navigate(`/${merchantURLPath}`)}
             leftIcon={<AiOutlinePlus />}
             color="white"
             bg="black"

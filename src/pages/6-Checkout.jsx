@@ -5,7 +5,7 @@ import { useAuth } from '../context/Auth';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
 import {
-  Flex, Heading, VStack, Text, Button, Box, Spacer, HStack, Divider, Alert
+  Flex, Heading, VStack, Text, Box, Alert
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import isIOS from '../tools/isIOS';
@@ -27,7 +27,7 @@ export default function OrderConfirmed() {
   const customerFirstName = useSelector(state => state.customer.firstName);
   const customerLastName = useSelector(state => state.customer.lastName);
   const orderMethod = useSelector(state => state.cart.orderType);
-
+  
   const payment = new Payment(process.env.REACT_APP_STC_SK);
   const cart = useSelector(state => state.cart.items);
   const orderTax = useSelector(state => state.cart.orderTax);
@@ -35,22 +35,23 @@ export default function OrderConfirmed() {
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
   const tip = useSelector(state => state.cart.tip);
   const totalCost = (parseFloat(subTotalWithTax)+parseFloat(tip)).toFixed(2);
-  
   const orderType = useSelector(state => state.cart.orderType);
   const pendingOrders = cart.filter(item => item.status === 'pending');
   const openTabOrders = cart.filter(item => item.status === 'sentToKitchen');
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const tableNumber = useSelector(state => state.merchant.tableNumber);
-
   const [lastFour, setLastFour] = useState(null);
   const [loadingPayment, setLoadingPayment] = useState(false);
+  
   const [paymentChoice, setPaymentChoice] = useState(null);
   const [loadingKeepTabOpen, setLoadingKeepTabOpen] = useState(false);
+  
   const [cardNumber, setCardNumber] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvv, setCardCvv] = useState('');
-
+  
   useEffect(() => {
+    console.log(tip);
     if (user === null) navigate('/auth/signup');
     configCollectJS();
     setPreviousRecord();
