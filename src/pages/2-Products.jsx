@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/buttons/CheckoutButton';
 import ShortUniqueId from 'short-unique-id';
 import {
-  Stack, VStack, Select, Flex, Spacer, Box
+  Stack, VStack, Text, Flex, Spacer, Box, Tag, HStack, TagLabel
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setProducts, setSelectedProduct, setCategoryID, setCategoryName } from '../context/slices/merchantSlice';
@@ -43,7 +43,22 @@ export default function ProductsPage() {
 
   const displayMenuSelections = () => {
     return (merchantStore.menuOptions.map((menu, index) =>  (
-      <option key={index} value={menu.id}>{menu.name}</option>)
+      <Tag
+        size={'lg'}
+        key={index}
+        onClick={() => handleCategorySelect(menu)}
+        value={menu.id}
+        borderRadius='full'
+        variant='outline'
+        bg={selectedCategory === parseInt(menu.id) ? 'black' : 'white'}
+        color={selectedCategory === parseInt(menu.id) ? 'white' : 'black'}
+        py={3}
+        px={4}
+        display={'inline-block'}
+      >
+        <Text w="100%">{menu.name}</Text>
+      </Tag>
+    )
     ));
   };
 
@@ -67,26 +82,28 @@ export default function ProductsPage() {
       />)));
   };
 
-  const handleCategorySelect = async (option) => {
-    dispatch(setCategoryID(parseInt(option.target.value)));
-    setSelectedCategory(parseInt(option.target.value));
-    filterSelectedProducts(parseInt(option.target.value));
+  const handleCategorySelect = async (menu) => {
+    dispatch(setCategoryID(parseInt(menu.id)));
+    setSelectedCategory(parseInt(menu.id));
+    filterSelectedProducts(parseInt(menu.id));
   };
 
   return (
     <Box bg="#f6f6f6" pb="300px">
       <Flex direction="column">
         <Navbar title={merchantStoreCategoryName} showBackButton={true}  showTabButton={true}/>
-        <Box py="4" pl="2">
-          <Select 
-            borderColor={'gray.300'}
-            maxW="200" 
-            bg="white"
-            value={selectedCategory} 
-            onChange={(option) => handleCategorySelect(option)}>
-            {currentProducts.length === 0 ? null : displayMenuSelections()}
-          </Select>
-        </Box>
+        <HStack 
+          id="menu-slider"
+          w="100%"
+          overflowY={'scroll'}
+          py="6" 
+          pl="2"
+          display={'block'}
+          whiteSpace={'nowrap'}
+        >
+          {currentProducts.length === 0 ? null : displayMenuSelections()}
+
+        </HStack>
         <Stack pb='115' px="2">
           <InfiniteScroll
             dataLength={currentProducts.length === 0 ? 0 : merchantStoreProducts.length} 
