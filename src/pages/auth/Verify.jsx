@@ -32,7 +32,7 @@ export default function Verify() {
   });
 
   const handleVerify = async (code) => { 
-    setisCodeError(false);
+    setIsCodeError(false);
     setLoading(true);
     let { error } = await supabasePrivate.auth.verifyOtp({
       phone: '+1' + customerNumber,
@@ -83,7 +83,7 @@ export default function Verify() {
 
   return (
     <Box>
-      <Navbar title="Create account" showBackButton={true} />
+      <Navbar title="Login" showBackButton={true} />
       <VStack
         pt="20"
         spacing={4}
@@ -97,8 +97,8 @@ export default function Verify() {
           <Text textAlign="center">Enter the code sent to your phone</Text>
         </VStack>
         <FormControl isInvalid={isCodeError}>
-          {loading ? <Spinner /> : (
-            <HStack justifyContent="center" w="100%" >
+          <HStack justifyContent="center" w="100%" >
+            {loading ? <Spinner /> : (
               <PinInput 
                 otp
                 onComplete={(code) => handleVerify(code)}
@@ -109,9 +109,9 @@ export default function Verify() {
                 <PinInputField />
                 <PinInputField />
                 <PinInputField />
-              </PinInput>
-            </HStack>
-          )}
+              </PinInput>           
+            )}
+          </HStack>
           {isCodeError ? (
             <FormHelperText mt="6" color="red.500">
               {codeMessage}

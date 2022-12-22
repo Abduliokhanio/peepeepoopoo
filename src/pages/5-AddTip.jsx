@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import {
@@ -17,7 +16,7 @@ export default function TipsPage() {
 
   const subTotal = cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
-  const [tip, setTip] =  (useSelector(state => state.cart.tip));
+  const [tip, setTip] =  useState(useSelector(state => state.cart.tip));
 
   const [isFirstButtonSelected, setIsFirstButtonSelected] = useState(true);
   const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
