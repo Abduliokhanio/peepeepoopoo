@@ -7,6 +7,7 @@ import {
   Box, Text, Heading, Stack, Flex, Image, IconButton, Icon
 } from '@chakra-ui/react';
 import logoGray from '../../assets/logo-gray.svg';
+import productCardImgFallback from '../../assets/product-img-fallback.svg';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { setSelectedProduct } from '../../context/slices/merchantSlice';
 import { supabasePrivate } from '../../services/supabasePrivate';
@@ -150,6 +151,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
               minW="150px"
               objectFit="cover"
               src={imageURL} 
+              fallbackSrc={productCardImgFallback}
               alt="menu" />
           ) : (
             <Flex
