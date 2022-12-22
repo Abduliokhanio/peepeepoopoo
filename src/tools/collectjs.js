@@ -27,22 +27,17 @@ class CollectJS extends Component {
             }
           ],
           'totalLabel': 'foobar',
-          'type': 'pay'
+          'type': 'check-out'
         },
         'googlePay': {
           'selector': '#googlePayButton',
-          'shippingAddressRequired': true,
-          'shippingAddressParameters': {
-            'phoneNumberRequired': true,
-            'allowedCountryCodes': ['US']
-          },
           'billingAddressRequired': true,
           'billingAddressParameters': {
             'phoneNumberRequired': true,
             'format': 'MIN'
           },
           'emailRequired': true,
-          'buttonType': 'pay',
+          'buttonType': 'checkout',
           'buttonColor': 'white',
           'buttonLocale': 'en'
         }

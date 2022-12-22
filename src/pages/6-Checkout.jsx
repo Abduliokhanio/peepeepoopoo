@@ -52,9 +52,9 @@ export default function OrderConfirmed() {
   
   useEffect(() => {
     if (user === null) navigate('/auth/signup');
-    configCollectJS();  
+    CollectJSInstance.configure();
     setPreviousRecord();
-  }, []);
+  }, [paymentChoice]);
 
   const prefillFields = (savedData) => {
     if (savedData.card_number !== null) setLastFour(savedData.card_number.toString().slice(-4));
@@ -63,13 +63,6 @@ export default function OrderConfirmed() {
     if (savedData.card_expiry !== null) setCardExpiry(savedData.card_expiry);
     if (savedData.card_cvv !== null) setCardCvv(savedData.card_cvv);
   };
-
-  const configCollectJS = async () => {    
-    CollectJSInstance.configure();
-    // if (paymentChoice === 'Apple Pay') CollectJS.configApplePay(window);
-    // else if (paymentChoice === 'Google Pay') CollectJS.configGooglePay(window);
-  };
-
   const setPreviousRecord = async (e) => {
 
     const querySavedData = await supabasePrivate
@@ -96,7 +89,6 @@ export default function OrderConfirmed() {
 
   const handlePayment = async () => {
     setLoadingPayment(true);
-    
     const ticketID = await sendTicketToKDS();
 
     dispatch(setOrderTotal(parseFloat(totalCost)));
@@ -181,12 +173,12 @@ export default function OrderConfirmed() {
               )}
 
               <Heading size="md" textAlign={'left'} px="6" mb="5">Your Details</Heading>
-              <CustomerDetails />
+              <CustomerDetails page="checkout" />
               
             </Box>
             
             <Box pt={6} bg="white" width="100%">
-              <SelectPaymentMethods heading={'Select your payment method'} />
+              <SelectPaymentMethods heading={'Select your payment method'} updatePaymentChoice={setPaymentChoice} />
               <AddPaymentMethod />
               {isIOS() ? null : (
                 <Box px="6" mt={3} mb={openTabOrders.length > 0 || orderMethod === 'Pickup' ? '6' : '3'}>
@@ -228,17 +220,15 @@ export default function OrderConfirmed() {
               </Box>   
             ) : null} */}
 
-            <div id="applePayButton">Apple Pay</div>
-            <div id="googlePayButton">Google Pay</div>
-
             <PaymentDetailsButton 
               isLoading={loadingPayment} 
               tip={tip}
+              paymentChoice={paymentChoice}
               subTotal={subTotal.toFixed(2)}
               handleOnClick={handlePayment} 
               subTotalWithTax={subTotalWithTax} 
-              totalCost={totalCost} 
-              buttonLabel={'Pay'} />
+              totalCost={totalCost} />
+
           </VStack>
 
         </Flex>

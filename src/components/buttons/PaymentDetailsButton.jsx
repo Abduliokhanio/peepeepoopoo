@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineEdit } from 'react-icons/ai';
 
-export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, subTotalWithTax, buttonLabel}) {
+export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, subTotalWithTax, paymentChoice}) {
   const navigate = useNavigate();
   const revenueServiceFee = (subTotal*0.018).toFixed(2) || 0;
   const [totalCost, setTotalCost] = useState((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2)+revenueServiceFee);
@@ -14,28 +14,7 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
   useEffect(() => {
     if (tip === undefined) setTotalCost(subTotalWithTax);
     else setTotalCost((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2));
-
-  }, [subTotal, tip]);
-
-  {/* <VStack
-              pos="fixed"
-              bottom="0" 
-              ) }
-              w="100%"
-              px="6"
-              bg="white"
-              py="4" 
-              blur="40%" 
-              spacing={4}
-              align="stretch">
-              {paymentChoice === 'Apple Pay' ? (
-                <Button id="applePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now | Apple Pay</Button>
-              ) :
-                paymentChoice === 'Google Pay' ? (
-                  <Button id="googlePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now  | Google Pay</Button>
-                ) : (
-                  <Button id="customPayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now </Button>
-            </VStack> */}
+  }, [subTotal, tip, paymentChoice]);
 
   return (
     <Flex
@@ -87,26 +66,61 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
           <Text fontSize={'2.25rems'} fontWeight={'bold'}>${totalCost}</Text>
         </Flex>
       </VStack>
-      <Button
-        onClick={handleOnClick}
-        isLoading={loading} 
-        _loading={{
-          bg: 'transparent' 
-        }}
-        _hover={{
-          bg: 'black' 
-        }}
-        _focus={{
-          bg: 'black' 
-        }}
-        mx="6"
-        h="65px"
-        mt="4"
-        borderRadius="md"
-        backgroundColor={'black'}
-      >
-        <Heading color="white" fontWeight='semibold' size="md">{buttonLabel}</Heading>
-      </Button>
+
+      {paymentChoice === 'Apple Pay' ? (
+        <Button
+          isLoading={loading} 
+          _loading={{
+            bg: 'transparent' 
+          }}
+          _hover={{
+            bg: 'black' 
+          }}
+          _focus={{
+            bg: 'black' 
+          }}
+          mx="6"
+          h="65px"
+          mt="4"
+          borderRadius="md"
+          backgroundColor={'black'}
+        >
+          <Box id="applePayButton" color="white">Apple Pay</Box>
+        </Button>
+      ) : null}
+
+      {paymentChoice === 'Google Pay' ? (
+        <Box
+          mx="6"
+          h="50px"
+          id="googlePayButton" 
+          color="white">Google Pay</Box>
+      ) : null}
+
+      {paymentChoice === 'cardPay' ? (
+        <Button
+          display={paymentChoice !== 'cardPay' ? 'none' : 'block'}
+          onClick={handleOnClick}
+          isLoading={loading} 
+          _loading={{
+            bg: 'transparent' 
+          }}
+          _hover={{
+            bg: 'black' 
+          }}
+          _focus={{
+            bg: 'black' 
+          }}
+          mx="6"
+          h="65px"
+          mt="4"
+          borderRadius="md"
+          backgroundColor={'black'}
+        >
+          <Heading color="white" fontWeight='semibold' size="md">Pay</Heading>
+        </Button>
+      ) : null}
+      
     </Flex>
   );
 }

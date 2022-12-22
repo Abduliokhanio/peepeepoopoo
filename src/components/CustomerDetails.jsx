@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-export default function CustomerDetails() {
+export default function CustomerDetails({ page }) {
   const { user } = useAuth();
   const toast = useToast();
   const navigate = useNavigate();
@@ -125,30 +125,33 @@ export default function CustomerDetails() {
         </FormControl>
       </VStack>
 
-      <Flex
-        pos="fixed"
-        bottom="0" 
-        bg="RGBA(255, 255, 255, 0.90)" 
-        py="4" 
-        blur="40%" 
-        w="100%" 
-        justifyContent="center"
-        borderTop="1px solid #e8e8e8">
-        <Button
-          onClick={handleContinue}
-          isLoading={loading} 
-          _loading={{
-            bg: 'transparent' 
-          }}
-          mx="6"
-          w="100%"
-          h="65px"
-          borderRadius="md"
-          backgroundColor={'black'}
-        >
-          <Heading color="white" fontWeight='semibold' size="md">Save changes</Heading>
-        </Button>
-      </Flex>
+      {page === 'checkout' ? null : (
+        <Flex
+          pos="fixed"
+          bottom="0" 
+          bg="RGBA(255, 255, 255, 0.90)" 
+          py="4" 
+          blur="40%" 
+          w="100%" 
+          justifyContent="center"
+          borderTop="1px solid #e8e8e8">
+          <Button
+            onClick={handleContinue}
+            isLoading={loading} 
+            _loading={{
+              bg: 'transparent' 
+            }}
+            mx="6"
+            w="100%"
+            h="65px"
+            borderRadius="md"
+            backgroundColor={'black'}
+          >
+            <Heading color="white" fontWeight='semibold' size="md">Save changes</Heading>
+          </Button>
+        </Flex>
+      )}
+      
     </Box>
   );
 }
