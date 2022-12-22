@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Flex, Heading, VStack, Text, Spacer, Button
+  Box, Flex, Heading, VStack, Text, Spacer, Button, Icon
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { AiOutlineEdit } from 'react-icons/ai';
 
 export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, subTotalWithTax, buttonLabel}) {
-
+  const navigate = useNavigate();
   const revenueServiceFee = (subTotal*0.018).toFixed(2) || 0;
   const [totalCost, setTotalCost] = useState((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2)+revenueServiceFee);
 
@@ -18,6 +20,7 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
   {/* <VStack
               pos="fixed"
               bottom="0" 
+              ) }
               w="100%"
               px="6"
               bg="white"
@@ -32,7 +35,6 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
                   <Button id="googlePayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now  | Google Pay</Button>
                 ) : (
                   <Button id="customPayButton" py="8" disabled={loadingKeepTabOpen} isLoading={loadingPayment} onClick={() => handlePayment()} w="100%" size="lg" color="white" bg="black" borderColor="black">Pay Now </Button>
-                ) }
             </VStack> */}
 
   return (
@@ -57,11 +59,20 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
           <Text>${subTotal}</Text>
         </Flex>
         {tip === null || tip === undefined ? null : (
-          <Flex>
-            <Text>Tip</Text>
-            <Spacer />
-            <Text>${tip}</Text>
-          </Flex>
+          <Box>
+            <Flex>
+              <Text>Tip</Text>
+              <Spacer />
+              <Flex
+                onClick={() => navigate('/cart/tip')}
+                alignItems={'center'}
+                justifyContent={'center'}
+              >
+                <Icon mr={2} as={AiOutlineEdit} />
+                <Text>${tip}</Text>
+              </Flex>
+            </Flex>
+          </Box>
         )}
         <Flex>
           <Text>Venue Service Fee</Text>

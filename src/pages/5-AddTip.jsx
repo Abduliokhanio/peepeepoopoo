@@ -13,8 +13,6 @@ export default function TipsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cart = useSelector(state => state.cart.items);
-  const merchantStore = useSelector(state => state.merchant);
-  const pendingOrders = cart.filter(order => order.sentToKitchen === false);
   const orderTax = useSelector(state => state.cart.orderTax);
   const [loading, setLoading] = useState(false);
 
@@ -30,10 +28,36 @@ export default function TipsPage() {
 
   useEffect(() => {
     if (tip === null) setTip((subTotalWithTax*0.15).toFixed(2));
+    prefillTip();
   },[]);
 
-  const handleContinue = () => {
-    dispatch(setOrderTip(tip));
+  const prefillTip = () => {
+    const tipPercentage = (tip/subTotalWithTax).toFixed(2);
+    if (tipPercentage === '0.15') {
+      setIsFirstButtonSelected(true);
+      setIsSecondButtonSelected(false);
+      setIsThirdButtonSelected(false);
+      setIsFourthButtonSelected(false);
+    } else if (tipPercentage === '0.20') {
+      setIsFirstButtonSelected(false);
+      setIsSecondButtonSelected(true);
+      setIsThirdButtonSelected(false);
+      setIsFourthButtonSelected(false);
+    } else if (tipPercentage === '0.25') {
+      setIsFirstButtonSelected(false);
+      setIsSecondButtonSelected(false);
+      setIsThirdButtonSelected(true);
+      setIsFourthButtonSelected(false);
+    } else if (tipPercentage === '0.00') {
+      setIsFirstButtonSelected(false);
+      setIsSecondButtonSelected(false);
+      setIsThirdButtonSelected(false);
+      setIsFourthButtonSelected(true);
+    }
+  };
+
+  const handleContinue = (selectedTip) => {
+    dispatch(setOrderTip(selectedTip));
     navigate('/cart/checkout');
   };
 
@@ -42,8 +66,7 @@ export default function TipsPage() {
     setIsSecondButtonSelected(false);
     setIsThirdButtonSelected(false);
     setIsFourthButtonSelected(false);
-    setTip((subTotalWithTax*0.15).toFixed(2));
-    handleContinue();
+    handleContinue((subTotalWithTax*0.15).toFixed(2));
   };
   
   const handleSecondButton = () => {
@@ -51,8 +74,7 @@ export default function TipsPage() {
     setIsSecondButtonSelected(true);
     setIsThirdButtonSelected(false);
     setIsFourthButtonSelected(false);
-    setTip((subTotalWithTax*0.20).toFixed(2));
-    handleContinue();
+    handleContinue((subTotalWithTax*0.20).toFixed(2));
   };
 
   const handleThirdButton = () => {
@@ -60,8 +82,7 @@ export default function TipsPage() {
     setIsSecondButtonSelected(false);
     setIsThirdButtonSelected(true);
     setIsFourthButtonSelected(false);
-    setTip((subTotalWithTax*0.25).toFixed(2));
-    handleContinue();
+    handleContinue((subTotalWithTax*0.25).toFixed(2));
   };
 
   const handleNoTipButton = () => {
@@ -69,8 +90,7 @@ export default function TipsPage() {
     setIsSecondButtonSelected(false);
     setIsThirdButtonSelected(false);
     setIsFourthButtonSelected(true);
-    setTip(0);
-    handleContinue();
+    handleContinue(0);
   };
   
   return (
