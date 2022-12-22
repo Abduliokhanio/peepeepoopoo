@@ -241,12 +241,12 @@ export default function CategoriesPage() {
               py="4"
               borderBottomWidth="1px"
               px="6" 
-              bg="white">
+            >
               {merchantAddress}
             </Flex>
           ) : null
         )}
-        <Stack pb='115' px="6">
+        <Stack pb='115' px="6" bg="white">
          
           <InfiniteScroll
             dataLength={merchantStore.menuOptions === null || merchantStore.menuOptions === undefined ? 0 : merchantStore.menuOptions.length} 

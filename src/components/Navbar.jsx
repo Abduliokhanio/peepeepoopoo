@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Flex, Spacer, Heading, Box, Icon
+  Flex, Spacer, Heading, Box, Icon, Image
 } from '@chakra-ui/react';
 import TabIcon from './icons/TabIcon';
 import { useSelector } from 'react-redux';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { CiUser } from 'react-icons/ci';
+import logo from '../assets/logo-horizontal-w.svg';
 
 export default function NavBar({ title, showBackButton, showLeftButton, showTabButton }) {
   const navigate = useNavigate();
@@ -56,9 +57,13 @@ export default function NavBar({ title, showBackButton, showLeftButton, showTabB
       <Flex px="6" h="16" alignItems="center">
         {navButton(showBackButton)}
         <Spacer />
-        <Heading 
-          color="#dadada" 
-          fontSize="lg">{title}</Heading>
+        {title === 'OrderAhead' ? (
+          <Image src={logo} maxW="125px" />
+        ) : (
+          <Heading 
+            color="#dadada" 
+            fontSize="lg">{title}</Heading>
+        )}
         <Spacer />
         {openTabOrders.length > 0 ? (
           rightNavButton(showTabButton)
