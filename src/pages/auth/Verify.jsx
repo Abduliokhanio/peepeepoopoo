@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabasePrivate } from '../../services/supabasePrivate';
 import Navbar from '../../components/Navbar';
 import {
-  PinInput, PinInputField, Flex, HStack, FormControl, Box, Heading, FormHelperText, Input, VStack, Text, Button, InputGroup, InputLeftAddon, InputLeftElement,
+  PinInput, PinInputField, Spinner, HStack, FormControl, Box, Heading, FormHelperText, Input, VStack, Text, Button, InputGroup, InputLeftAddon, InputLeftElement,
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFirstName, setLastName } from '../../context/slices/customerSlice';
@@ -32,6 +32,7 @@ export default function Verify() {
   });
 
   const handleVerify = async (code) => { 
+    setisCodeError(false);
     setLoading(true);
     let { error } = await supabasePrivate.auth.verifyOtp({
       phone: '+1' + customerNumber,
@@ -74,6 +75,7 @@ export default function Verify() {
   };
 
   const handleResend = async (e) => {
+    setSeconds(20);
     await supabasePrivate.auth.signInWithOtp({
       phone: '+1' + customerNumber
     });
@@ -95,20 +97,21 @@ export default function Verify() {
           <Text textAlign="center">Enter the code sent to your phone</Text>
         </VStack>
         <FormControl isInvalid={isCodeError}>
-          <HStack justifyContent="center" w="100%" >
-            <PinInput 
-              otp
-              onComplete={(code) => handleVerify(code)}
-              size="lg">
-              <PinInputField />
-              <PinInputField />
-              <PinInputField />
-              <PinInputField />
-              <PinInputField />
-              <PinInputField />
-            </PinInput>
-          </HStack>
-          
+          {loading ? <Spinner /> : (
+            <HStack justifyContent="center" w="100%" >
+              <PinInput 
+                otp
+                onComplete={(code) => handleVerify(code)}
+                size="lg">
+                <PinInputField />
+                <PinInputField />
+                <PinInputField />
+                <PinInputField />
+                <PinInputField />
+                <PinInputField />
+              </PinInput>
+            </HStack>
+          )}
           {isCodeError ? (
             <FormHelperText mt="6" color="red.500">
               {codeMessage}
