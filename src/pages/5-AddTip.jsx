@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import PaymentDetailsButton from '../components/buttons/PaymentDetailsButton';
 import {
   Stack, Container, Flex, Button, Text, Box, Heading, HStack, Divider
 } from '@chakra-ui/react';
@@ -27,6 +26,7 @@ export default function TipsPage() {
   const [isFirstButtonSelected, setIsFirstButtonSelected] = useState(true);
   const [isSecondButtonSelected, setIsSecondButtonSelected] = useState(false);
   const [isThirdButtonSelected, setIsThirdButtonSelected] = useState(false);
+  const [isFourthButtonSelected, setIsFourthButtonSelected] = useState(false);
 
   useEffect(() => {
     if (tip === null) setTip((subTotalWithTax*0.15).toFixed(2));
@@ -41,23 +41,38 @@ export default function TipsPage() {
     setIsFirstButtonSelected(true);
     setIsSecondButtonSelected(false);
     setIsThirdButtonSelected(false);
+    setIsFourthButtonSelected(false);
     setTip((subTotalWithTax*0.15).toFixed(2));
+    handleContinue();
   };
   
   const handleSecondButton = () => {
     setIsFirstButtonSelected(false);
     setIsSecondButtonSelected(true);
     setIsThirdButtonSelected(false);
+    setIsFourthButtonSelected(false);
     setTip((subTotalWithTax*0.20).toFixed(2));
+    handleContinue();
   };
 
   const handleThirdButton = () => {
     setIsFirstButtonSelected(false);
     setIsSecondButtonSelected(false);
     setIsThirdButtonSelected(true);
+    setIsFourthButtonSelected(false);
     setTip((subTotalWithTax*0.25).toFixed(2));
+    handleContinue();
   };
 
+  const handleNoTipButton = () => {
+    setIsFirstButtonSelected(false);
+    setIsSecondButtonSelected(false);
+    setIsThirdButtonSelected(false);
+    setIsFourthButtonSelected(true);
+    setTip(0);
+    handleContinue();
+  };
+  
   return (
     <Box bg="#f6f6f6" minH="100vh">
       <Flex direction="column">
@@ -106,18 +121,22 @@ export default function TipsPage() {
                 <Text pr="1">${(subTotalWithTax*0.25).toFixed(2)}</Text>
                 <Text>(25%)</Text>
               </Button>
+              <Button 
+                onClick={() => handleNoTipButton()}
+                size="lg" 
+                bg={isFourthButtonSelected === true ? '#000000' : 'white'}
+                _focus={{
+                  bg: '#000000'
+                }}
+                border={isFourthButtonSelected === true ? 'none' : '1.5px solid #000000'}
+                color={isFourthButtonSelected ? 'white' : 'black'}>
+                <Text pr="4">Maybe next time</Text>                              
+              </Button>            
             </Stack>
           </Container>
         </Stack>
 
       </Flex>
-      <PaymentDetailsButton 
-        isLoading={loading} 
-        subTotal={subTotal.toFixed(2)}
-        tip={parseFloat(tip).toFixed(2)} 
-        handleOnClick={() => handleContinue()} 
-        subTotalWithTax={subTotalWithTax} 
-        buttonLabel={'Continue'} />
     </Box>
   );
 }
