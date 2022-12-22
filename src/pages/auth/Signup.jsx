@@ -47,7 +47,7 @@ export default function Login() {
 
   return (
     <Box>
-      <Navbar title="Your account" showBackButton={true} brandColor={localStorage.getItem('brandColor')} />
+      <Navbar title="Your account" showBackButton={true}  />
       <VStack
         spacing={4}
         align="stretch"

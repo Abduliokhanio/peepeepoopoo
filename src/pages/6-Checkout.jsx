@@ -5,20 +5,20 @@ import { useAuth } from '../context/Auth';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useNavigate } from 'react-router-dom';
 import {
-  Flex, Heading, VStack, Text, Box, Alert
+  Flex, Heading, VStack, Text, Box, Alert, Button
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import isIOS from '../tools/isIOS';
 import {updateCart, setOrderTotal, setOrderTax, updateOrderMethod } from '../context/slices/cartSlice';
 import Payment from '../tools/payment';
-import AppleGooglePay from '../tools/collectjs';
+import CollectJS from '../tools/collectjs';
 import CustomerDetails from '../components/CustomerDetails';
 import PaymentDetailsButton from '../components/buttons/PaymentDetailsButton';
 import SelectPaymentMethods from '../components/SelectPaymentMethods';
 import AddPaymentMethod from '../components/AddPaymentMethod';
 
 export default function OrderConfirmed() {
-  const CollectJS = new AppleGooglePay();
+  const CollectJSInstance = new CollectJS();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useAuth();
@@ -51,11 +51,10 @@ export default function OrderConfirmed() {
   const [cardCvv, setCardCvv] = useState('');
   
   useEffect(() => {
-    console.log(tip);
     if (user === null) navigate('/auth/signup');
-    configCollectJS();
+    configCollectJS();  
     setPreviousRecord();
-  }, [cart]);
+  }, []);
 
   const prefillFields = (savedData) => {
     if (savedData.card_number !== null) setLastFour(savedData.card_number.toString().slice(-4));
@@ -65,9 +64,10 @@ export default function OrderConfirmed() {
     if (savedData.card_cvv !== null) setCardCvv(savedData.card_cvv);
   };
 
-  const configCollectJS = () => {
-    if (paymentChoice === 'Apple Pay') CollectJS.configApplePay(order);
-    else if (paymentChoice === 'Google Pay') CollectJS.configGooglePay(order);
+  const configCollectJS = async () => {    
+    CollectJSInstance.configure();
+    // if (paymentChoice === 'Apple Pay') CollectJS.configApplePay(window);
+    // else if (paymentChoice === 'Google Pay') CollectJS.configGooglePay(window);
   };
 
   const setPreviousRecord = async (e) => {
@@ -227,6 +227,9 @@ export default function OrderConfirmed() {
                 </Button>
               </Box>   
             ) : null} */}
+
+            <div id="applePayButton">Apple Pay</div>
+            <div id="googlePayButton">Google Pay</div>
 
             <PaymentDetailsButton 
               isLoading={loadingPayment} 

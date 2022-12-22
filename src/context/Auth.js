@@ -35,10 +35,6 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    const script = document.createElement('script');
-    script.setAttribute('src', 'https://sharingthecredit.transactiongateway.com/token/Collect.js');
-    script.setAttribute('data-tokenization-key', process.env.REACT_APP_COLLECTJS_TOKEN);
-    document.body.appendChild(script);
   }, []);
 
   // create signUp, signIn, signOut functions
