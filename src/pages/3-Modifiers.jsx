@@ -94,12 +94,11 @@ export default function ModifiersPage() {
       dispatch(addToCart(cartOrderInsert));
     }
     
-    navigate('/cart/checkout');
+    navigate('/cart');
   };
 
   const handleModifierCountInput = (count) => {
     setItemCount(count);
-    console.log('item price: ', merchantStoreSelectedProduct.item.price);
     setTotalPrice(count * merchantStoreSelectedProduct.item.price);
   };
 
@@ -122,13 +121,13 @@ export default function ModifiersPage() {
         .match({
           'modifier_groups_id': modifierGroup.id
         });
+      if (error) throw error;
       return {
         ...modifierGroup, modifiers: data 
       };
     });
 
     setModifierGroups(await Promise.all(hydratedModifierGroups));
-    console.log('hydrated modifier groups: ', await Promise.all(hydratedModifierGroups));
   };
 
   const handleCheckboxChange =  (e, modifier, modifierGroup) => {

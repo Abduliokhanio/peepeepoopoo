@@ -12,6 +12,7 @@ export default function CartItemCard({item}) {
 
   const cart = useSelector(state => state.cart.items);
   const itemInCart = cart.find(cartItem => cartItem.id === item.id);
+  const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ export default function CartItemCard({item}) {
 
   const handleRemoveFromCart = () => {
     dispatch(removeFromCart(item));
-    if (cart.length === 1) navigate(-1);
+    if (cart.length === 1) navigate(`/${merchantURLPath}`);
   };
 
   const handleCartItemClick = () => {
