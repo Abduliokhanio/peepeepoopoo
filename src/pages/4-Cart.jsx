@@ -27,10 +27,7 @@ export default function CheckoutPage() {
   const handleContinue = async () => {
     setLoading(true);
     if (orderTip === null) navigate('/cart/tip');
-    // TODO: change back to catch missing payment method
-    // else if (hasPaymentMethod === false) navigate('/user/payment-method');
-    else navigate('/cart/checkout');
-    
+    else navigate('/cart/checkout'); 
     setLoading(false);
   };
 
@@ -55,10 +52,16 @@ export default function CheckoutPage() {
               item={item}
             />);
         } )}
-        <Button 
-          onClick={() => navigate(`/${merchantStore.merchantURLPath}`)}
-          leftIcon={<AiOutlinePlus />}
-        >Add items</Button>
+        <Box textAlign={'right'} pt={4}>
+          <Button 
+            maxW="200px"
+            onClick={() => navigate(`/${merchantStore.merchantURLPath}`)}
+            leftIcon={<AiOutlinePlus />}
+            color="white"
+            bg="black"
+          >
+          Add items</Button>
+        </Box>
       </VStack>
       {/* TODO: voucher / discount code & allergies text area */}
       

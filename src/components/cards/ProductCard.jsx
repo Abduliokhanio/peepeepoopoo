@@ -132,13 +132,13 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
       backgroundColor={'white'}
       borderRadius='lg' 
       overflow='hidden' 
-      h="150px"
+      minH="150px"
       borderWidth="0.5px" {...rest}>
       <Flex direction="row">
         <Box
           bg="gray.100"
           position="relative"
-          h="150px" 
+          minH="150px" 
           w="100%"
           maxW="150px"
           minW="150px"> 
@@ -147,7 +147,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
               position="relative"
               id='productImg'
               onClick={() => handleElementClick('productSelect')}
-              h="150px"
+              minH="150px"
               minW="150px"
               objectFit="cover"
               src={imageURL} 
@@ -167,6 +167,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
         </Box>
        
         <Flex 
+          id="right-side"
           mx="4" 
           mt="3"
           mb="1"
