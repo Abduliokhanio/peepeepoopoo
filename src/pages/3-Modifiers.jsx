@@ -21,7 +21,7 @@ export default function ModifiersPage() {
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct.item.price);
   const [itemCount, setItemCount] = useState(1);
   const [isItemInCart, setIsItemInCart] = useState(false);
@@ -67,6 +67,7 @@ export default function ModifiersPage() {
   };
 
   const handleCartButtoon = () => {
+    if (loading) return;
     if (isItemInCart) {
       const cartItemUpdate = { 
         id: merchantStoreSelectedProduct.id, 
@@ -317,7 +318,12 @@ export default function ModifiersPage() {
           justifyContent="center"
           direction="column"
         >
-          <ModifierButton isItemInCart={isItemInCart} handleOnClick={handleCartButtoon} numberOfItems={itemCount} totalPrice={totalPrice} />
+          <ModifierButton 
+            loading={loading}
+            isItemInCart={isItemInCart} 
+            handleOnClick={handleCartButtoon} 
+            numberOfItems={itemCount} 
+            totalPrice={totalPrice} />
         </Flex>
       </Box>
       

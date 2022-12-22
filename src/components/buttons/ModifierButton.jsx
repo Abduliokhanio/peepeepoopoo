@@ -3,7 +3,7 @@ import {
   Box, Flex, Heading
 } from '@chakra-ui/react';
 
-export default function ModifierButton({handleOnClick, totalPrice, isItemInCart}) {
+export default function ModifierButton({handleOnClick, totalPrice, isItemInCart, loading}) {
 
   const buttonLabelType = () => {
     if (isItemInCart === false) {
@@ -24,11 +24,11 @@ export default function ModifierButton({handleOnClick, totalPrice, isItemInCart}
         py="5"
         mr='8'
         borderRadius="md"
-        backgroundColor={'black'}
+        backgroundColor={loading ? 'gray.300' : 'black'}
       >
         <Flex justifyContent='space-between' px="8" alignItems="center">
-          <Heading color="white" fontWeight='semibold' size="md">{buttonLabelType()}</Heading>
-          <Heading color="white" fontWeight='semibold' size="md">${totalPrice.toFixed(2)}</Heading>
+          <Heading color={loading ? 'gray.500' : 'white'} fontWeight='semibold' size="md">{buttonLabelType()}</Heading>
+          <Heading color={loading ? 'gray.500' : 'white'} fontWeight='semibold' size="md">${totalPrice.toFixed(2)}</Heading>
         </Flex>
       </Box>
     </Flex>
