@@ -262,7 +262,7 @@ export default function CategoriesPage() {
         </Stack>
         <Spacer />
       </Flex>
-      {cart.length > 1 ? <CheckoutButton handleCheckout={handleCheckout} /> : null}
+      {cart.length > 0 ? <CheckoutButton handleCheckout={handleCheckout} /> : null}
     </Box>
   );
 }
