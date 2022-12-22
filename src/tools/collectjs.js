@@ -42,7 +42,7 @@ class CollectJS extends Component {
             'format': 'MIN'
           },
           'emailRequired': true,
-          'buttonType': 'buy',
+          'buttonType': 'pay',
           'buttonColor': 'white',
           'buttonLocale': 'en'
         }
