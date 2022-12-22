@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import isIOS from '../tools/isIOS';
+import checkIOS from '../tools/isIOS';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useAuth } from '../context/Auth';
 import { Box, Heading, Flex, VStack, HStack, Text, Icon } from '@chakra-ui/react';
@@ -8,10 +8,12 @@ import { FaCcApplePay } from 'react-icons/fa';
 
 export default function SelectPaymentMethods({ heading }) {
   const { user } = useAuth();
+  const isIOS = checkIOS();
   const [paymentChoice, setPaymentChoice] = useState(null);
   const [lastFour, setLastFour] = useState('');
 
   useEffect(() => {
+    if (isIOS === false) setPaymentChoice('cardPay');
     setPreviousRecord();
   }, []);
 
@@ -37,7 +39,6 @@ export default function SelectPaymentMethods({ heading }) {
     }).eq('id', user.id);
     if (paymentChoiceRes.error) throw paymentChoiceRes.error;
     setPaymentChoice(selection);
-    console.log('handlePaymentChoice: ', paymentChoiceRes);
   };
 
   return(
@@ -53,16 +54,7 @@ export default function SelectPaymentMethods({ heading }) {
             mb="2"
             w="100%">
             <VStack w="100%" spacing={3} alignItems={'left'}>
-              <HStack 
-                spacing="4" 
-                p="4" 
-                border={paymentChoice === 'cardPay' ? '1.5px solid #30a46c' : null}
-                onClick={() => handlePaymentChoice('cardPay')}
-                borderRadius="md">
-                <Icon h="8" w="8" as={MdPayment} />
-                <Text fontSize="xl">•••• {lastFour}</Text>
-              </HStack>
-              {isIOS() ? (
+              {isIOS ? (
                 <HStack 
                   spacing="4" 
                   p="4"
@@ -71,6 +63,17 @@ export default function SelectPaymentMethods({ heading }) {
                   borderRadius="sm">
                   <Icon h="8" w="8" as={FaCcApplePay} />
                   <Text fontSize="xl">Apple Pay</Text>
+                </HStack>
+              ) : null}
+              {lastFour.length > 0 ? (
+                <HStack 
+                  spacing="4" 
+                  p="4" 
+                  border={paymentChoice === 'cardPay' ? '1.5px solid #30a46c' : null}
+                  onClick={() => handlePaymentChoice('cardPay')}
+                  borderRadius="md">
+                  <Icon h="8" w="8" as={MdPayment} />
+                  <Text fontSize="xl">•••• {lastFour}</Text>
                 </HStack>
               ) : null}
             </VStack>
