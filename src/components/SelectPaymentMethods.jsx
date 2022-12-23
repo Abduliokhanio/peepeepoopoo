@@ -6,6 +6,7 @@ import { Box, Image, Heading, Flex, VStack, HStack, Text, Icon } from '@chakra-u
 import { MdPayment } from 'react-icons/md';
 import { FaCcApplePay } from 'react-icons/fa';
 import googlePayLogo from '../assets/google-pay-logo.png';
+import blueCreditCard from '../assets/blue-credit-card-2.png';
 
 export default function SelectPaymentMethods({ heading, updatePaymentChoice }) {
   const { user } = useAuth();
@@ -81,7 +82,7 @@ export default function SelectPaymentMethods({ heading, updatePaymentChoice }) {
                   border={paymentChoice === 'cardPay' ? '1.5px solid #30a46c' : null}
                   onClick={() => handlePaymentChoice('cardPay')}
                   borderRadius="md">
-                  <Icon h="8" w="8" as={MdPayment} />
+                  <Image maxW="40px" borderRadius={4} src={blueCreditCard} />
                   <Text fontSize="xl">•••• {lastFour}</Text>
                 </HStack>
               ) : null}

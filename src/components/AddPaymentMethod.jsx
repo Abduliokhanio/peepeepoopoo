@@ -9,10 +9,11 @@ import {
   FormHelperText,
   Input,
   FormControl,
-  FormLabel
+  Image
 } from '@chakra-ui/react';
 import { Icon, ChevronRightIcon } from '@chakra-ui/icons';
 import { MdPayment } from 'react-icons/md';
+import blueCreditCard from '../assets/blue-credit-card.png';
 
 export default function AddPaymentMethod({ heading }) {
   const navigate = useNavigate();
@@ -105,7 +106,7 @@ export default function AddPaymentMethod({ heading }) {
         justifyContent="space-between"
         alignItems={'center'}>
         <HStack spacing="4" p="4" >
-          <Icon h="8" w="8" as={MdPayment} />
+          <Image maxW="40px" borderRadius={4} src={blueCreditCard} />
           <Text fontSize="xl">Credit/Debit Card</Text>
         </HStack>
         <ChevronRightIcon />
