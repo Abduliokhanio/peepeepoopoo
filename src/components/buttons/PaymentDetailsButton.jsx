@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Flex, Heading, VStack, Text, Spacer, Button, Icon
+  Box, Flex, Heading, VStack, Text, Spacer, Button, Icon, Spinner
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,7 +14,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
   useEffect(() => {
     if (tip === undefined) setTotalCost(subTotalWithTax);
     else setTotalCost((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2));
-  }, [subTotal, tip]);
+  }, [subTotal, tip, paymentChoice]);
 
   return (
     <Flex
@@ -108,7 +108,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
           borderRadius="md"
           backgroundColor={'black'}
         >
-          <Box id="applePayButton" color="white">Apple Pay</Box>
+          <Box id="applePayButton" color="white"><Spinner /></Box>
         </Button>
       ) : null}
 
@@ -117,7 +117,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
           mx="6"
           h="50px"
           id="googlePayButton" 
-          color="white">Google Pay</Box>
+          color="white"><Spinner /></Box>
       ) : null}
 
       {paymentChoice === 'cardPay' ? (
