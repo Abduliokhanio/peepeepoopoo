@@ -16,10 +16,6 @@ class CollectJS extends Component {
             'postalAddress',
             'name'
           ],
-          'contactFields': [
-            'phone',
-            'email'
-          ],
           'lineItems': [
             {
               'label': merchantName,
@@ -42,7 +38,7 @@ class CollectJS extends Component {
           'buttonLocale': 'en'
         }
       },
-      'price': '1.00',
+      'price': totalCost.toString(),
       'currency': 'USD',
       'country': 'US',
       'variant': 'inline',
