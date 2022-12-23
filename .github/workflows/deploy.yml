@@ -1,0 +1,11 @@
+name: Deploy
+
+jobs:
+  deploy:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with: 
+        node-version: 18
+      - run: npm run build
