@@ -90,35 +90,35 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
         </Button>
       ) : null}
 
-      {paymentChoice === 'Apple Pay' ? (
-        <Button
-          isLoading={loading} 
-          _loading={{
-            bg: 'transparent' 
-          }}
-          _hover={{
-            bg: 'black' 
-          }}
-          _focus={{
-            bg: 'black' 
-          }}
-          mx="6"
-          h="65px"
-          mt="4"
-          borderRadius="md"
-          backgroundColor={'black'}
-        >
-          <Box id="applePayButton" color="white"><Spinner /></Box>
-        </Button>
-      ) : null}
+      <Button
+        display={paymentChoice !== 'Apple Pay' ? 'none' : 'block'}
+        isLoading={loading} 
+        _loading={{
+          bg: 'transparent' 
+        }}
+        _hover={{
+          bg: 'black' 
+        }}
+        _focus={{
+          bg: 'black' 
+        }}
+        mx="6"
+        h="65px"
+        mt="4"
+        borderRadius="md"
+        backgroundColor={'black'}
+      >
+        <Box id="applePayButton" color="white"><Spinner /></Box>
+      </Button>
 
-      {paymentChoice === 'Google Pay' ? (
-        <Box
-          mx="6"
-          h="50px"
-          id="googlePayButton" 
-          color="white"><Spinner /></Box>
-      ) : null}
+      <Box
+        display={paymentChoice !== 'Google Pay' ? 'none' : 'block'}
+        mx="6"
+        h="50px"
+        id="googlePayButton" 
+        color="white">
+        <Spinner />
+      </Box>
 
       {paymentChoice === 'cardPay' ? (
         <Button
