@@ -13,7 +13,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           build: npm run build:prod
-          start: npm start
+          start: npm run start:prod
           browser: chrome
           record: true
         env:

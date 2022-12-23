@@ -12,4 +12,4 @@ jobs:
         - uses: cypress-io/github-action@master
           with:
             build: npm run build:prod
-            start: npm start:prod
+            start: npm run start:prod
