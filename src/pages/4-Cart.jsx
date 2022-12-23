@@ -23,10 +23,10 @@ export default function CheckoutPage() {
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
   const tip = (subTotalWithTax*orderTip).toFixed(2);
   const totalCost = subTotalWithTax+tip;
-
+  
   const handleContinue = async () => {
     setLoading(true);
-    if (orderTip === null) navigate('/cart/tip');
+    if (orderTip === null || orderTip === undefined) navigate('/cart/tip');
     else navigate('/cart/checkout'); 
     setLoading(false);
   };
@@ -66,6 +66,7 @@ export default function CheckoutPage() {
       {/* TODO: voucher / discount code & allergies text area */}
       
       <PaymentDetailsButton 
+        page="cart"
         isLoading={loading} 
         subTotal={subTotal.toFixed(2)}
         handleOnClick={handleContinue} 

@@ -24,17 +24,21 @@ export default function OrderConfirmed() {
   const { user } = useAuth();
 
   const merchantStore = useSelector(state => state.merchant);
+  const merchantName = useSelector(state => state.merchant.brandName);
   const customerFirstName = useSelector(state => state.customer.firstName);
   const customerLastName = useSelector(state => state.customer.lastName);
   const orderMethod = useSelector(state => state.cart.orderType);
   
   const payment = new Payment(process.env.REACT_APP_STC_SK);
+  
   const cart = useSelector(state => state.cart.items);
   const orderTax = useSelector(state => state.cart.orderTax);
   const subTotal = cart.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
   const tip = useSelector(state => state.cart.tip);
-  const totalCost = (parseFloat(subTotalWithTax)+parseFloat(tip)).toFixed(2);
+  const venueServiceFee = (parseFloat(subTotal)*0.018).toFixed(2) || 0;
+  const totalCost = (parseFloat(tip)+parseFloat(subTotalWithTax)+parseFloat(venueServiceFee)).toFixed(2);
+
   const orderType = useSelector(state => state.cart.orderType);
   const pendingOrders = cart.filter(item => item.status === 'pending');
   const openTabOrders = cart.filter(item => item.status === 'sentToKitchen');
@@ -52,9 +56,11 @@ export default function OrderConfirmed() {
   
   useEffect(() => {
     if (user === null) navigate('/auth/signup');
-    CollectJSInstance.configure();
     setPreviousRecord();
-  }, [paymentChoice]);
+    CollectJSInstance.configure({
+      totalCost, merchantName
+    });
+  }, []);
 
   const prefillFields = (savedData) => {
     if (savedData.card_number !== null) setLastFour(savedData.card_number.toString().slice(-4));
@@ -227,7 +233,7 @@ export default function OrderConfirmed() {
               subTotal={subTotal.toFixed(2)}
               handleOnClick={handlePayment} 
               subTotalWithTax={subTotalWithTax} 
-              totalCost={totalCost} />
+            />
 
           </VStack>
 

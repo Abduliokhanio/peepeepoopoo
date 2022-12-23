@@ -7,7 +7,8 @@ class CollectJS extends Component {
     super(props);
   }
 
-  configure = async () => {
+  configure = async ({ totalCost, merchantName }) => {
+    console.log(totalCost, merchantName);
     window.CollectJS.configure({
       'fields': {
         'applePay': {
@@ -22,12 +23,12 @@ class CollectJS extends Component {
           ],
           'lineItems': [
             {
-              'label': 'Foobar',
-              'amount': '3.00'
+              'label': merchantName,
+              'amount': totalCost.toString()
             }
           ],
           'totalLabel': 'foobar',
-          'type': 'check-out'
+          'type': 'pay'
         },
         'googlePay': {
           'selector': '#googlePayButton',
@@ -42,7 +43,7 @@ class CollectJS extends Component {
           'buttonLocale': 'en'
         }
       },
-      'price': '1.00',
+      'price': totalCost.toString(),
       'currency': 'USD',
       'country': 'US',
       'variant': 'inline',

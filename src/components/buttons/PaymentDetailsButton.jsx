@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineEdit } from 'react-icons/ai';
 
-export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, subTotalWithTax, paymentChoice}) {
+export default function PaceOrderButton({page, handleOnClick, buttonLabel, loading, tip, subTotal, subTotalWithTax, paymentChoice}) {
   const navigate = useNavigate();
-  const revenueServiceFee = (subTotal*0.018).toFixed(2) || 0;
-  const [totalCost, setTotalCost] = useState((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2)+revenueServiceFee);
+  const venueServiceFee = (subTotal*0.018).toFixed(2) || 0;
+  const [totalCost, setTotalCost] = useState((parseFloat(tip)+parseFloat(subTotalWithTax)+parseFloat(venueServiceFee)).toFixed(2));
 
   useEffect(() => {
     if (tip === undefined) setTotalCost(subTotalWithTax);
@@ -57,7 +57,7 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
           <Text>Venue Service Fee</Text>
           <Spacer />
           <Flex alignItems='center'>
-            <Text>${revenueServiceFee}</Text>
+            <Text>${venueServiceFee}</Text>
           </Flex>
         </Flex>
         <Flex pb="4">
@@ -66,6 +66,29 @@ export default function PaceOrderButton({handleOnClick, loading, tip, subTotal, 
           <Text fontSize={'2.25rems'} fontWeight={'bold'}>${totalCost}</Text>
         </Flex>
       </VStack>
+
+      {page === 'cart' ? (
+        <Button
+          onClick={handleOnClick}
+          isLoading={loading} 
+          _loading={{
+            bg: 'transparent' 
+          }}
+          _hover={{
+            bg: 'black' 
+          }}
+          _focus={{
+            bg: 'black' 
+          }}
+          mx="6"
+          h="65px"
+          mt="4"
+          borderRadius="md"
+          backgroundColor={'black'}
+        >
+          <Heading color="white" fontWeight='semibold' size="md">{buttonLabel}</Heading>
+        </Button>
+      ) : null}
 
       {paymentChoice === 'Apple Pay' ? (
         <Button
