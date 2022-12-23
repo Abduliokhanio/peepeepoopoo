@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 18
     - name: Cypress run
-      uses: cypress-io/github-action@master
-      with:
-        build: npm run build
-        start: npm start
+      - uses: cypress-io/github-action@master
+        with:
+          build: npm run build
+          start: npm start
