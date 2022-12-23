@@ -11,7 +11,7 @@ jobs:
         - uses: actions/checkout@master
         - uses: cypress-io/github-action@master
           with:
-            build: npm run build
+            build: npm run build:prod
             start: npm start
 
 
