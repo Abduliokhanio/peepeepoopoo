@@ -1,12 +1,15 @@
-name: Deploy
+name: Continuous Deployment
+
+on:
+  push:
+    branches: [ master ]
 
 jobs:
   deploy:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
-      with: 
-        node-version: 18
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18
       - run: npm run build
-
