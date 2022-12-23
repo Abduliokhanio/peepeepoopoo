@@ -85,7 +85,7 @@ export default function Verify() {
     <Box>
       <Navbar title="Login" showBackButton={true} />
       <VStack
-        pt="20"
+        pt="12"
         spacing={4}
         align="stretch"
         px="6"

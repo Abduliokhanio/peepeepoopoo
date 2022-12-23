@@ -53,7 +53,7 @@ export default function Login() {
         align="stretch"
         px="6"
       >
-        <VStack mt="24" px="6" h="20" mb="6" alignItems="center">
+        <VStack mt="12" px="6" h="20" mb="6" alignItems="center">
           <Heading size="lg">
             Verify your number
           </Heading>

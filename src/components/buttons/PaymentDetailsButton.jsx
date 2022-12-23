@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineEdit } from 'react-icons/ai';
 
-export default function PaceOrderButton({page, handleOnClick, buttonLabel, loading, tip, subTotal, subTotalWithTax, paymentChoice, stateTax}) {
+export default function PaceOrderButton({page, handleOnClick, buttonLabel, tip, subTotal, subTotalWithTax, paymentChoice, stateTax, isLoading}) {
   const navigate = useNavigate();
   const venueServiceFee = (subTotal*0.018).toFixed(2) || 0;
   const [totalCost, setTotalCost] = useState((parseFloat(tip)+parseFloat(subTotalWithTax)+parseFloat(venueServiceFee)).toFixed(2));
@@ -54,7 +54,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
           </Box>
         )}
         <Flex>
-          <Text>Sales Tax</Text>
+          <Text>State Tax</Text>
           <Spacer />
           <Text>${(subTotal*(stateTax/100)).toFixed(2)}</Text>
         </Flex>
@@ -75,7 +75,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
       {page === 'cart' ? (
         <Button
           onClick={handleOnClick}
-          isLoading={loading} 
+          isLoading={isLoading} 
           _loading={{
             bg: 'transparent' 
           }}
@@ -97,7 +97,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
 
       <Button
         display={paymentChoice !== 'Apple Pay' ? 'none' : 'block'}
-        isLoading={loading} 
+        isLoading={isLoading} 
         _loading={{
           bg: 'transparent' 
         }}
@@ -129,7 +129,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
         <Button
           display={paymentChoice !== 'cardPay' ? 'none' : 'block'}
           onClick={handleOnClick}
-          isLoading={loading} 
+          isLoading={isLoading} 
           _loading={{
             bg: 'transparent' 
           }}

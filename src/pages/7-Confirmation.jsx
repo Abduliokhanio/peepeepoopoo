@@ -63,7 +63,7 @@ export default function ClosedTab() {
             <Spacer /><Text>${orderTotal}</Text>
           </Flex>
           <Flex 
-            onClick={() => checkRecords('receipts')} 
+            onClick={() => navigate('/user/receipts')}
             borderBottom='1px' 
             borderColor='gray.200' 
             py="6" 
