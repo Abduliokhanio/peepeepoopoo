@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import checkIOS from '../tools/isIOS';
 import { supabasePrivate } from '../services/supabasePrivate';
 import { useAuth } from '../context/Auth';
-import { Box, Heading, Flex, VStack, HStack, Text, Icon } from '@chakra-ui/react';
+import { Box, Image, Heading, Flex, VStack, HStack, Text, Icon } from '@chakra-ui/react';
 import { MdPayment } from 'react-icons/md';
 import { FaCcApplePay } from 'react-icons/fa';
+import googlePayLogo from '../assets/google-pay-logo.png';
 
 export default function SelectPaymentMethods({ heading, updatePaymentChoice }) {
   const { user } = useAuth();
@@ -72,7 +73,7 @@ export default function SelectPaymentMethods({ heading, updatePaymentChoice }) {
                 border={paymentChoice === 'Google Pay' ? '1.5px solid #30a46c' : null}
                 onClick={() => handlePaymentChoice('Google Pay')}
                 borderRadius="md">
-                <Icon h="8" w="8" as={MdPayment} />
+                <Image w="35px" src={googlePayLogo} />
                 <Text fontSize="xl">Google Pay</Text>
               </HStack>
               {lastFour.length > 0 ? (
