@@ -27,8 +27,8 @@ class CollectJS extends Component {
               'amount': totalCost.toString()
             }
           ],
-          'totalLabel': 'foobar',
-          'type': 'pay'
+          'totalLabel': totalCost,
+          'type': 'order'
         },
         'googlePay': {
           'selector': '#googlePayButton',
