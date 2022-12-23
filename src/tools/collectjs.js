@@ -8,7 +8,6 @@ class CollectJS extends Component {
   }
 
   configure = async ({ totalCost, merchantName }) => {
-    console.log(totalCost, merchantName);
     window.CollectJS.configure({
       'fields': {
         'applePay': {
@@ -43,7 +42,7 @@ class CollectJS extends Component {
           'buttonLocale': 'en'
         }
       },
-      'price': totalCost.toString(),
+      'price': '1.00',
       'currency': 'USD',
       'country': 'US',
       'variant': 'inline',

@@ -14,7 +14,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
   useEffect(() => {
     if (tip === undefined) setTotalCost(subTotalWithTax);
     else setTotalCost((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2));
-  }, [subTotal, tip, paymentChoice]);
+  }, [subTotal, tip]);
 
   return (
     <Flex

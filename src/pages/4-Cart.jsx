@@ -9,7 +9,7 @@ import CartItemCard from '../components/cards/CartItemCard';
 import PaymentDetailsButton from '../components/buttons/PaymentDetailsButton';
 import {AiOutlinePlus} from 'react-icons/ai';
 
-export default function CheckoutPage() {
+export default function Cart() {
   const cart = useSelector(state => state.cart.items);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

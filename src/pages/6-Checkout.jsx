@@ -184,7 +184,9 @@ export default function OrderConfirmed() {
             </Box>
             
             <Box pt={6} bg="white" width="100%">
-              <SelectPaymentMethods heading={'Select your payment method'} updatePaymentChoice={setPaymentChoice} />
+              <SelectPaymentMethods
+                heading={'Select your payment method'}    
+                updatePaymentChoice={setPaymentChoice} />
               <AddPaymentMethod />
               {isIOS() ? null : (
                 <Box px="6" mt={3} mb={openTabOrders.length > 0 || orderMethod === 'Pickup' ? '6' : '3'}>

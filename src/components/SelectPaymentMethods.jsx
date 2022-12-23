@@ -14,7 +14,7 @@ export default function SelectPaymentMethods({ heading, updatePaymentChoice }) {
   const [lastFour, setLastFour] = useState('');
 
   useEffect(() => {
-    if (isIOS === false) setPaymentChoice('cardPay');
+    if (isIOS === false) handlePaymentChoice('cardPay');
     setPreviousRecord();
   }, []);
 
@@ -24,12 +24,10 @@ export default function SelectPaymentMethods({ heading, updatePaymentChoice }) {
   };
 
   const setPreviousRecord = async (e) => {
-
     const querySavedData = await supabasePrivate
       .from('customers')
       .select('*')
       .eq('id', user.id);
-
     if (querySavedData.error) throw querySavedData.error;
     if (querySavedData.data.length > 0) prefillFields(querySavedData.data[0]);
   };
