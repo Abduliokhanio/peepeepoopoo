@@ -5,17 +5,16 @@ on:
     branches: [ master ]
 
 jobs:
-  test_pull_request:
-    cypress-run:
-      runs-on: ubuntu-latest
-      steps:
-      - name: Checkout
-        - uses: actions/checkout@master
-        - uses: actions/setup-node@master
-          with:
-            node-version: 18
-      - name: Cypress run
-        - uses: cypress-io/github-action@master
-          with:
-            build: npm run build
-            start: npm start
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18
+    - name: Cypress run
+      - uses: cypress-io/github-action@master
+        with:
+          build: npm run build
+          start: npm start
