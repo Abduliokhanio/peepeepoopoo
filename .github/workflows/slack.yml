@@ -4,12 +4,12 @@ on:
   issues:
     types: [opened]
 
-  jobs:
-    post_slack_message:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: rtCamp/action-slack-notify@master
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_USERNAME: johnnythedeveloper
-        SLACK_CHANNEL: gh-issues
+jobs:
+  post_slack_message:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: rtCamp/action-slack-notify@master
+    env:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      SLACK_USERNAME: johnnythedeveloper
+      SLACK_CHANNEL: gh-issues
