@@ -229,6 +229,7 @@ export default function OrderConfirmed() {
             ) : null} */}
 
             <PaymentDetailsButton 
+              stateTax={orderTax}
               isLoading={loadingPayment} 
               tip={tip}
               paymentChoice={paymentChoice}

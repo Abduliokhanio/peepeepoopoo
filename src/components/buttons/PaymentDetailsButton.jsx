@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineEdit } from 'react-icons/ai';
 
-export default function PaceOrderButton({page, handleOnClick, buttonLabel, loading, tip, subTotal, subTotalWithTax, paymentChoice}) {
+export default function PaceOrderButton({page, handleOnClick, buttonLabel, loading, tip, subTotal, subTotalWithTax, paymentChoice, stateTax}) {
   const navigate = useNavigate();
   const venueServiceFee = (subTotal*0.018).toFixed(2) || 0;
   const [totalCost, setTotalCost] = useState((parseFloat(tip)+parseFloat(subTotalWithTax)+parseFloat(venueServiceFee)).toFixed(2));
 
   useEffect(() => {
-    if (tip === undefined) setTotalCost(subTotalWithTax);
-    else setTotalCost((parseFloat(tip)+parseFloat(subTotalWithTax)).toFixed(2));
+    if (tip === undefined) setTotalCost((parseFloat(subTotalWithTax)+parseFloat(venueServiceFee)).toFixed(2));
+    else setTotalCost((parseFloat(tip)+parseFloat(subTotalWithTax)+parseFloat(venueServiceFee)).toFixed(2));
   }, [subTotal, tip, paymentChoice]);
 
   return (
@@ -53,6 +53,11 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, loadi
             </Flex>
           </Box>
         )}
+        <Flex>
+          <Text>Sales Tax</Text>
+          <Spacer />
+          <Text>${(subTotal*(stateTax/100)).toFixed(2)}</Text>
+        </Flex>
         <Flex>
           <Text>Venue Service Fee</Text>
           <Spacer />
