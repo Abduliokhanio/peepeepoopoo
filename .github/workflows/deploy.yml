@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@master
-        - uses: actions/setup-node@master
-          with:
-           node-version: 18
         - uses: cypress-io/github-action@master
           with:
             build: npm run build
