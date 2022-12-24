@@ -60,7 +60,7 @@ export default function Cart() {
             color="white"
             bg="black"
           >
-            <Heading pb="0.5" fontSize={'md'}>Add items</Heading></Button>
+            <Heading pb="0.5" letterSpacing={'0.5px'} fontSize={'md'}>Add items</Heading></Button>
         </Box>
       </VStack>
       {/* TODO: voucher / discount code & allergies text area */}

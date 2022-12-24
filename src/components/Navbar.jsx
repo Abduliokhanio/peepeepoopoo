@@ -62,10 +62,10 @@ export default function NavBar({ title, showBackButton, showLeftButton, showTabB
           <Image src={logo} maxW="125px" />
         ) : (
           <Heading 
-            pt="2"
+            pt=""
             color="#dadada" 
-            letterSpacing={'1px'}
-            fontSize="1.5em">{title}</Heading>
+            letterSpacing={'0.5px'}
+            fontSize="1.25em">{title}</Heading>
         )}
         <Spacer />
         {openTabOrders.length > 0 ? (
