@@ -1,4 +1,5 @@
 import React from 'react';
+import '@fontsource/knewave';
 import { useNavigate } from 'react-router-dom';
 import {
   Flex, Spacer, Heading, Box, Icon, Image
@@ -61,8 +62,10 @@ export default function NavBar({ title, showBackButton, showLeftButton, showTabB
           <Image src={logo} maxW="125px" />
         ) : (
           <Heading 
+            pt="2"
             color="#dadada" 
-            fontSize="lg">{title}</Heading>
+            letterSpacing={'1px'}
+            fontSize="1.5em">{title}</Heading>
         )}
         <Spacer />
         {openTabOrders.length > 0 ? (

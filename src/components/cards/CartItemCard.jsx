@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import {
-  Box, Text, Heading, Stack, Flex, Image
+  Box, Text, Heading, Stack, Flex, Image, IconButton
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { SmallCloseIcon } from '@chakra-ui/icons';
 import { removeFromCart } from '../../context/slices/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { setSelectedProduct } from '../../context/slices/merchantSlice';
@@ -29,7 +29,7 @@ export default function CartItemCard({item}) {
   };
 
   return (
-    <Box shadow="xs" bg="white" borderRadius='lg' overflow='hidden' borderWidth="0.5px">
+    <Box shadow="xs" bg="white" borderRadius='lg' borderColor="gray.50" overflow='hidden' borderWidth="0.5px">
       <Flex px="4" py='4' direction="row" justifyContent={'space-between'}>
         {!item.image_url ? null : (
           <Image h="150" maxW="200" objectFit="cover" src={itemInCart.image_url} alt="menu" />
@@ -37,7 +37,7 @@ export default function CartItemCard({item}) {
 
         <Stack onClick={handleCartItemClick} w="100%" textAlign="left" spacing={'4'}>
           <Flex>
-            <Box backgroundColor={'gray.100'} borderRadius="2" mr="4" px="3.5" py="1" maxH='35px' maxW="35px">
+            <Box backgroundColor={'gray.50'} borderRadius="4" mr="4" px="3.5" py="1" maxH='35px' maxW="35px">
               <Text textAlign="left" fontSize="lg">{itemInCart.quantity}</Text>
             </Box>
             <Heading fontSize="1.25rem" mt="1">{itemInCart.item.name}</Heading>
@@ -47,7 +47,7 @@ export default function CartItemCard({item}) {
 
         <Flex pr="4" alignItems={'center'}>
           <Box onClick={handleRemoveFromCart}>
-            <DeleteIcon />
+            <IconButton aria-label='Search database' color="red.200" bg="red.50" icon={<SmallCloseIcon fontSize={'1.75em'} />} />
           </Box>
         </Flex>
 

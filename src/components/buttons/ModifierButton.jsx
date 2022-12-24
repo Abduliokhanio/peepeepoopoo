@@ -21,14 +21,14 @@ export default function ModifierButton({handleOnClick, totalPrice, isItemInCart,
       <Box
         ml="6"
         w="100%"
-        py="5"
+        py="6"
         mr='8'
         borderRadius="md"
         backgroundColor={loading ? 'gray.300' : 'black'}
       >
         <Flex justifyContent='space-between' px="8" alignItems="center">
-          <Heading color={loading ? 'gray.500' : 'white'} fontWeight='semibold' size="md">{buttonLabelType()}</Heading>
-          <Heading color={loading ? 'gray.500' : 'white'} fontWeight='semibold' size="md">${totalPrice.toFixed(2)}</Heading>
+          <Heading color={loading ? 'gray.500' : 'white'} size="md">{buttonLabelType()}</Heading>
+          <Heading color={loading ? 'gray.500' : 'white'} size="md">${totalPrice.toFixed(2)}</Heading>
         </Flex>
       </Box>
     </Flex>

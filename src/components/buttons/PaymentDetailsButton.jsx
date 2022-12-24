@@ -54,9 +54,9 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, tip, 
           </Box>
         )}
         <Flex>
-          <Text>State Tax</Text>
+          <Text>Sales Tax</Text>
           <Spacer />
-          <Text>${(subTotal*(stateTax/100)).toFixed(2)}</Text>
+          <Text>${(parseFloat(subTotal)*(parseFloat(stateTax)/100)).toFixed(2)}</Text>
         </Flex>
         <Flex>
           <Text>Venue Service Fee</Text>

@@ -193,7 +193,7 @@ export default function ModifiersPage() {
         
         <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
           <Box px="6" mb="8">
-            <Heading mb="2">{merchantStoreSelectedProduct.item.name}</Heading>
+            <Text mb="2" fontSize="1.75em" fontWeight="bold">{merchantStoreSelectedProduct.item.name}</Text>
             <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
             <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
           </Box>

@@ -131,6 +131,7 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
       shadow="xs" 
       backgroundColor={'white'}
       borderRadius='lg' 
+      borderColor={'gray.50'}
       overflow='hidden' 
       minH="150px"
       borderWidth="0.5px" {...rest}>
@@ -178,12 +179,17 @@ export default function ProductItem({product, title, desc, price, qty, page, ima
             id="productInfo"
             w="100%" 
             textAlign="left">
-            <Heading 
-              onClick={() => handleElementClick('productSelect')}
-              fontSize="1.35rem">{title}</Heading>
             <Text 
               onClick={() => handleElementClick('productSelect')}
-              fontSize="sm">{desc}</Text>
+              fontSize="1.3em"
+              letterSpacing={'0.5px'}
+              fontWeight={'bold'}
+            >{title}</Text>
+            <Text 
+              onClick={() => handleElementClick('productSelect')}
+              fontSize="sm"
+              color="gray.500"
+            >{desc}</Text>
           </Stack>
           <Flex 
             id="productPriceAndFavorite"

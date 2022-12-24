@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import { useAuth } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
-import {VStack, Box, Text, Button } from '@chakra-ui/react';
+import {VStack, Box, Text, Button, Heading } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import CartItemCard from '../components/cards/CartItemCard';
@@ -32,7 +32,7 @@ export default function Cart() {
   };
 
   return (
-    <Box bg="#f6f9fc" minH="100vh" pb="300px">
+    <Box minH="100vh" pb="300px">
       <Navbar title={orderMedthod} showBackButton={true} />
       <VStack
         pt={6}
@@ -60,7 +60,7 @@ export default function Cart() {
             color="white"
             bg="black"
           >
-          Add items</Button>
+            <Heading pb="0.5" fontSize={'md'}>Add items</Heading></Button>
         </Box>
       </VStack>
       {/* TODO: voucher / discount code & allergies text area */}
@@ -72,6 +72,7 @@ export default function Cart() {
         handleOnClick={handleContinue} 
         subTotalWithTax={subTotalWithTax} 
         totalCost={totalCost} 
+        stateTax={orderTax}
         buttonLabel={'Continue'} />
     </Box>
   );

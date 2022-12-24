@@ -114,7 +114,7 @@ export default function OrderConfirmed() {
   };
   
   return (
-    <Box bg="#f6f6f6" minH="100vh">
+    <Box minH="100vh">
       <Navbar title={'Manage Tab'} showBackButton={true}/>
       <Flex pt={5} pb="300px" direction="column">
         <Flex

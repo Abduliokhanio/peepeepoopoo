@@ -91,7 +91,7 @@ export default function TipsPage() {
   };
   
   return (
-    <Box bg="#f6f6f6" minH="100vh">
+    <Box minH="100vh">
       <Flex direction="column">
         <Navbar title={'Tips'} showBackButton={true} />
         <Stack mt="80px">

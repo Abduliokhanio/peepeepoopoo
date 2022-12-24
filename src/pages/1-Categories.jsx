@@ -176,7 +176,7 @@ export default function CategoriesPage() {
           alignItems={'center'}
           justifyContent="space-between">
           <VStack spacing="1">
-            <Text  textAlign={'left'} fontSize="xl" w="100%">{menu.name}</Text>
+            <Text  textAlign={'left'} fontSize="xl" fontWeight={'semibold'} w="100%">{menu.name}</Text>
             <Text  textAlign={'left'} fontSize="sm" w="100%" color="gray.500">{menu.description}</Text>
           </VStack>
           <ChevronRightIcon />
@@ -207,8 +207,7 @@ export default function CategoriesPage() {
   };
 
   return (
-    <Box 
-      bg="#f6f6f6">
+    <Box>
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showTabButton={true} />
         <VStack 

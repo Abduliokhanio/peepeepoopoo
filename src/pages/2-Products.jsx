@@ -56,7 +56,7 @@ export default function ProductsPage() {
         px={4}
         display={'inline-block'}
       >
-        <Text w="100%">{menu.name}</Text>
+        <Text fontWeight="bold" w="100%" letterSpacing={'0.5px'}>{menu.name}</Text>
       </Tag>
     )
     ));
@@ -89,14 +89,15 @@ export default function ProductsPage() {
   };
 
   return (
-    <Box bg="#f6f6f6" pb="300px">
+    <Box pb="300px">
       <Flex direction="column">
         <Navbar title={merchantStoreCategoryName} showBackButton={true}  showTabButton={true}/>
         <HStack 
           id="menu-slider"
           w="100%"
           overflowY={'scroll'}
-          py="6" 
+          pt="5"
+          pb="7" 
           pl="2"
           display={'block'}
           whiteSpace={'nowrap'}
