@@ -43,9 +43,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build": "react-scripts build",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "build": "env-cmd -f .env.local react-scripts build",
-    "build:prod": "react-scripts build",
+    "build:local": "env-cmd -f .env.local react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js src/**/*.jsx",
