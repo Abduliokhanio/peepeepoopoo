@@ -5,11 +5,13 @@ on:
     branches: [ master ]
 
 jobs:
-  deploy:
+  cypress-run:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@master
-        - uses: cypress-io/github-action@master
-          with:
-            build: npm run build:prod
-            start: npm run start
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress run
+        uses: cypress-io/github-action@v5 
+        with:
+          build: npm run build
+          start: npm start
