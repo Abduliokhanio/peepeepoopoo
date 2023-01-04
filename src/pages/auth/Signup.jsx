@@ -62,7 +62,12 @@ export default function Login() {
         <FormControl isInvalid={isNumberError}>
           <InputGroup pb="4">
             <InputLeftAddon children="+1" h="" />
-            <Input onChange={handleNumberInputChange} type="number" placeholder="Your mobile number" size="lg" />
+            <Input 
+              onChange={handleNumberInputChange} 
+              data-test="verify-number"
+              type="number" 
+              placeholder="Your mobile number" 
+              size="lg" />
           </InputGroup>
           {isNumberError ? (
             <FormHelperText color="red.500">
@@ -82,6 +87,7 @@ export default function Login() {
         borderTop="1px solid #e8e8e8">
         <Button
           onClick={handleGetCode}
+          data-test="verify-submit"
           isLoading={loading} 
           _loading={{
             bg: 'transparent' 

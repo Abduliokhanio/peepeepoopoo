@@ -28,6 +28,7 @@ module.exports = {
     'eslint:recommended'
   ],
   rules: {
+    'no-undef': 0,
     'react/jsx-first-prop-new-line': [1, 'multiline'],
     'react/no-children-prop': [0],
     'react/prop-types': 'off',

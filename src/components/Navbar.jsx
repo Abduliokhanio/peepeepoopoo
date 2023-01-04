@@ -61,7 +61,7 @@ export default function NavBar({ title, showBackButton, showLeftButton, showTabB
           <Image src={logo} maxW="125px" />
         ) : (
           <Heading 
-            pt=""
+            data-test="nav-heading"
             color="#dadada" 
             letterSpacing={'0.5px'}
             fontSize="1.25em">{title}</Heading>
