@@ -1,5 +1,4 @@
 import React from 'react';
-import '@fontsource/knewave';
 import { useNavigate } from 'react-router-dom';
 import {
   Flex, Spacer, Heading, Box, Icon, Image

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import { ChakraProvider } from '@chakra-ui/react';
-import Theme from './pages/Theme';
+import Theme from './Theme';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/Auth';
 import PrivateRoute from './components/PrivateRoute';
