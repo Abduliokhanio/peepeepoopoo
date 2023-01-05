@@ -1,15 +1,13 @@
 import React, { useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ProductItem from '../components/cards/ProductCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/buttons/CheckoutButton';
-import ShortUniqueId from 'short-unique-id';
 import {
   Stack, VStack, Text, Flex, Spacer, Box, Tag, HStack, TagLabel
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setProducts, setSelectedProduct, setCategoryID, setCategoryName } from '../context/slices/merchantSlice';
+import { setProducts, setCategoryID } from '../context/slices/merchantSlice';
 
 export default function ProductsPage() {
   const cart = useSelector(state => state.cart.items);

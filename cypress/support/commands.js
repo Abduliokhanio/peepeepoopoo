@@ -1,25 +1,25 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('login', (USER) => {
+  cy.task('getCurrentSession', {
+    email: Cypress.env(`${USER}_email`),
+    password: Cypress.env(`${USER}_password`),
+    supabaseApiKey: Cypress.env('supabase_api_key'),
+    supabaseURL: Cypress.env('supabase_url'),
+  })
+    .then((currentSession) => {
+      localStorage.setItem('supabase.auth.token', JSON.stringify({
+        currentSession,
+        expiresAt: currentSession.expires_at,
+      }));
+    });
+
+  cy.fetchProfile(USER);
+});
+
+Cypress.Commands.add('fetchProfile', (USER) => {
+  cy.task('fetchProfile', {
+    email: Cypress.env(`${USER}_email`),
+  })
+    .then((profile) => {
+      localStorage.setItem('profile', JSON.stringify(profile));
+    });
+});

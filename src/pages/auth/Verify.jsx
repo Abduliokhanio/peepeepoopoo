@@ -103,7 +103,7 @@ export default function Verify() {
                 otp
                 onComplete={(code) => handleVerify(code)}
                 size="lg">
-                <PinInputField />
+                <PinInputField data-test="verify-input"/>
                 <PinInputField />
                 <PinInputField />
                 <PinInputField />

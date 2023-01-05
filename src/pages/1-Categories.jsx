@@ -62,11 +62,12 @@ export default function CategoriesPage() {
   };
 
   const fetchCustomerInfo = async () => {
+    if (!user) return;
     const customerInfo = await supabasePrivate
       .from('customers')
       .select('first_name, last_name')
       .match({
-        id: user.id
+        id: user?.id
       });
 
     if (customerInfo.error) throw customerInfo.error;
