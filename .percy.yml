@@ -1,9 +1,0 @@
-version: 2
-snapshot:
-  widths:
-    - 320
-    - 375
-    - 414
-static:
-  base-url: http://localhost:3000
-  clean-urls: false

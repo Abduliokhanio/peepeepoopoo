@@ -1,10 +1,19 @@
 describe('Integration test with visual testing', function () {
-  it('Loads digital menu categories', function () {
+  it('Loads categories', function () {
     cy.visit('/nu-wood-fire-grill');
     cy.contains('Appetizers').then(() => {
-      cy.percySnapshot('Digital menu test', {
-        widths: [320, 375, 414]
+      cy.percySnapshot('categories test', {
+        widths: [375]
+      });
+    });
+  });
+  it('Loads products', function () {
+    cy.visit('/products');
+    cy.contains('Appetizers').then(() => {
+      cy.percySnapshot('products test', {
+        widths: [375]
       });
     });
   });
 });
+
