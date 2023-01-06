@@ -15,7 +15,6 @@ jobs:
         with:
           record: false
           browser: chrome
-          build: npm run build
           start: npm start
           wait-on: 'http://localhost:3000'
           command: npm run e2e:ci
