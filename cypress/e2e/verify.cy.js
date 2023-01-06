@@ -1,7 +1,7 @@
 describe('verify', () => {
   it('should successfully verify account', () => {
-    cy.visit('http://localhost:3000/nu-wood-fire-grill');
-    cy.visit('http://localhost:3000/auth/signup');
+    cy.visit('/nu-wood-fire-grill');
+    cy.visit('/auth/signup');
     cy.get('[data-test="verify-number"]').type('8329643224');
     cy.get('[data-test="verify-submit"]').click();
     cy.wait(3000);

@@ -1,6 +1,6 @@
 describe('checkout', () => {
   it('should select a category', () => {
-    cy.visit('http://localhost:3000/nu-wood-fire-grill');
+    cy.visit('/nu-wood-fire-grill');
     cy.get('[data-test="0"]').click();
   });
 

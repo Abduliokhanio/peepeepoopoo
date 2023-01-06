@@ -3,7 +3,7 @@ describe('Integration test with visual testing', function () {
     cy.visit('http://localhost:3000/nu-wood-fire-grill');
     cy.contains('Appetizers').then(() => {
       cy.percySnapshot('Digital menu test', {
-        widths: [375]
+        widths: [320, 375, 414]
       });
     });
   });
