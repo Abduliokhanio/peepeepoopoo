@@ -4,7 +4,7 @@ import ProductItem from '../components/cards/ProductCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CheckoutButton from '../components/buttons/CheckoutButton';
 import {
-  Stack, VStack, Text, Flex, Spacer, Box, Tag, HStack, TagLabel
+  Stack, VStack, Text, Flex, Spacer, Box, Tag, HStack
 } from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setProducts, setCategoryID } from '../context/slices/merchantSlice';

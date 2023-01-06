@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
+import * as Sentry from '@sentry/browser';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/Auth';
 import { supabasePrivate } from '../services/supabasePrivate';
@@ -117,16 +118,19 @@ export default function OrderConfirmed() {
       order_type: orderType,
       table_number: tableNumber
     }).select();
-    console.log(customerFirstName + ' ' + customerLastName, orderType, tableNumber);
-    if (error) throw `${error}: Error sending ticket`;
+
+    if (error) {
+      Sentry.captureException(error);
+      Sentry.captureMessage('Error sending ticket');
+      throw `${error}: Error sending ticket`;
+    }
+
     await sendOrderToKDS(data[0].id);
     return data[0].id;
   };
 
   const sendOrderToKDS = async (ticketID) => {
-   
     await pendingOrders.forEach(async (item) => {
-      console.log(item.modifiers);
       const { error } = await supabasePrivate.from('orders').insert({
         customer_id: user.id,
         room_id: `admin-${merchantStore.urlPath}`,  
@@ -137,8 +141,11 @@ export default function OrderConfirmed() {
         status: 'sentToKitchen',
         quantity: item.quantity
       });
-
-      if (error) throw `${error}: Error sending order`;
+      if (error) {
+        Sentry.captureException(error);
+        Sentry.captureMessage('Error sending order');
+        throw `${error}: Error sending order`;
+      }
     });
   };
 
@@ -158,7 +165,12 @@ export default function OrderConfirmed() {
       total_cost: totalCost
     });
 
-    if (error) throw `${error}: Error recording customer reciept`;
+    if (error) {
+      Sentry.captureException(error);
+      Sentry.captureMessage('Error recording customer reciept');
+      throw `${error}: Error recording customer reciept`;
+    }
+
     dispatch(updateOrderMethod(null));
     navigate('/cart/confirmation');
   };

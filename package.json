@@ -9,6 +9,8 @@
     "@chakra-ui/react": "^2.3.2",
     "@fontsource/inter": "^4.5.14",
     "@reduxjs/toolkit": "^1.8.6",
+    "@sentry/react": "^7.29.0",
+    "@sentry/tracing": "^7.29.0",
     "@supabase/supabase-js": "^2.0.0-rc.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

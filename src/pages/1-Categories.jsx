@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import { useNavigate } from 'react-router-dom';
 import { supabasePublic } from '../services/supabasePublic';
 import { supabasePrivate } from '../services/supabasePrivate';
@@ -70,7 +71,11 @@ export default function CategoriesPage() {
         id: user?.id
       });
 
-    if (customerInfo.error) throw customerInfo.error;
+    if (customerInfo.error) {
+      Sentry.captureException(customerInfo.error);
+      throw customerInfo.error;
+    }  
+    
     dispatch(setFirstName(customerInfo.data[0].first_name));
     dispatch(setLastName(customerInfo.data[0].last_name));
   };
@@ -118,8 +123,12 @@ export default function CategoriesPage() {
         url_path: merchantURLPath
       });
 
-    // if (fetchMerchant.data.length === 0) navigate('/404');
-    if (fetchMerchant.error) throw fetchMerchant.error;
+    if (fetchMerchant.data.length === 0) navigate('/404');
+
+    if (fetchMerchant.error) {
+      Sentry.captureException(fetchMerchant.error);
+      throw fetchMerchant.error;
+    }  
    
     dispatch(setOrderTax(fetchMerchant.data[0].sales_tax));
     dispatch(setMerchantID(fetchMerchant.data[0].id));
@@ -140,7 +149,11 @@ export default function CategoriesPage() {
         merchant_id: merchantID
       });
 
-    if (fetchMenus.data.length === 0 ) throw fetchMenu.error;
+    if (fetchMenus.data.length === 0 ) {
+      Sentry.captureException(fetchMenu.error);
+      throw fetchMenu.error;
+    }  
+
     const sortedCategories = fetchMenus.data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
     dispatch(setMenuOptions(sortedCategories));
     setLoadingMenu(false);
@@ -152,9 +165,7 @@ export default function CategoriesPage() {
       .select().match({
         merchant_id: merchantID 
       });
-    // console.log('fetchProducts:', fetchProducts);
     if (fetchProducts.data.length === 0 ) throw fetchProducts.error;
-    // console.log('fetchProducts.data:', fetchProducts.data);
     dispatch(setProducts(fetchProducts.data));
   };
 
@@ -198,13 +209,18 @@ export default function CategoriesPage() {
   };
 
   const fetchBannerImage = async (merchantURLPath) => {
+    
     const bannerImage = await supabasePublic.storage
       .from('merchants')
       .getPublicUrl(merchantURLPath + '/banner');
       
     if (bannerImage.data.publicUrl.length > 1) setBannerImageURL(bannerImage.data.publicUrl);
     dispatch(updateBannerImageURL(bannerImage.data.publicUrl));
-    if (bannerImage.error) throw bannerImage.error;
+
+    if (bannerImage.error) {
+      Sentry.captureException(bannerImage.error);
+      throw bannerImage.error;
+    }  
   };
 
   return (
