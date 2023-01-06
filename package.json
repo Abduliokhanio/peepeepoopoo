@@ -39,8 +39,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "e2e:ci": "cypress run --record && percy exec -- cypress run --spec \"cypress/e2e/visual/visualTesting.cy.js\"",
-    "percy": "percy exec -- cypress run --spec \"cypress/e2e/visual/visualTesting.cy.js\"",
+    "e2e:ci": "cypress run --record && npx percy snapshot snapshots.yml",
     "cy:open": "cypress open",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js src/**/*.jsx"
