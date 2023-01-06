@@ -18,4 +18,5 @@ jobs:
           build: npm run build
           start: npm start
           wait-on: 'http://localhost:3000'
-          command: npm run e2e:ci percy:snapshot
+          command: npm run e2e:ci
+          command: npm run percy:snapshot
