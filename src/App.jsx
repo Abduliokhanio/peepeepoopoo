@@ -1,7 +1,8 @@
 import * as React from 'react';
+import Fonts from './utils/fonts';
 import './App.css';
 import { ChakraProvider } from '@chakra-ui/react';
-import Theme from './Theme';
+import Theme from './utils/theme';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/Auth';
 import PrivateRoute from './components/PrivateRoute';
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <ChakraProvider theme={Theme}>
+      <Fonts />
       <BrowserRouter>
         <div className="App">
           <AuthProvider>
