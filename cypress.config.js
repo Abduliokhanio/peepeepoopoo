@@ -6,6 +6,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
       config.env = process.env;
+      return config;
     }
   },
   component: {
