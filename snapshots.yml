@@ -1,0 +1,6 @@
+- name: Categories
+  url: /
+  waitForSelector: '#Appetizers'
+- name: Products
+  url: /products
+  waitForSelector: '#productInfo'

@@ -184,6 +184,7 @@ export default function CategoriesPage() {
       merchantStore.menuOptions.map((menu, index) => (
         <Flex 
           key={index} 
+          id={menu.name}
           data-test={index}
           onClick={() => handleMenuSelect(menu.id, menu.name)}
           borderBottom='1px' 
