@@ -57,19 +57,21 @@ export default function SelectPaymentMethods({ heading, updatePaymentChoice }) {
             <VStack w="100%" spacing={3} alignItems={'left'}>
               {isIOS ? (
                 <HStack 
+                  data-test="apple-pay"
                   spacing="4" 
                   p="4"
                   onClick={() => handlePaymentChoice('Apple Pay')}
-                  border={paymentChoice === 'Apple Pay' ? '3px solid #a9fad3' : null}
+                  border={paymentChoice === 'Apple Pay' ? '2px solid #22C55E' : null}
                   borderRadius="sm">
                   <Icon h="8" w="8" as={FaCcApplePay} />
                   <Text fontSize="xl">Apple Pay</Text>
                 </HStack>
               ) : null}
               <HStack 
+                data-test="google-pay"
                 spacing="4" 
                 p="4" 
-                border={paymentChoice === 'Google Pay' ? '3px solid #a9fad3' : null}
+                border={paymentChoice === 'Google Pay' ? '2px solid #22C55E' : null}
                 onClick={() => handlePaymentChoice('Google Pay')}
                 borderRadius="md">
                 <Image w="35px" src={googlePayLogo} />
@@ -77,9 +79,10 @@ export default function SelectPaymentMethods({ heading, updatePaymentChoice }) {
               </HStack>
               {lastFour.length > 0 ? (
                 <HStack 
+                  data-test="card-pay"
                   spacing="4" 
                   p="4" 
-                  border={paymentChoice === 'cardPay' ? '3px solid #a9fad3' : null}
+                  border={paymentChoice === 'cardPay' ? '2px solid #22C55E' : null}
                   onClick={() => handlePaymentChoice('cardPay')}
                   borderRadius="md">
                   <Image maxW="40px" borderRadius={4} src={blueCreditCard} />

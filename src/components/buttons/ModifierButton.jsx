@@ -14,6 +14,7 @@ export default function ModifierButton({handleOnClick, totalPrice, isItemInCart,
 
   return (
     <Flex
+      data-test="add-to-order-button"
       onClick={handleOnClick}
       py="4" 
       w="100%" 

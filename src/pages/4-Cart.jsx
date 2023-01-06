@@ -1,13 +1,12 @@
 /* eslint-disable no-undef */
-import React, {useState, useEffect} from 'react';
-import { useAuth } from '../context/Auth';
+import React, {useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {VStack, Box, Text, Button, Heading } from '@chakra-ui/react';
-import { useSelector, useDispatch } from 'react-redux';
+import { VStack, Box, Text, Button, Heading } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 import Navbar from '../components/Navbar';
 import CartItemCard from '../components/cards/CartItemCard';
 import PaymentDetailsButton from '../components/buttons/PaymentDetailsButton';
-import {AiOutlinePlus} from 'react-icons/ai';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 export default function Cart() {
   const cart = useSelector(state => state.cart.items);

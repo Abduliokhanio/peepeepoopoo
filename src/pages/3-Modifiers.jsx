@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import {supabasePublic} from '../services/supabasePublic';
@@ -90,7 +91,6 @@ export default function ModifiersPage() {
         status: 'pending',
       };
         
-      console.log('add new order to cart: ', cartOrderInsert);
       dispatch(addToCart(cartOrderInsert));
     }
     
@@ -108,7 +108,12 @@ export default function ModifiersPage() {
       .match({
         'product_id': merchantStoreSelectedProduct.item.id
       });
-    if (error) throw error;
+
+    if (error) {
+      Sentry.captureException(error);
+      throw error;
+    }
+ 
     const sortModifierGroupOrder = data.sort((a, b) => b.required - a.required);
     setModifierGroups(sortModifierGroupOrder);
     return sortModifierGroupOrder;
@@ -121,7 +126,12 @@ export default function ModifiersPage() {
         .match({
           'modifier_groups_id': modifierGroup.id
         });
-      if (error) throw error;
+      
+      if (error) {
+        Sentry.captureException(error);
+        throw error;
+      }
+    
       return {
         ...modifierGroup, modifiers: data 
       };
@@ -182,7 +192,7 @@ export default function ModifiersPage() {
   };
 
   return (
-    <Box bg="white" minH="100vh">
+    <Box bg="brand.bg" minH="100vh">
       <Box h="60px">
         <Navbar title={merchantStoreName} showBackButton={true}  />
       </Box>
@@ -241,6 +251,7 @@ export default function ModifiersPage() {
               borderRadius={'md'}
               alignItems={'center'}
               border={'2px solid #363636'}
+              bg="white"
             >
               <IconButton 
                 icon={<AiOutlinePlus />}

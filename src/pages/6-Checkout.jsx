@@ -81,19 +81,6 @@ export default function OrderConfirmed() {
     if (querySavedData.data.length > 0) prefillFields(querySavedData.data[0]);
   };
 
-  // const handleKeepTabOpen = async () => { 
-  //   setLoadingKeepTabOpen(true);
-  //   await sendTicketToKDS();
-  //   await pendingOrders.forEach((order) => {
-  //     dispatch(updateCart({
-  //       ...order, status: 'sentToKitchen'
-  //     }));
-  //   });
-    
-  //   navigate(`/${merchantURLPath}`);
-  //   setLoadingKeepTabOpen(false);
-  // };
-
   const handlePayment = async () => {
     setLoadingPayment(true);
     const ticketID = await sendTicketToKDS();

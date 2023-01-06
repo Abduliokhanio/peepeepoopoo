@@ -150,8 +150,8 @@ export default function CategoriesPage() {
       });
 
     if (fetchMenus.data.length === 0 ) {
-      Sentry.captureException(fetchMenu.error);
-      throw fetchMenu.error;
+      Sentry.captureException(fetchMenus.error);
+      throw fetchMenus.error;
     }  
 
     const sortedCategories = fetchMenus.data.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
@@ -165,7 +165,11 @@ export default function CategoriesPage() {
       .select().match({
         merchant_id: merchantID 
       });
-    if (fetchProducts.data.length === 0 ) throw fetchProducts.error;
+    if (fetchProducts.data.length === 0 ) {
+      Sentry.captureException(fetchProducts.error);  
+      throw fetchProducts.error;
+    }
+
     dispatch(setProducts(fetchProducts.data));
   };
 
@@ -180,6 +184,7 @@ export default function CategoriesPage() {
       merchantStore.menuOptions.map((menu, index) => (
         <Flex 
           key={index} 
+          data-test={index}
           onClick={() => handleMenuSelect(menu.id, menu.name)}
           borderBottom='1px' 
           borderColor='gray.200' 
@@ -257,6 +262,7 @@ export default function CategoriesPage() {
               py="4"
               borderBottomWidth="1px"
               px="6" 
+              bg="brand.bg"
             >
               {merchantAddress}
             </Flex>

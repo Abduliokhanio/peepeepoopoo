@@ -74,6 +74,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, tip, 
 
       {page === 'cart' ? (
         <Button
+          data-test="cart-button"
           onClick={handleOnClick}
           isLoading={isLoading} 
           _loading={{
@@ -127,6 +128,7 @@ export default function PaceOrderButton({page, handleOnClick, buttonLabel, tip, 
 
       {paymentChoice === 'cardPay' ? (
         <Button
+          data-test="card-pay-button"
           display={paymentChoice !== 'cardPay' ? 'none' : 'block'}
           onClick={handleOnClick}
           isLoading={isLoading} 

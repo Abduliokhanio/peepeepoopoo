@@ -71,6 +71,7 @@ export default function ProductsPage() {
   const displayProducts = () => {
     return(
       currentProducts.map((product, index) => (<ProductItem
+        data-test={index}
         key={index}
         product={product}
         title={product.name}
@@ -87,7 +88,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <Box pb="300px">
+    <Box pb="300px" bg="brand.bg">
       <Flex direction="column">
         <Navbar title={merchantStoreCategoryName} showBackButton={true}  showTabButton={true}/>
         <HStack 

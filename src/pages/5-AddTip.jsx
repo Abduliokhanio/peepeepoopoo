@@ -139,6 +139,7 @@ export default function TipsPage() {
                 <Text>(25%)</Text>
               </Button>
               <Button 
+                data-test="no-tip-button"
                 onClick={() => handleNoTipButton()}
                 size="lg" 
                 bg={isFourthButtonSelected === true ? '#000000' : 'white'}

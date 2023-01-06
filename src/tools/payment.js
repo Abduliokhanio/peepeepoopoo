@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
+import * as Sentry from '@sentry/browser';
 import { supabasePublic } from '../services/supabasePublic';
 import jsonToQueryString from '../tools/jsonToQueryString';
 import queryStringToJSON from '../tools/queryStringToJSON';
@@ -21,28 +22,28 @@ class Payment extends Component {
   setBilling = (billingInfo) => this.billing = billingInfo;
   setShipping = (shippingInfo) => this.shipping = shippingInfo;
 
-  paymentRequest = (requestOptions, recordCustomerReciept, ticketID) => {
-    requestOptions.security_key = this.security_key;
-    console.log('query', jsonToQueryString(requestOptions));
+  // paymentRequest = (requestOptions, recordCustomerReciept, ticketID) => {
+  //   requestOptions.security_key = this.security_key;
+  //   console.log('query', jsonToQueryString(requestOptions));
 
-    fetch(`https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(requestOptions)}`, {
-      method: 'POST'
-    })
-      .then(response => {
-        response.text().then(async (query) => {
-          const jsonQuery = queryStringToJSON(query);
+  //   fetch(`https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(requestOptions)}`, {
+  //     method: 'POST'
+  //   })
+  //     .then(response => {
+  //       response.text().then(async (query) => {
+  //         const jsonQuery = queryStringToJSON(query);
 
-          if (jsonQuery.responsetext === 'SUCCESS') {
-            console.log('Payment successful: ', jsonQuery);
-            await recordCustomerReciept(ticketID);
-            return;
-          }
+  //         if (jsonQuery.responsetext === 'SUCCESS') {
+  //           console.log('Payment successful: ', jsonQuery);
+  //           await recordCustomerReciept(ticketID);
+  //           return;
+  //         }
 
-          console.log('jsonQuery: ', jsonQuery);
-          throw `${jsonQuery.responsetext}: Error making payment`;
-        });
-      });
-  };
+  //         console.log('jsonQuery: ', jsonQuery);
+  //         throw `${jsonQuery.responsetext}: Error making payment`;
+  //       });
+  //     });
+  // };
 
   invokeFunction = async (requestOptions, recordCustomerReciept, ticketID, setLoadingPayment) => {
     requestOptions.security_key = this.security_key;
@@ -52,11 +53,15 @@ class Payment extends Component {
       method: 'POST',
     };
 
-    const { data, error } = await supabasePublic.functions.invoke('payment', {
+    const { data, error } = await supabasePublic.functions.invoke('make-payment', {
       body: JSON.stringify(requestJson),
     });
 
-    if (error) alert('Error making payment');
+    if (error) {
+      Sentry.captureException(error);
+      Sentry.captureMessage('Error making payment');
+      throw `${error}: Error making payment`;
+    }
 
     const jsonQuery = queryStringToJSON(data);
     if (jsonQuery.responsetext === 'SUCCESS') {
