@@ -39,7 +39,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "e2e:ci": "cypress run --record --key 018a4f80-d08f-450d-bfaf-7a327aedf281",
+    "e2e:ci": "cypress run --record --key 018a4f80-d08f-450d-bfaf-7a327aedf281 --config-file ./cypress.config.js",
     "cy:open": "cypress open",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js src/**/*.jsx"
