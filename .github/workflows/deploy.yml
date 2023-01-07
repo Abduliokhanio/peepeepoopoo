@@ -14,7 +14,9 @@ jobs:
         uses: cypress-io/github-action@v5 
         with:
           record: false
+          config-file: ../../cypress.config.js
           browser: chrome
+          headed: true
           start: npm start
           wait-on: 'http://localhost:3000'
           command: npm run e2e:ci
