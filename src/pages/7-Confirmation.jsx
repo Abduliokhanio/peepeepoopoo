@@ -3,12 +3,14 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import {
-  Flex, Heading, VStack, Text, Button, HStack, Box, Spacer, Icon
+  Flex, Heading, VStack, Text, Button, HStack, Box, Spacer, Icon, Image
 } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart } from '../context/slices/cartSlice';
 import { MdOutlineReceiptLong } from 'react-icons/md';
+import ReceiptWithCheckmark from '../assets/receipt-with-checkmark.svg';
+import ReceiptGraphic from '../assets/receipt.svg';
 
 export default function ClosedTab() {
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ export default function ClosedTab() {
   };
 
   return (
-    <Box>
+    <Box bg="gray.50" h="100vh">
       <Navbar title="OrderAhead" showLeftButton={false} />
       <Flex direction="column">
         <Flex
@@ -35,10 +37,28 @@ export default function ClosedTab() {
             align="stretch"
             px="6"
           >
-            <VStack px="6" h="20" mb="6" alignItems="center">
-              <Heading size="lg">Thank you, {customerName}!</Heading>
+            <Image src={ReceiptWithCheckmark} maxH="200px" alt="logo" />
+            <VStack px="6" mb="6" alignItems="center">
+              <Heading size="md" mt="-30px" mb="8">Receipt Saved</Heading>
             </VStack>
-
+            <Flex justifyContent={'center'} alignItems='center' direction="column" w="100%">
+              <Flex pb="4" maxW="500px" minWidth="300px">
+                <Text fontSize={'2.25rems'} color="gray.500">Order total</Text>
+                <Spacer /><Text>${orderTotal}</Text>
+              </Flex>
+              <Flex pb="4" maxW="500px" minWidth="300px">
+                <Text fontSize={'2.25rems'} color="gray.500">Receipt number</Text>
+                <Spacer /><Text>CF09B630-0026</Text>
+              </Flex>
+              <Flex pb="4" maxW="500px" minWidth="300px">
+                <Text fontSize={'2.25rems'} color="gray.500">Payment date</Text>
+                <Spacer /><Text>January 6, 2023</Text>
+              </Flex>
+              <Flex pb="4" maxW="500px" minWidth="300px">
+                <Text fontSize={'2.25rems'} color="gray.500">Payment method</Text>
+                <Spacer /><Text>Visa •••• 7056</Text>
+              </Flex>
+            </Flex>
           </VStack>
         </Flex>
       </Flex>
@@ -58,21 +78,19 @@ export default function ClosedTab() {
           spacing={1}
           align="stretch"
           px="6">
-          <Flex pb="4">
-            <Text fontSize={'2.25rems'} fontWeight={'bold'}>Order total</Text>
-            <Spacer /><Text>${orderTotal}</Text>
-          </Flex>
           <Flex 
             onClick={() => navigate('/user/receipts')}
             borderBottom='1px' 
             borderColor='gray.200' 
-            py="6" 
-            justifyContent="space-between">
-            <HStack spacing="4">
-              <Icon h="6" w="6" as={MdOutlineReceiptLong} />
-              <Text fontSize="xl">Receipts</Text>
+            pb="3" 
+            alignItems="center">
+            <HStack spacing="1.5">
+              <Image src={ReceiptGraphic} maxH='75px' h="100%" />
+              <HStack spacing="1.5">
+                <Text fontSize="lg" fontWeight={'medium'}>View receipts</Text>
+                <ChevronRightIcon fontWeight={'bold'} fontSize="1.30em"/>
+              </HStack>
             </HStack>
-            <ChevronRightIcon />
           </Flex>
         </VStack>
         <Button
