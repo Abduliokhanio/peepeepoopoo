@@ -92,9 +92,10 @@ export default function Verify() {
       >
         <VStack px="6" h="20" mb="6" alignItems="center">
           <Heading size="lg">
-            Verifying +1{customerNumber}
+            Enter the 6 digit code sent to <br />
+            your number +1{customerNumber}
           </Heading>
-          <Text textAlign="center">Enter the code sent to your phone</Text>
+
         </VStack>
         <FormControl isInvalid={isCodeError}>
           <HStack justifyContent="center" w="100%" >
@@ -119,7 +120,7 @@ export default function Verify() {
           ) : null}
           <Button 
             isDisabled={seconds > 0}
-            onClick={handleResend} mt="12">Resend code {seconds > 0 ? `(${seconds})` : null}</Button>
+            onClick={handleResend} mt="12">Send text again {seconds > 0 ? `(${seconds})` : null}</Button>
         </FormControl>
       </VStack>
     </Box>
