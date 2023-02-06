@@ -70,11 +70,11 @@ export default function ModifiersPage() {
   const handleCartButtoon = () => {
     if (loading) return;
     if (isItemInCart) {
-      const cartItemUpdate = { 
+      let cartItemUpdate = { 
         id: merchantStoreSelectedProduct.id, 
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
-        modifiers: selectedModifiers, 
+        //modifiers: selectedModifiers, 
         specialRequest: specialRequest,
         status: 'pending',
       };
@@ -82,11 +82,11 @@ export default function ModifiersPage() {
       console.log('update cartItem to: ', cartItemUpdate);
       dispatch(updateCart(cartItemUpdate));
     } else {
-      const cartOrderInsert = { 
+      let cartOrderInsert = { 
         id: uid(), 
         item: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
-        modifiers: selectedModifiers,
+        //modifiers: selectedModifiers,
         specialRequest: specialRequest,
         status: 'pending',
       };
@@ -136,12 +136,7 @@ export default function ModifiersPage() {
         ...modifierGroup, modifiers: data 
       };
     });
-
     setModifierGroups(await Promise.all(hydratedModifierGroups));
-  };
-  
-  const handleSpecialRequest = (e) => {
-    setSpecialRequest(e.target.value);
   };
 
   return (

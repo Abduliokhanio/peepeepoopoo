@@ -29,6 +29,7 @@ module.exports = {
   ],
   rules: {
     'no-undef': 0,
+    'no-debugger':'off',
     'react/jsx-first-prop-new-line': [1, 'multiline'],
     'react/no-children-prop': [0],
     'react/prop-types': 'off',

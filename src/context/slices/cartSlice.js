@@ -23,6 +23,9 @@ export const cartSlice = createSlice({
       };
     },
     updateCart: (state, action) => {
+      console.log({
+        action
+      });
       return {
         ...state,
         items: state.items.map(item => item.id === action.payload.id ? action.payload : item)
