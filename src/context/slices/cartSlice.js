@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -11,9 +11,12 @@ export const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
+      if (state.items.some((item) => item.id === action.payload.id)) {
+        return state;
+      }
       return {
         ...state,
-        items: [...state.items, action.payload]
+        items: [...state.items, action.payload],
       };
     },
     removeFromCart: (state, action) => {
@@ -23,12 +26,24 @@ export const cartSlice = createSlice({
       };
     },
     updateCart: (state, action) => {
-      console.log({
-        action
-      });
       return {
         ...state,
-        items: state.items.map(item => item.id === action.payload.id ? action.payload : item)
+        items: state.items.map((item) => {
+          if (item.id === action.payload.id) {
+            if (item.modifiers.length > 0){
+              for(let i = 0; i < item.modifiers.length; i++){
+                if(!action.payload.modifiers.includes(item.modifiers[i])){//if not in 
+                  action.payload.modifiers.push(item.modifiers[i]); //then add
+                } 
+              }
+              for(let i = 0; i < item.modifiersGroup.length; i++){
+                action.payload.modifiersGroup.push(item.modifiersGroup[i]);
+              }
+            } 
+            return action.payload;
+          } 
+          return item;
+        }),
       };
     },
     clearCart: (state) => {

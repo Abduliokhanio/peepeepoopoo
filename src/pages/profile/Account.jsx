@@ -15,7 +15,6 @@ export default function AccountPage() {
   const navigate = useNavigate();
 
   const handleSelect = (option) => {
-    console.log('option: ', option);
     if (option === 'account-details') navigate('/user/account-details');
     else if (option === 'receipts') navigate('/user/receipts');
     else if (option === 'payment-methods') navigate('/user/payment-methods');

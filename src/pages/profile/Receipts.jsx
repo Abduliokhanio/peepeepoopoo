@@ -29,7 +29,6 @@ export default function Orders() {
       });
     setLoading(false);
     if (error) throw error;
-    console.log('data: ', data);
     setReceipts(data);
   };
 

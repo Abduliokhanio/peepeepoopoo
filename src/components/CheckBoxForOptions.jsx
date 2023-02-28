@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Heading, Image, IconButton, Checkbox, CheckboxGroup, Stack, StackDivider, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
 } from '@chakra-ui/react';
-import {updateCart} from '../context/slices/cartSlice';
+import {updateCart, addToCart} from '../context/slices/cartSlice';
 
 function CheckBoxForOptions({modifierGroup}) {
   //react local state
@@ -12,15 +12,8 @@ function CheckBoxForOptions({modifierGroup}) {
   //redux
   const dispatch = useDispatch();
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
-  const merchantStoreName = useSelector(state => state.merchant.brandName);
-  const cart = useSelector(state => state.cart.items);
 
   useEffect(() => {
-    // console.log(
-    //   'selectedModifiers: ', selectedModifiers
-    // );
-
-    // console.log();
   });
   
   const modifierGroupRequired = (modifierGroup) => {
@@ -52,24 +45,23 @@ function CheckBoxForOptions({modifierGroup}) {
 
   const handleCheckboxChange = (e, modifier, modifierGroup) => {
     setSelectedModifiers([...selectedModifiers, modifier]);
+    
     const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
     if (e.target.checked) {
       if (selectedModifierCount < modifierGroup.select_max) {
         setSelectedModifiers([...selectedModifiers, modifier]);
         let cartItemUpdate = { 
           id: merchantStoreSelectedProduct.id, 
-          item: merchantStoreSelectedProduct.item, 
+          items: merchantStoreSelectedProduct.item, 
           quantity: 1, 
-          modifiers: selectedModifiers, 
+          modifiersGroup: [modifierGroup],
+          modifiers: [...selectedModifiers, modifier], 
           specialRequest: '',
           status: 'pending',
         };
-        
         dispatch(updateCart(cartItemUpdate));
       } 
-    } else {
-      setSelectedModifiers(selectedModifiers.filter(item => item.id !== modifier.id));
-    }
+    } 
   };
 
   return (

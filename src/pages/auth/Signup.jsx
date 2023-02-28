@@ -36,10 +36,6 @@ export default function Login() {
     });
 
     dispatch(setMobileNumber(number));
-
-    console.log('user: ', user);
-    console.log('error: ', error);
-
     if (error) throw error;
     navigate('/auth/verify');
     setLoading(false);

@@ -4,8 +4,6 @@
 
 import { serve } from 'https://deno.land/std@0.131.0/http/server.ts';
 
-console.log(`Function "browser-with-cors" up and running!`)
-
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': '*'

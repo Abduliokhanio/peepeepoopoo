@@ -18,7 +18,7 @@ export default function Cart() {
   const orderTax = useSelector(state => state.cart.orderTax);
   const orderMedthod = useSelector(state => state.cart.orderType);
   const pendingOrders = cart.filter(item => item.status === 'pending');
-  const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.item.price) * item.quantity), 0);
+  const subTotal = pendingOrders.reduce((acc, item) => acc + (parseInt(item.items.price) * item.quantity), 0);
   const subTotalWithTax = (subTotal + (subTotal * (orderTax/100))).toFixed(2);
   const tip = (subTotalWithTax*orderTip).toFixed(2);
   const totalCost = subTotalWithTax+tip;

@@ -22,29 +22,6 @@ class Payment extends Component {
   setBilling = (billingInfo) => this.billing = billingInfo;
   setShipping = (shippingInfo) => this.shipping = shippingInfo;
 
-  // paymentRequest = (requestOptions, recordCustomerReciept, ticketID) => {
-  //   requestOptions.security_key = this.security_key;
-  //   console.log('query', jsonToQueryString(requestOptions));
-
-  //   fetch(`https://sharingthecredit.transactiongateway.com/api/transact.php${jsonToQueryString(requestOptions)}`, {
-  //     method: 'POST'
-  //   })
-  //     .then(response => {
-  //       response.text().then(async (query) => {
-  //         const jsonQuery = queryStringToJSON(query);
-
-  //         if (jsonQuery.responsetext === 'SUCCESS') {
-  //           console.log('Payment successful: ', jsonQuery);
-  //           await recordCustomerReciept(ticketID);
-  //           return;
-  //         }
-
-  //         console.log('jsonQuery: ', jsonQuery);
-  //         throw `${jsonQuery.responsetext}: Error making payment`;
-  //       });
-  //     });
-  // };
-
   invokeFunction = async (requestOptions, recordCustomerReciept, ticketID, setLoadingPayment) => {
     requestOptions.security_key = this.security_key;
 
@@ -65,11 +42,9 @@ class Payment extends Component {
 
     const jsonQuery = queryStringToJSON(data);
     if (jsonQuery.responsetext === 'SUCCESS') {
-      console.log(jsonQuery);
       await recordCustomerReciept(ticketID);
       return;
     }
-    console.log(data);
     setLoadingPayment(false);
   };
 

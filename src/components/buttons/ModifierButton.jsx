@@ -29,7 +29,7 @@ export default function ModifierButton({handleOnClick, totalPrice, isItemInCart,
       >
         <Flex justifyContent='space-between' px="8" alignItems="center">
           <Heading color={loading ? 'gray.500' : 'white'} size="md">{buttonLabelType()}</Heading>
-          <Heading color={loading ? 'gray.500' : 'white'} size="md">${totalPrice.toFixed(2)}</Heading>
+          <Heading color={loading ? 'gray.500' : 'white'} size="md">${totalPrice}</Heading>
         </Flex>
       </Box>
     </Flex>

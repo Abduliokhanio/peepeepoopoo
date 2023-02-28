@@ -12,6 +12,7 @@ import { addToCart, updateCart } from '../context/slices/cartSlice';
 import ShortUniqueId from 'short-unique-id';
 import {AiOutlinePlus, AiOutlineMinus} from 'react-icons/ai';
 import CheckBoxForOptions from '../components/CheckBoxForOptions';
+import { current } from '@reduxjs/toolkit';
 
 export default function ModifiersPage() {
   const dispatch = useDispatch();
@@ -23,8 +24,9 @@ export default function ModifiersPage() {
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
+  const itemInCart = cart.find(cartItem => cartItem.id === merchantStoreSelectedProduct.id);
   const [loading, setLoading] = useState(true);
-  const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct.item.price);
+  const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct?.item?.price);
   const [itemCount, setItemCount] = useState(1);
   const [isItemInCart, setIsItemInCart] = useState(false);
   const [modifierGroups, setModifierGroups] = useState([]);
@@ -43,9 +45,19 @@ export default function ModifiersPage() {
   const input = getInputProps();
 
   useEffect(() => {
+    let cartOrderInsert = { 
+      id: merchantStoreSelectedProduct.id, 
+      items: merchantStoreSelectedProduct.item, 
+      quantity: parseInt(itemCount), 
+      modifiersGroup: [],
+      modifiers: [],
+      specialRequest: 'specialRequest - cartOrderInsert',
+      status: 'pending',
+    };
+    dispatch(addToCart(cartOrderInsert));
     checkCart();
-    setTotalPrice(itemCount * merchantStoreSelectedProduct.item.price);
-  }, [false]);
+    setTotalPrice(itemCount * merchantStoreSelectedProduct?.item?.price);
+  }, []);
 
   const checkCart = async () => { 
     setLoading(true);
@@ -54,12 +66,10 @@ export default function ModifiersPage() {
     if (itemInCart === undefined) {
       setIsItemInCart(false); 
       setItemCount(merchantStoreSelectedProduct.quantity);
-
     } else {
       isItemInCart ? setItemCount(1) : setItemCount(itemInCart.quantity);
       setItemCount(itemInCart.quantity);
       setIsItemInCart(true); 
-      console.log('old itemCount: ', itemCount);
     }
 
     const modifierGroupsData = await fetchModifierGroups();
@@ -72,41 +82,27 @@ export default function ModifiersPage() {
     if (isItemInCart) {
       let cartItemUpdate = { 
         id: merchantStoreSelectedProduct.id, 
-        item: merchantStoreSelectedProduct.item, 
+        items: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
-        //modifiers: selectedModifiers, 
-        specialRequest: specialRequest,
+        modifiers: [], 
+        specialRequest: 'specialRequest - cartItemUpdate',
         status: 'pending',
       };
-
-      console.log('update cartItem to: ', cartItemUpdate);
-      dispatch(updateCart(cartItemUpdate));
-    } else {
-      let cartOrderInsert = { 
-        id: uid(), 
-        item: merchantStoreSelectedProduct.item, 
-        quantity: parseInt(itemCount), 
-        //modifiers: selectedModifiers,
-        specialRequest: specialRequest,
-        status: 'pending',
-      };
-        
-      dispatch(addToCart(cartOrderInsert));
+      dispatch(addToCart(cartItemUpdate));
     }
-    
-    navigate('/cart');
+    // navigate('/cart');
   };
 
   const handleModifierCountInput = (count) => {
     setItemCount(count);
-    setTotalPrice(count * merchantStoreSelectedProduct.item.price);
+    setTotalPrice(count * merchantStoreSelectedProduct?.item?.price);
   };
 
   const fetchModifierGroups = async () => {
     const { data, error } = await supabasePublic.from('modifiergroups')
       .select('*')
       .match({
-        'product_id': merchantStoreSelectedProduct.item.id
+        'product_id': merchantStoreSelectedProduct?.item?.id
       });
 
     if (error) {
@@ -144,21 +140,21 @@ export default function ModifiersPage() {
       <Box h="60px">
         <Navbar title={merchantStoreName} showBackButton={true}  />
       </Box>
-      {merchantStoreSelectedProduct.item.image_url !== null ? (
-        <Image h="175" w="100vw" mb="4" objectFit="cover" src={merchantStoreSelectedProduct.item.image_url} alt="menu" />
+      {merchantStoreSelectedProduct?.item?.image_url !== null ? (
+        <Image h="175" w="100vw" mb="4" objectFit="cover" src={merchantStoreSelectedProduct?.item?.image_url} alt="menu" />
       ) : <Divider mb="8" />}
       <Box h="100%" pb="200px">
         
         <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
           <Box px="6" mb="8">
-            <Text mb="2" fontSize="1.75em" fontWeight="bold">{merchantStoreSelectedProduct.item.name}</Text>
-            <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct.item.description}</Text>
-            <Text fontSize={'20'}>${merchantStoreSelectedProduct.item.price.toFixed(2)}</Text>
+            <Text mb="2" fontSize="1.75em" fontWeight="bold">{merchantStoreSelectedProduct?.item?.name}</Text>
+            <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct?.item?.description}</Text>
+            <Text fontSize={'20'}>${merchantStoreSelectedProduct?.item?.price}</Text>
           </Box>
           
           {modifierGroups.length > 1 ? (
             modifierGroups.map((modifierGroup) => {
-              return (modifierGroup.product_id === merchantStoreSelectedProduct.item.id ? (
+              return (modifierGroup.product_id === merchantStoreSelectedProduct?.item?.id ? (
                 <CheckBoxForOptions modifierGroup={modifierGroup}/>
               ) : null); 
             })

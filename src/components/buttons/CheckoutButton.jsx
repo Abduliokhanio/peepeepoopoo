@@ -9,7 +9,7 @@ export default function CheckoutButton() {
   const cart = useSelector(state => state.cart.items);
   const pendingOrders = cart.filter(item => item.status === 'pending');
   const pendingOrdersTotalCount = pendingOrders.reduce((acc, item) => acc + parseInt(item.quantity), 0);
-  const pendingOrdersTotalPrice = pendingOrders.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.item.price)), 0);
+  const pendingOrdersTotalPrice = pendingOrders.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.price)), 0);
   const unPaidOrders = cart.filter(item => item.paid === false);
   const navigate = useNavigate();
 
