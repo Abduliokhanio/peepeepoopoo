@@ -33,21 +33,17 @@ function CheckBoxForOptions({modifierGroup}) {
   };
   const modifierDisableMax = (modifier, modifierGroup) => {
     const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
-    if (selectedModifierCount < modifierGroup.select_max) {
-      return false;
-    }
-    // TODO: SET TRUE IF MODIFER IS IN MODIFIER GROUP
-    if (selectedModifiers.filter(item => item.id === modifier.id).length === 0) {
-      return true;
-    }
+    if (selectedModifierCount < modifierGroup.select_max) { return false; }
+    if (selectedModifiers.filter(item => item.id === modifier.id).length === 0) { return true;}
     return false;
   };
 
   const handleCheckboxChange = (e, modifier, modifierGroup) => {
-    setSelectedModifiers([...selectedModifiers, modifier]);
-    
-    const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
+
     if (e.target.checked) {
+      setSelectedModifiers([...selectedModifiers, modifier]);
+      const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
+
       if (selectedModifierCount < modifierGroup.select_max) {
         setSelectedModifiers([...selectedModifiers, modifier]);
         let cartItemUpdate = { 
@@ -62,6 +58,9 @@ function CheckBoxForOptions({modifierGroup}) {
         dispatch(updateCart(cartItemUpdate));
       } 
     } 
+    else{
+      console.log('unchecked');
+    }
   };
 
   return (
