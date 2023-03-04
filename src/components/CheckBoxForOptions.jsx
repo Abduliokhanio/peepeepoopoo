@@ -79,20 +79,18 @@ function CheckBoxForOptions({modifierGroup}) {
             direction='column' 
             px="6"
             divider={<StackDivider borderColor='gray.200' />}>
-            {modifierGroup?.modifiers?.map(modifier => {
-              return(
-                <>
-                  <Checkbox 
-                    id={`checkbox_${modifierDisableMax(modifier, modifierGroup)}`}
-                    isDisabled={modifierDisableMax(modifier, modifierGroup)}
-                    onChange={(e) => handleCheckboxChange(e, modifier, modifierGroup)}
-                    py="3" 
-                    key={modifier.id} 
-                    value={modifier.name}>{modifier.name}
-                  </Checkbox>
-                </>
-              );  
-            })}
+            {modifierGroup?.modifiers?.map(modifier => (
+              <React.Fragment key={modifier.id}>
+                <Checkbox
+                  id={`checkbox_${modifierDisableMax(modifier, modifierGroup)}`}
+                  isDisabled={modifierDisableMax(modifier, modifierGroup)}
+                  onChange={(e) => handleCheckboxChange(e, modifier, modifierGroup)}
+                  py="3"
+                  value={modifier.name}>
+                  {modifier.name}
+                </Checkbox>
+              </React.Fragment>
+            ))}
           </Stack>
         </CheckboxGroup>
       </Box>

@@ -151,14 +151,13 @@ export default function ModifiersPage() {
             <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct?.item?.description}</Text>
             <Text fontSize={'20'}>${merchantStoreSelectedProduct?.item?.price}</Text>
           </Box>
-          
-          {modifierGroups.length > 1 ? (
-            modifierGroups.map((modifierGroup) => {
-              return (modifierGroup.product_id === merchantStoreSelectedProduct?.item?.id ? (
-                <CheckBoxForOptions modifierGroup={modifierGroup}/>
-              ) : null); 
-            })
-          ) : null}
+          {modifierGroups.length > 1 &&
+            modifierGroups.map((modifierGroup) => (
+              modifierGroup.product_id === merchantStoreSelectedProduct?.item?.id && (
+                <CheckBoxForOptions key={modifierGroup.id} modifierGroup={modifierGroup} />
+              )
+            ))
+          }
           <Box px="6">
           </Box>
           <HStack 
