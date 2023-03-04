@@ -30,15 +30,10 @@ export const cartSlice = createSlice({
         ...state,
         items: state.items.map((item) => {
           if (item.id === action.payload.id) {
+            console.log('action (aka coming into redux) - ', action.payload);
+            console.log('action (already in redux) - ', current(item));
             if (item.modifiers.length > 0){
-              for(let i = 0; i < item.modifiers.length; i++){
-                if(!action.payload.modifiers.includes(item.modifiers[i])){//if not in 
-                  action.payload.modifiers.push(item.modifiers[i]); //then add
-                } 
-              }
-              for(let i = 0; i < item.modifiersGroup.length; i++){
-                action.payload.modifiersGroup.push(item.modifiersGroup[i]);
-              }
+              addModsAndModGroupsToRedux(item, action);
             } 
             return action.payload;
           } 
@@ -77,4 +72,29 @@ export const {
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
+
+//Helper Methods
+
+function addModsAndModGroupsToRedux(item,action){
+  addModsToRedux(item, action);
+  addModGroupssToRedux(item, action);
+}
+
+function addModsToRedux(item, action){
+  for(let i = 0; i < item.modifiers.length; i++){
+    ifNotInThenAdd(action,item.modifiers[i]);
+  }
+}
+
+function addModGroupssToRedux(item, action){
+  for(let i = 0; i < item.modifiersGroup.length; i++){
+    action.payload.modifiersGroup.push(item.modifiersGroup[i]);
+  }
+}
+
+function ifNotInThenAdd(action,itemMod){
+  if(!action.payload.modifiers.includes(itemMod)){//if not in 
+    action.payload.modifiers.push(itemMod); //then add
+  } 
+}
 
