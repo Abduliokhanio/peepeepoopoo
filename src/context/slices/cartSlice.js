@@ -97,8 +97,8 @@ function ifNotInThenAdd(action,itemMod){
   if(action.payload.modifiers.find(modifier => modifier.name !== itemMod.name)){//if not in 
     action.payload.modifiers.push(itemMod); //then add
   } 
-  if(action.payload.deselectThis && action.payload.modifiers.includes(itemMod)){
-    action.payload.modifiers = action.payload.modifiers.filter(e => e.name !== action.payload.name);
+  if(action.payload.deselectThis){
+    action.payload.modifiers = action.payload.modifiers.filter(e => e.name !== action.payload.deselectThis.name);
   }
   action.payload;
 }

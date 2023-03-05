@@ -65,7 +65,7 @@ function CheckBoxForOptions({modifierGroup}) {
         items: merchantStoreSelectedProduct.item, 
         quantity: 1, 
         modifiersGroup: [modifierGroup],
-        modifiers: [], 
+        modifiers: selectedModifiers, 
         specialRequest: '',
         status: 'pending',
         deselectThis: modifier
