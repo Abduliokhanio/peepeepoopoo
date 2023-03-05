@@ -59,16 +59,18 @@ function CheckBoxForOptions({modifierGroup}) {
     } 
     else{
       setSelectedModifiers(selectedModifiers.filter(e => e.name != modifier.name));
+      console.log(selectedModifiers);
       let cartItemUpdate = { 
         id: merchantStoreSelectedProduct.id, 
         items: merchantStoreSelectedProduct.item, 
         quantity: 1, 
         modifiersGroup: [modifierGroup],
-        modifiers: [...selectedModifiers, modifier], 
+        modifiers: [], 
         specialRequest: '',
         status: 'pending',
         deselectThis: modifier
       };
+
       dispatch(updateCart(cartItemUpdate));
     }
   };
