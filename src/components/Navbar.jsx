@@ -12,7 +12,7 @@ import logo from '../assets/logo-horizontal-w.svg';
 export default function NavBar({ title, showBackButton, showLeftButton, showTabButton }) {
   const navigate = useNavigate();
   const cart = useSelector(state => state.cart.items);
-  const openTabOrders = cart.filter(item => item.status === 'sentToKitchen');
+  const openTabOrders = cart.filter(item => item?.status === 'sentToKitchen');
 
   const navButton = () => {
     if (showBackButton) {

@@ -25,7 +25,6 @@ import AddCardPayment from './pages/profile/AddCardPayment';
 import ManageTab from './pages/ManageTab';
 
 function App() {
-
   return (
     <ChakraProvider theme={Theme}>
       <Fonts />

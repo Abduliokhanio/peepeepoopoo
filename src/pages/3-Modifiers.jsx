@@ -24,7 +24,7 @@ export default function ModifiersPage() {
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
   const merchantStoreName = useSelector(state => state.merchant.brandName);
   const cart = useSelector(state => state.cart.items);
-  const itemInCart = cart.find(cartItem => cartItem.id === merchantStoreSelectedProduct.id);
+  const itemInCart = cart.find(cartItem => cartItem?.id === merchantStoreSelectedProduct.id);
   const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct?.item?.price);
   const [itemCount, setItemCount] = useState(1);
@@ -61,7 +61,7 @@ export default function ModifiersPage() {
 
   const checkCart = async () => { 
     setLoading(true);
-    const itemInCart = cart.find(item => item.id === merchantStoreSelectedProduct.id);
+    const itemInCart = cart.find(item => item?.id === merchantStoreSelectedProduct.id);
     
     if (itemInCart === undefined) {
       setIsItemInCart(false); 

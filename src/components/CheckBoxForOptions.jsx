@@ -43,7 +43,6 @@ function CheckBoxForOptions({modifierGroup}) {
     if (e.target.checked) {
       setSelectedModifiers([...selectedModifiers, modifier]);
       const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
-
       if (selectedModifierCount < modifierGroup.select_max) {
         setSelectedModifiers([...selectedModifiers, modifier]);
         let cartItemUpdate = { 
@@ -59,7 +58,18 @@ function CheckBoxForOptions({modifierGroup}) {
       } 
     } 
     else{
-      console.log('unchecked');
+      setSelectedModifiers(selectedModifiers.filter(e => e.name != modifier.name));
+      let cartItemUpdate = { 
+        id: merchantStoreSelectedProduct.id, 
+        items: merchantStoreSelectedProduct.item, 
+        quantity: 1, 
+        modifiersGroup: [modifierGroup],
+        modifiers: [...selectedModifiers, modifier], 
+        specialRequest: '',
+        status: 'pending',
+        deselectThis: modifier
+      };
+      dispatch(updateCart(cartItemUpdate));
     }
   };
 

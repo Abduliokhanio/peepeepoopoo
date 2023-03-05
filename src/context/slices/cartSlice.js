@@ -1,4 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit';
+import { isBindingElement } from 'typescript';
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -11,7 +12,7 @@ export const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      if (state.items.some((item) => item.id === action.payload.id)) {
+      if (state.items.some((item) => item?.id === action.payload.id)) {
         return state;
       }
       return {
@@ -96,5 +97,10 @@ function ifNotInThenAdd(action,itemMod){
   if(!action.payload.modifiers.includes(itemMod)){//if not in 
     action.payload.modifiers.push(itemMod); //then add
   } 
+  if(action.payload.deselectThis && action.payload.modifiers.includes(itemMod)){
+    console.log('deselecing ', action.payload.deselectThis.name );
+    action.payload.modifiers = action.payload.modifiers.filter(e => e.name !== action.payload.name);
+  }
+  return action.payload;
 }
 
