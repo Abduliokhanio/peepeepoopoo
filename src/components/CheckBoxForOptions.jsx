@@ -70,7 +70,6 @@ function CheckBoxForOptions({modifierGroup}) {
         deselectThis: modifier,
         deselectThisGroup: modifierGroup
       };
-
       dispatch(updateCart(cartItemUpdate));
     }
   };

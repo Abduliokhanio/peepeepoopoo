@@ -12,12 +12,15 @@ export default function CartItemCard({item}) {
 
   const cart = useSelector(state => state.cart.items);
   const itemInCart = cart.find(cartItem => cartItem.id === item.id);
+  let uniqueModGroups;
 
-  const uniqueModGroups = itemInCart?.modifiersGroup
-    .filter((value, index, array) => array.findIndex(obj => obj.id === value.id) === index)
-    .sort((a, b) => a.id - b.id);
-
-  console.log(itemInCart);
+  if (itemInCart.modifiers.length > 0) {
+    uniqueModGroups = itemInCart?.modifiersGroup
+      .filter((value, index, array) => array.findIndex(obj => obj.id === value.id) === index)
+      .sort((a, b) => a.id - b.id);
+  }else{
+    uniqueModGroups = [];
+  }
 
   const filteredUniqItemInCart = itemInCart?.modifiers
     .filter((value, index, array) => array.indexOf(value) === index)
