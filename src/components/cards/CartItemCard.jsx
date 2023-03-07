@@ -17,6 +17,8 @@ export default function CartItemCard({item}) {
     .filter((value, index, array) => array.findIndex(obj => obj.id === value.id) === index)
     .sort((a, b) => a.id - b.id);
 
+  console.log(itemInCart);
+
   const filteredUniqItemInCart = itemInCart?.modifiers
     .filter((value, index, array) => array.indexOf(value) === index)
     .filter((item, index, array) => index === array.findIndex(obj => obj.id === item.id));
@@ -53,7 +55,7 @@ export default function CartItemCard({item}) {
               <Heading fontSize="1.25rem" mt="1">{itemInCart?.items?.name}</Heading>
               {uniqueModGroups?.map((modifierGroup) => (
                 <React.Fragment key={modifierGroup.id}>
-                  <Text as='u' fontSize='lg' color='blue'>
+                  <Text as='u' fontSize='lg' color='blue'> 
                     {modifierGroup.name}
                   </Text>
                   {filteredUniqItemInCart

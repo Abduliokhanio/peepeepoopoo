@@ -59,7 +59,6 @@ function CheckBoxForOptions({modifierGroup}) {
     } 
     else{
       setSelectedModifiers(selectedModifiers.filter(e => e.name != modifier.name));
-      console.log(selectedModifiers);
       let cartItemUpdate = { 
         id: merchantStoreSelectedProduct.id, 
         items: merchantStoreSelectedProduct.item, 
@@ -68,7 +67,8 @@ function CheckBoxForOptions({modifierGroup}) {
         modifiers: selectedModifiers, 
         specialRequest: '',
         status: 'pending',
-        deselectThis: modifier
+        deselectThis: modifier,
+        deselectThisGroup: modifierGroup
       };
 
       dispatch(updateCart(cartItemUpdate));
