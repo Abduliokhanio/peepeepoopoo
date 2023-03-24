@@ -4,7 +4,7 @@ import {
   Heading, Image, IconButton, Checkbox, CheckboxGroup, Stack, StackDivider, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
 } from '@chakra-ui/react';
 import {updateCart, addToCart} from '../context/slices/cartSlice';
-//test
+// test 2
 function CheckBoxForOptions({modifierGroup}) {
   //react local state
   const [selectedModifiers, setSelectedModifiers] = useState([]);
