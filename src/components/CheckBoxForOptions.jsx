@@ -4,7 +4,7 @@ import {
   Heading, Image, IconButton, Checkbox, CheckboxGroup, Stack, StackDivider, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
 } from '@chakra-ui/react';
 import {updateCart, addToCart} from '../context/slices/cartSlice';
-
+//test
 function CheckBoxForOptions({modifierGroup}) {
   //react local state
   const [selectedModifiers, setSelectedModifiers] = useState([]);
@@ -39,7 +39,6 @@ function CheckBoxForOptions({modifierGroup}) {
   };
 
   const handleCheckboxChange = (e, modifier, modifierGroup) => {
-
     if (e.target.checked) {
       setSelectedModifiers([...selectedModifiers, modifier]);
       const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
