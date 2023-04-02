@@ -39,6 +39,11 @@ export default function ModifiersPage() {
   
   const [modifierGroups, setModifierGroups] = useState([]);
 
+  // Since modifier state is local ot the CheckBoxForOptions component, we will instantiate this
+  // "global" state that each modifier group will append to when a modifier is selected.
+  // Now, we can pass the selected modifiers object, in contrast to not being able to access it before.
+  const [allSelectedModifiers, setAllSelectedModifiers] = useState([]);
+
   const [specialRequest, setSpecialRequest] = useState('');
 
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
@@ -81,7 +86,7 @@ export default function ModifiersPage() {
         id: merchantStoreSelectedProduct.id, 
         items: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
-        modifiers: [], 
+        modifiers: allSelectedModifiers, 
         specialRequest: 'specialRequest - cartItemUpdate',
         status: 'pending',
       };
@@ -93,7 +98,7 @@ export default function ModifiersPage() {
         items: merchantStoreSelectedProduct.item, 
         quantity: parseInt(itemCount), 
         modifiersGroup: [],
-        modifiers: [],
+        modifiers: allSelectedModifiers,
         specialRequest: 'specialRequest - cartOrderInsert',
         status: 'pending',
       };
@@ -168,7 +173,12 @@ export default function ModifiersPage() {
           {modifierGroups.length > 1 &&
             modifierGroups.map((modifierGroup) => (
               modifierGroup.product_id === merchantStoreSelectedProduct?.item?.id && (
-                <CheckBoxForOptions key={modifierGroup.id} modifierGroup={modifierGroup} />
+                <CheckBoxForOptions 
+                  key={modifierGroup.id}
+                  modifierGroup={modifierGroup}
+                  allSelectedModifiers={allSelectedModifiers}
+                  setAllSelectedModifiers={setAllSelectedModifiers}
+                />
               )
             ))
           }
@@ -270,8 +280,8 @@ export default function ModifiersPage() {
             isItemInCart={isItemInCart} 
             handleOnClick={handleCartButtoon} 
             numberOfItems={itemCount} 
-            totalPrice={totalPrice} />
-            
+            totalPrice={totalPrice}
+          />
         </Flex>
       </Box>
       

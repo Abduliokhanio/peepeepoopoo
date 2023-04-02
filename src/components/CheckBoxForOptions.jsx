@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react';
 import {updateCart, addToCart} from '../context/slices/cartSlice';
 // test 4
-function CheckBoxForOptions({modifierGroup}) {
+function CheckBoxForOptions({modifierGroup, allSelectedModifiers, setAllSelectedModifiers}) {
   //react local state
   const [selectedModifiers, setSelectedModifiers] = useState([]);
 
@@ -41,9 +41,11 @@ function CheckBoxForOptions({modifierGroup}) {
   const handleCheckboxChange = (e, modifier, modifierGroup) => {
     if (e.target.checked) {
       setSelectedModifiers([...selectedModifiers, modifier]);
+      setAllSelectedModifiers([...selectedModifiers, modifier]);
       const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
       if (selectedModifierCount < modifierGroup.select_max) {
         setSelectedModifiers([...selectedModifiers, modifier]);
+        setAllSelectedModifiers([...selectedModifiers, modifier]);
         let cartItemUpdate = { 
           id: merchantStoreSelectedProduct.id, 
           items: merchantStoreSelectedProduct.item, 
@@ -58,6 +60,7 @@ function CheckBoxForOptions({modifierGroup}) {
     } 
     else{
       setSelectedModifiers(selectedModifiers.filter(e => e.name != modifier.name));
+      setAllSelectedModifiers(selectedModifiers.filter(e => e.name != modifier.name));
       let cartItemUpdate = { 
         id: merchantStoreSelectedProduct.id, 
         items: merchantStoreSelectedProduct.item, 

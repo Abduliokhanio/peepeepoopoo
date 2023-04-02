@@ -242,11 +242,8 @@ export default function OrderConfirmed() {
             />
 
           </VStack>
-
         </Flex>
-
       </Flex>
-     
     </Box>
   );
 }

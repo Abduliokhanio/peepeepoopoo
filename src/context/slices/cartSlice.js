@@ -93,21 +93,26 @@ function addModGroupssToRedux(item, action){
 
 function ifNotInThenAdd_ModGroups(action,itemModGroup){
   if(action.payload.modifiersGroup.find(modGroup => modGroup.name !== itemModGroup.name)){//if not in 
-    action.payload.modifiersGroup.push(itemModGroup); //then add
+    action.payload.modifiersGroup = action.payload.modifiersGroup.push(itemModGroup); //then add
   } 
+
   if(action.payload.deselectThis){
     action.payload.modifiersGroup = action.payload.modifiersGroup.filter(e => e.name !== action.payload.deselectThisGroup.name);
   }
-  action.payload;
+
+  return action.payload;
 }
 
 function ifNotInThenAdd_Mods(action,itemMod){
   if(action.payload.modifiers.find(modifier => modifier.name !== itemMod.name)){//if not in 
     action.payload.modifiers.push(itemMod); //then add
-  } 
+  } else if (action.payload.modifiers.length == 0) {
+    action.payload.modifiers.push(itemMod);
+  }
   if(action.payload.deselectThis){
     action.payload.modifiers = action.payload.modifiers.filter(e => e.name !== action.payload.deselectThis.name);
   }
-  action.payload;
+
+  return action.payload;
 }
 
