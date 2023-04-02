@@ -56,7 +56,7 @@ export default function OrderConfirmed() {
   const [cardCvv, setCardCvv] = useState('');
   
   useEffect(() => {
-    if (user === null) navigate('/auth/signup');
+    // if (user === null) navigate('/auth/signup');
     setPreviousRecord();
     CollectJSInstance.configure({
       totalCost, merchantName
@@ -172,7 +172,11 @@ export default function OrderConfirmed() {
           <VStack>
             <Box pt="6" bg="white" width="100%" >
               {tableNumber === null ? (
+                // AUTH BYPASS
+                // Comment/delete the null statement below and uncomment other line for proper auth
                 null
+
+              // navigate('/auth/signup');
               ) : (
                 <Heading pl="6" mb="6" size="md" textAlign="left">Table #{tableNumber}</Heading>
               )}

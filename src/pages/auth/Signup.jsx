@@ -37,7 +37,11 @@ export default function Login() {
 
     dispatch(setMobileNumber(number));
     if (error) throw error;
-    navigate('/auth/verify');
+
+    // AUTH BYPASS
+    // Uncomment line below for proper auth
+    // navigate('/auth/verify');
+
     setLoading(false);
   };
 

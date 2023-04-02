@@ -22,15 +22,25 @@ export default function ModifiersPage() {
   });
   
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
+
   const merchantStoreName = useSelector(state => state.merchant.brandName);
+
   const cart = useSelector(state => state.cart.items);
+
   const itemInCart = cart.find(cartItem => cartItem?.id === merchantStoreSelectedProduct.id);
+
   const [loading, setLoading] = useState(true);
+
   const [totalPrice, setTotalPrice] = useState(merchantStoreSelectedProduct?.item?.price);
+
   const [itemCount, setItemCount] = useState(1);
+
   const [isItemInCart, setIsItemInCart] = useState(false);
+  
   const [modifierGroups, setModifierGroups] = useState([]);
+
   const [specialRequest, setSpecialRequest] = useState('');
+
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
       step: 1,
@@ -45,16 +55,6 @@ export default function ModifiersPage() {
   const input = getInputProps();
 
   useEffect(() => {
-    let cartOrderInsert = { 
-      id: merchantStoreSelectedProduct.id, 
-      items: merchantStoreSelectedProduct.item, 
-      quantity: parseInt(itemCount), 
-      modifiersGroup: [],
-      modifiers: [],
-      specialRequest: 'specialRequest - cartOrderInsert',
-      status: 'pending',
-    };
-    dispatch(addToCart(cartOrderInsert));
     checkCart();
     setTotalPrice(itemCount * merchantStoreSelectedProduct?.item?.price);
   }, []);
@@ -66,11 +66,7 @@ export default function ModifiersPage() {
     if (itemInCart === undefined) {
       setIsItemInCart(false); 
       setItemCount(merchantStoreSelectedProduct.quantity);
-    } else {
-      isItemInCart ? setItemCount(1) : setItemCount(itemInCart.quantity);
-      setItemCount(itemInCart.quantity);
-      setIsItemInCart(true); 
-    }
+    } 
 
     const modifierGroupsData = await fetchModifierGroups();
     await fetchModifiers(modifierGroupsData);
@@ -79,6 +75,7 @@ export default function ModifiersPage() {
 
   const handleCartButtoon = () => {
     if (loading) return;
+    
     if (isItemInCart) {
       let cartItemUpdate = { 
         id: merchantStoreSelectedProduct.id, 
@@ -88,9 +85,22 @@ export default function ModifiersPage() {
         specialRequest: 'specialRequest - cartItemUpdate',
         status: 'pending',
       };
+
       dispatch(addToCart(cartItemUpdate));
+    } else {
+      let cartOrderInsert = { 
+        id: merchantStoreSelectedProduct.id, 
+        items: merchantStoreSelectedProduct.item, 
+        quantity: parseInt(itemCount), 
+        modifiersGroup: [],
+        modifiers: [],
+        specialRequest: 'specialRequest - cartOrderInsert',
+        status: 'pending',
+      };
+
+      dispatch(addToCart(cartOrderInsert));
     }
-    // navigate('/cart');
+    navigate('/cart');
   };
 
   const handleModifierCountInput = (count) => {
@@ -136,21 +146,25 @@ export default function ModifiersPage() {
   };
 
   return (
-    <Box bg="brand.bg" minH="100vh">
+    <Box bg="brand.bg" minH="100vh" color='black'>
       <Box h="60px">
         <Navbar title={merchantStoreName} showBackButton={true}  />
       </Box>
+
       {merchantStoreSelectedProduct?.item?.image_url !== null ? (
         <Image h="175" w="100vw" mb="4" objectFit="cover" src={merchantStoreSelectedProduct?.item?.image_url} alt="menu" />
       ) : <Divider mb="8" />}
+
       <Box h="100%" pb="200px">
-        
         <Flex mb={'16'} direction="column" w="100%" textAlign={'left'}>
           <Box px="6" mb="8">
             <Text mb="2" fontSize="1.75em" fontWeight="bold">{merchantStoreSelectedProduct?.item?.name}</Text>
+
             <Text fontSize={'20'} mb="8">{merchantStoreSelectedProduct?.item?.description}</Text>
+
             <Text fontSize={'20'}>${merchantStoreSelectedProduct?.item?.price}</Text>
           </Box>
+
           {modifierGroups.length > 1 &&
             modifierGroups.map((modifierGroup) => (
               modifierGroup.product_id === merchantStoreSelectedProduct?.item?.id && (
@@ -158,8 +172,11 @@ export default function ModifiersPage() {
               )
             ))
           }
+
           <Box px="6">
+
           </Box>
+
           <HStack 
             mt="8" 
             mx="6"
@@ -192,6 +209,7 @@ export default function ModifiersPage() {
                 h="100%" 
                 maxH="64px" 
                 minW="30px" {...inc} />
+
               <Input 
                 _focusVisible={{
                   outline: 'none'
@@ -207,6 +225,7 @@ export default function ModifiersPage() {
                 textAlign={'center'}
                 h="100%"
                 {...input} />
+
               <IconButton 
                 icon={<AiOutlineMinus />}
                 bg="transparent"
@@ -230,7 +249,6 @@ export default function ModifiersPage() {
                 minW="30px" 
                 {...dec} />
             </Flex>
-       
           </HStack>
         </Flex>
 
@@ -245,6 +263,7 @@ export default function ModifiersPage() {
           w="100%" 
           justifyContent="center"
           direction="column"
+          
         >
           <ModifierButton 
             loading={loading}
@@ -252,6 +271,7 @@ export default function ModifiersPage() {
             handleOnClick={handleCartButtoon} 
             numberOfItems={itemCount} 
             totalPrice={totalPrice} />
+            
         </Flex>
       </Box>
       

@@ -105,6 +105,7 @@ export default function CategoriesPage() {
     setOrderMethod('Pickup');
     updateTableNumber(null);
     setMerchantURL(merchantURLPath);
+
     return merchantURLPath;
   };
 
@@ -193,9 +194,9 @@ export default function CategoriesPage() {
           py="4" 
           alignItems={'center'}
           justifyContent="space-between">
-          <VStack spacing="1">
+          <VStack spacing="1"  color="black">
             <Text  textAlign={'left'} fontSize="xl" fontWeight={'semibold'} w="100%">{menu.name}</Text>
-            <Text  textAlign={'left'} fontSize="sm" w="100%" color="gray.500">{menu.description}</Text>
+            <Text  textAlign={'left'} fontSize="sm" w="100%">{menu.description}</Text>
           </VStack>
           <ChevronRightIcon />
         </Flex>
@@ -215,7 +216,6 @@ export default function CategoriesPage() {
   };
 
   const fetchBannerImage = async (merchantURLPath) => {
-    
     const bannerImage = await supabasePublic.storage
       .from('merchants')
       .getPublicUrl(merchantURLPath + '/banner');
@@ -233,6 +233,7 @@ export default function CategoriesPage() {
     <Box>
       <Flex direction="column">
         <Navbar title={merchantStore.brandName} showBackButton={false} showTabButton={true} />
+
         <VStack 
           py={'12'}
           backgroundImage={bannerImageURL} 
@@ -253,6 +254,7 @@ export default function CategoriesPage() {
             <Text color="#1e1e1e" fontSize="lg" fontWeight='semibold'>{orderMethod}</Text>
           </Flex>
         </VStack>
+
         {orderMethod === 'Dine-in' ? null : (
           orderMethod === 'Pickup' ? (
             <Flex 
@@ -264,13 +266,14 @@ export default function CategoriesPage() {
               borderBottomWidth="1px"
               px="6" 
               bg="brand.bg"
+              color='black'
             >
               {merchantAddress}
             </Flex>
           ) : null
         )}
+        
         <Stack pb='115' px="6" bg="white">
-         
           <InfiniteScroll
             dataLength={merchantStore.menuOptions === null || merchantStore.menuOptions === undefined ? 0 : merchantStore.menuOptions.length} 
             next={fetchMoreData}
@@ -285,6 +288,7 @@ export default function CategoriesPage() {
         </Stack>
         <Spacer />
       </Flex>
+      
       {cart.length > 0 ? <CheckoutButton handleCheckout={handleCheckout} /> : null}
     </Box>
   );

@@ -31,7 +31,7 @@ export default function Cart() {
   };
 
   return (
-    <Box minH="100vh" pb="300px">
+    <Box minH="100vh" pb="300px" color='black'>
       <Navbar title={orderMedthod} showBackButton={true} />
       <VStack
         pt={6}

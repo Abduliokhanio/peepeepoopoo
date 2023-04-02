@@ -88,7 +88,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <Box pb="300px" bg="brand.bg">
+    <Box pb="300px" color='black' bg="brand.bg">
       <Flex direction="column">
         <Navbar title={merchantStoreCategoryName} showBackButton={true}  showTabButton={true}/>
         <HStack 
