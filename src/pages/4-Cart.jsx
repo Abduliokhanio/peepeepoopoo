@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { VStack, Box, Text, Button, Heading } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import Navbar from "../components/Navbar";
-import CartItemCard from "../components/cards/CartItemCard";
-import PaymentDetailsButton from "../components/buttons/PaymentDetailsButton";
-import { AiOutlinePlus } from "react-icons/ai";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { VStack, Box, Text, Button, Heading } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
+import Navbar from '../components/Navbar';
+import CartItemCard from '../components/cards/CartItemCard';
+import PaymentDetailsButton from '../components/buttons/PaymentDetailsButton';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 export default function Cart() {
   const cart = useSelector((state) => state.cart.items);
@@ -17,7 +17,7 @@ export default function Cart() {
   const orderTip = useSelector((state) => state.cart.tip);
   const orderTax = useSelector((state) => state.cart.orderTax);
   const orderMedthod = useSelector((state) => state.cart.orderType);
-  const pendingOrders = cart.filter((item) => item.status === "pending");
+  const pendingOrders = cart.filter((item) => item.status === 'pending');
   const subTotal = pendingOrders.reduce(
     (acc, item) => acc + parseInt(item.items?.price) * item.quantity,
     0
@@ -28,8 +28,8 @@ export default function Cart() {
 
   const handleContinue = async () => {
     setLoading(true);
-    if (orderTip === null || orderTip === undefined) navigate("/cart/tip");
-    else navigate("/cart/checkout");
+    if (orderTip === null || orderTip === undefined) navigate('/cart/tip');
+    else navigate('/cart/checkout');
     setLoading(false);
   };
   // undouble quote?
@@ -39,7 +39,7 @@ export default function Cart() {
       <Navbar title={orderMedthod} showBackButton={true} />
       <VStack pt={6} spacing={4} align="stretch" px="6" mb="8">
         {tableNumber === null ? null : (
-          <Text w="100%" textAlign={"left"}>
+          <Text w="100%" textAlign={'left'}>
             {`Table #${tableNumber}`}
           </Text>
         )}
@@ -48,7 +48,7 @@ export default function Cart() {
           return <CartItemCard key={index} item={item} />;
         })}
 
-        <Box textAlign={"right"} pt={4}>
+        <Box textAlign={'right'} pt={4}>
           <Button
             maxW="200px"
             onClick={() => navigate(`/${merchantURLPath}`)}
@@ -56,7 +56,7 @@ export default function Cart() {
             color="white"
             bg="black"
           >
-            <Heading pb="0.5" letterSpacing={"0.5px"} fontSize={"md"}>
+            <Heading pb="0.5" letterSpacing={'0.5px'} fontSize={'md'}>
               Add items
             </Heading>
           </Button>
@@ -72,7 +72,7 @@ export default function Cart() {
         subTotalWithTax={subTotalWithTax}
         totalCost={totalCost}
         stateTax={orderTax}
-        buttonLabel={"Continue"}
+        buttonLabel={'Continue'}
       />
     </Box>
   );
