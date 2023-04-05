@@ -1,5 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
-import { isBindingElement } from 'typescript';
+import { createSlice } from '@reduxjs/toolkit';
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -12,33 +11,21 @@ export const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      if (state.items.some((item) => item?.id === action.payload.id)) {
-        return state;
+      const { id } = action.payload;
+      if (!state.items.some((item) => item?.id === id)) {
+        state.items.push(action.payload);
       }
-      return {
-        ...state,
-        items: [...state.items, action.payload],
-      };
     },
     removeFromCart: (state, action) => {
-      return {
-        ...state,
-        items: state.items.filter((item) => item.id !== action.payload.id)
-      };
+      const { id } = action.payload;
+      state.items = state.items.filter((item) => item.id !== id);
     },
     updateCart: (state, action) => {
-      return {
-        ...state,
-        items: state.items.map((item) => {
-          if (item.id === action.payload.id) {
-            if (item.modifiers.length > 0){
-              addModsAndModGroupsToRedux(item, action);
-            } 
-            return action.payload;
-          } 
-          return item;
-        }),
-      };
+      const { id, modifiers } = action.payload;
+      const item = state.items.find((item) => item.id === id);
+      if (item) {
+        item.modifiers = modifiers;
+      }
     },
     clearCart: (state) => {
       state.items = [];
@@ -58,61 +45,15 @@ export const cartSlice = createSlice({
   }
 });
 
-// Action creators are generated for each case reducer function
 export const {
   addToCart,
-  updateCart,
   removeFromCart,
+  updateCart,
+  clearCart,
   setOrderTip,
   updateOrderMethod,
-  clearCart,
   setOrderTotal,
   setOrderTax
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
-
-//Helper Methods
-
-function addModsAndModGroupsToRedux(item,action){
-  addModsToRedux(item, action);
-  addModGroupssToRedux(item, action);
-}
-
-function addModsToRedux(item, action){
-  for(let i = 0; i < item.modifiers.length; i++){
-    ifNotInThenAdd_Mods(action,item.modifiers[i]);
-  }
-}
-
-function addModGroupssToRedux(item, action){
-  for(let i = 0; i < item.modifiersGroup.length; i++){
-    ifNotInThenAdd_ModGroups(action,item.modifiersGroup[i]);
-  }
-}
-
-function ifNotInThenAdd_ModGroups(action,itemModGroup){
-  if(action.payload.modifiersGroup.find(modGroup => modGroup.name !== itemModGroup.name)){//if not in 
-    action.payload.modifiersGroup = action.payload.modifiersGroup.push(itemModGroup); //then add
-  } 
-
-  if(action.payload.deselectThis){
-    action.payload.modifiersGroup = action.payload.modifiersGroup.filter(e => e.name !== action.payload.deselectThisGroup.name);
-  }
-
-  return action.payload;
-}
-
-function ifNotInThenAdd_Mods(action,itemMod){
-  if(action.payload.modifiers.find(modifier => modifier.name !== itemMod.name)){//if not in 
-    action.payload.modifiers.push(itemMod); //then add
-  } else if (action.payload.modifiers.length == 0) {
-    action.payload.modifiers.push(itemMod);
-  }
-  if(action.payload.deselectThis){
-    action.payload.modifiers = action.payload.modifiers.filter(e => e.name !== action.payload.deselectThis.name);
-  }
-
-  return action.payload;
-}
-
