@@ -32,7 +32,7 @@ export default function Cart() {
     else navigate('/cart/checkout');
     setLoading(false);
   };
-  // undouble quote?
+  // undouble quote
 
   return (
     <Box minH="100vh" pb="300px" color="black">
