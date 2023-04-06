@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
+
 import {
   Heading, Image, IconButton, Checkbox, CheckboxGroup, Stack, StackDivider, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
 } from '@chakra-ui/react';
-import {updateCart, addToCart} from '../context/slices/cartSlice';
+
+import { updateCart, addToCart } from '../context/slices/cartSlice';
+
 // test 4
-function CheckBoxForOptions({modifierGroup, allSelectedModifiers, setAllSelectedModifiers}) {
+function CheckBoxForOptions({ modifierGroup, allSelectedModifiers, setAllSelectedModifiers }) {
   //react local state
   const [selectedModifiers, setSelectedModifiers] = useState([]);
 
@@ -13,15 +17,13 @@ function CheckBoxForOptions({modifierGroup, allSelectedModifiers, setAllSelected
   const dispatch = useDispatch();
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
 
-  useEffect(() => {
-  });
-  
   const modifierGroupRequired = (modifierGroup) => {
     if (modifierGroup.required) return (
       <Box bg="gray.100" borderRadius={'md'} px={2} py={1}>
         <Text fontSize={'xs'} color="gray.500" >Required</Text>
       </Box>
     );
+
     return null;
   };
 
@@ -31,47 +33,55 @@ function CheckBoxForOptions({modifierGroup, allSelectedModifiers, setAllSelected
 
     return (<Text>{modifierGroup.description}</Text>);
   };
+
   const modifierDisableMax = (modifier, modifierGroup) => {
     const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
+
     if (selectedModifierCount < modifierGroup.select_max) { return false; }
-    if (selectedModifiers.filter(item => item.id === modifier.id).length === 0) { return true;}
+
+    if (selectedModifiers.filter(item => item.id === modifier.id).length === 0) { return true; }
+
     return false;
   };
 
   const handleCheckboxChange = (e, modifier, modifierGroup) => {
     if (e.target.checked) {
       setSelectedModifiers([...selectedModifiers, modifier]);
-      setAllSelectedModifiers([...selectedModifiers, modifier]);
+      setAllSelectedModifiers([...allSelectedModifiers, modifier]);
+
       const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
+
       if (selectedModifierCount < modifierGroup.select_max) {
         setSelectedModifiers([...selectedModifiers, modifier]);
-        setAllSelectedModifiers([...selectedModifiers, modifier]);
-        let cartItemUpdate = { 
-          id: merchantStoreSelectedProduct.id, 
-          items: merchantStoreSelectedProduct.item, 
-          quantity: 1, 
+
+        let cartItemUpdate = {
+          id: merchantStoreSelectedProduct.id,
+          items: merchantStoreSelectedProduct.item,
+          quantity: 1,
           modifiersGroup: [modifierGroup],
-          modifiers: [...selectedModifiers, modifier], 
+          modifiers: [...selectedModifiers, modifier],
           specialRequest: '',
           status: 'pending',
         };
+
         dispatch(updateCart(cartItemUpdate));
-      } 
-    } 
-    else{
+      }
+    } else {
       setSelectedModifiers(selectedModifiers.filter(e => e.name != modifier.name));
-      setAllSelectedModifiers(selectedModifiers.filter(e => e.name != modifier.name));
-      let cartItemUpdate = { 
-        id: merchantStoreSelectedProduct.id, 
-        items: merchantStoreSelectedProduct.item, 
-        quantity: 1, 
+      setAllSelectedModifiers(allSelectedModifiers.filter(e => e.name != modifier.name));
+
+      let cartItemUpdate = {
+        id: merchantStoreSelectedProduct.id,
+        items: merchantStoreSelectedProduct.item,
+        quantity: 1,
         modifiersGroup: [modifierGroup],
-        modifiers: selectedModifiers, 
+        modifiers: selectedModifiers,
         specialRequest: '',
         status: 'pending',
         deselectThis: modifier,
         deselectThisGroup: modifierGroup
       };
+
       dispatch(updateCart(cartItemUpdate));
     }
   };
@@ -87,8 +97,8 @@ function CheckBoxForOptions({modifierGroup, allSelectedModifiers, setAllSelected
           {modifierGroupDescription(modifierGroup)}
         </Box>
         <CheckboxGroup>
-          <Stack 
-            direction='column' 
+          <Stack
+            direction='column'
             px="6"
             divider={<StackDivider borderColor='gray.200' />}>
             {modifierGroup?.modifiers?.map(modifier => (
