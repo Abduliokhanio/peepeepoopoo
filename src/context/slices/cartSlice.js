@@ -7,7 +7,7 @@ export const cartSlice = createSlice({
     tip: null,
     orderType: null,
     orderTotal: null,
-    orderTax: null
+    orderTax: null,
   },
   reducers: {
     addToCart: (state, action) => {
@@ -23,6 +23,7 @@ export const cartSlice = createSlice({
     updateCart: (state, action) => {
       const { id, modifiers } = action.payload;
       const item = state.items.find((item) => item.id === id);
+
       if (item) {
         item.modifiers = modifiers;
       }
@@ -41,8 +42,8 @@ export const cartSlice = createSlice({
     },
     setOrderTax: (state, action) => {
       state.orderTax = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -53,7 +54,7 @@ export const {
   setOrderTip,
   updateOrderMethod,
   setOrderTotal,
-  setOrderTax
+  setOrderTax,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

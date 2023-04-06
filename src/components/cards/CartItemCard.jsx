@@ -8,23 +8,21 @@ import { removeFromCart } from '../../context/slices/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { setSelectedProduct } from '../../context/slices/merchantSlice';
 
-export default function CartItemCard({item}) {
+export default function CartItemCard({ item }) {
 
   const cart = useSelector(state => state.cart.items);
   const itemInCart = cart.find(cartItem => cartItem.id === item.id);
-  let uniqueModGroups;
+  let uniqueModGroups = [];
 
-  if (itemInCart.modifiers.length > 0) {
-    uniqueModGroups = itemInCart?.modifiersGroup
+  if (itemInCart && itemInCart.modifiers.length > 0) {
+    uniqueModGroups = itemInCart.modifierGroups
       .filter((value, index, array) => array.findIndex(obj => obj.id === value.id) === index)
       .sort((a, b) => a.id - b.id);
-  }else{
-    uniqueModGroups = [];
   }
 
   const filteredUniqItemInCart = itemInCart?.modifiers
-    .filter((value, index, array) => array.indexOf(value) === index)
-    .filter((item, index, array) => index === array.findIndex(obj => obj.id === item.id));
+    ?.filter((value, index, array) => array.indexOf(value) === index)
+    ?.filter((item, index, array) => index === array.findIndex(obj => obj.id === item.id));
 
   const merchantURLPath = useSelector(state => state.merchant.urlPath);
   const dispatch = useDispatch();
@@ -48,7 +46,7 @@ export default function CartItemCard({item}) {
         {item.image_url && (
           <Image h="150" maxW="200" objectFit="cover" src={itemInCart.image_url} alt="menu" />
         )}
-  
+
         <Stack onClick={handleCartItemClick} w="100%" textAlign="left" spacing={'4'}>
           <Flex alignItems="center">
             <Box backgroundColor={'gray.50'} borderRadius="4" mr="4" px="3.5" py="1" maxH='35px' maxW="35px">
@@ -58,7 +56,7 @@ export default function CartItemCard({item}) {
               <Heading fontSize="1.25rem" mt="1">{itemInCart?.items?.name}</Heading>
               {uniqueModGroups?.map((modifierGroup) => (
                 <React.Fragment key={modifierGroup.id}>
-                  <Text as='u' fontSize='lg' color='blue'> 
+                  <Text as='u' fontSize='lg' color='blue'>
                     {modifierGroup.name}
                   </Text>
                   {filteredUniqItemInCart
@@ -75,7 +73,7 @@ export default function CartItemCard({item}) {
           </Flex>
           <Text textAlign="left" fontSize="lg">${itemTotalCost.toFixed(2)}</Text>
         </Stack>
-  
+
         <Flex pr="4" alignItems={'center'}>
           <Box onClick={handleRemoveFromCart}>
             <IconButton aria-label='Search database' color="red.200" bg="red.50" icon={<SmallCloseIcon fontSize={'1.75em'} />} />

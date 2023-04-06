@@ -9,7 +9,7 @@ import {
 import { updateCart, addToCart } from '../context/slices/cartSlice';
 
 // test 4
-function CheckBoxForOptions({ modifierGroup, allSelectedModifiers, setAllSelectedModifiers }) {
+function CheckBoxForOptions({ modifierGroup, allSelectedModifiers, setAllSelectedModifiers, selectedModifierGroups, setSelectedModifierGroups }) {
   //react local state
   const [selectedModifiers, setSelectedModifiers] = useState([]);
 
@@ -48,6 +48,7 @@ function CheckBoxForOptions({ modifierGroup, allSelectedModifiers, setAllSelecte
     if (e.target.checked) {
       setSelectedModifiers([...selectedModifiers, modifier]);
       setAllSelectedModifiers([...allSelectedModifiers, modifier]);
+      setSelectedModifierGroups([...selectedModifierGroups, modifierGroup]);
 
       const selectedModifierCount = selectedModifiers.map(selectedModifier => selectedModifier.modifier_groups_id === modifierGroup.id).length;
 
@@ -69,6 +70,7 @@ function CheckBoxForOptions({ modifierGroup, allSelectedModifiers, setAllSelecte
     } else {
       setSelectedModifiers(selectedModifiers.filter(e => e.name != modifier.name));
       setAllSelectedModifiers(allSelectedModifiers.filter(e => e.name != modifier.name));
+      setSelectedModifierGroups(selectedModifierGroups.filter(e => e.name != modifier.name));
 
       let cartItemUpdate = {
         id: merchantStoreSelectedProduct.id,

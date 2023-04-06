@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import {supabasePublic} from '../services/supabasePublic';
+import { supabasePublic } from '../services/supabasePublic';
 import ModifierButton from '../components/buttons/ModifierButton';
 import {
   Heading, Image, IconButton, Checkbox, CheckboxGroup, Stack, StackDivider, useNumberInput, Flex, Textarea, Text, Box, HStack, Button, Input, Divider
@@ -10,7 +10,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, updateCart } from '../context/slices/cartSlice';
 import ShortUniqueId from 'short-unique-id';
-import {AiOutlinePlus, AiOutlineMinus} from 'react-icons/ai';
+import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import CheckBoxForOptions from '../components/CheckBoxForOptions';
 import { current } from '@reduxjs/toolkit';
 
@@ -18,9 +18,9 @@ export default function ModifiersPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uid = new ShortUniqueId({
-    length: 10 
+    length: 10
   });
-  
+
   const merchantStoreSelectedProduct = useSelector(state => state.merchant.selectedProduct);
 
   const merchantStoreName = useSelector(state => state.merchant.brandName);
@@ -36,13 +36,15 @@ export default function ModifiersPage() {
   const [itemCount, setItemCount] = useState(1);
 
   const [isItemInCart, setIsItemInCart] = useState(false);
-  
+
   const [modifierGroups, setModifierGroups] = useState([]);
 
   // Since modifier state is local ot the CheckBoxForOptions component, we will instantiate this
   // "global" state that each modifier group will append to when a modifier is selected.
   // Now, we can pass the selected modifiers object, in contrast to not being able to access it before.
   const [allSelectedModifiers, setAllSelectedModifiers] = useState([]);
+
+  const [selectedModifierGroups, setSelectedModifierGroups] = useState([]);
 
   const [specialRequest, setSpecialRequest] = useState('');
 
@@ -64,14 +66,14 @@ export default function ModifiersPage() {
     setTotalPrice(itemCount * merchantStoreSelectedProduct?.item?.price);
   }, []);
 
-  const checkCart = async () => { 
+  const checkCart = async () => {
     setLoading(true);
     const itemInCart = cart.find(item => item?.id === merchantStoreSelectedProduct.id);
-    
+
     if (itemInCart === undefined) {
-      setIsItemInCart(false); 
+      setIsItemInCart(false);
       setItemCount(merchantStoreSelectedProduct.quantity);
-    } 
+    }
 
     const modifierGroupsData = await fetchModifierGroups();
     await fetchModifiers(modifierGroupsData);
@@ -80,24 +82,24 @@ export default function ModifiersPage() {
 
   const handleCartButtoon = () => {
     if (loading) return;
-    
+
     if (isItemInCart) {
-      let cartItemUpdate = { 
-        id: merchantStoreSelectedProduct.id, 
-        items: merchantStoreSelectedProduct.item, 
-        quantity: parseInt(itemCount), 
-        modifiers: allSelectedModifiers, 
+      let cartItemUpdate = {
+        id: merchantStoreSelectedProduct.id,
+        items: merchantStoreSelectedProduct.item,
+        quantity: parseInt(itemCount),
+        modifiers: allSelectedModifiers,
         specialRequest: 'specialRequest - cartItemUpdate',
         status: 'pending',
       };
 
       dispatch(addToCart(cartItemUpdate));
     } else {
-      let cartOrderInsert = { 
-        id: merchantStoreSelectedProduct.id, 
-        items: merchantStoreSelectedProduct.item, 
-        quantity: parseInt(itemCount), 
-        modifiersGroup: [],
+      let cartOrderInsert = {
+        id: merchantStoreSelectedProduct.id,
+        items: merchantStoreSelectedProduct.item,
+        quantity: parseInt(itemCount),
+        modifierGroups: selectedModifierGroups,
         modifiers: allSelectedModifiers,
         specialRequest: 'specialRequest - cartOrderInsert',
         status: 'pending',
@@ -124,7 +126,7 @@ export default function ModifiersPage() {
       Sentry.captureException(error);
       throw error;
     }
- 
+
     const sortModifierGroupOrder = data.sort((a, b) => b.required - a.required);
     setModifierGroups(sortModifierGroupOrder);
     return sortModifierGroupOrder;
@@ -137,14 +139,14 @@ export default function ModifiersPage() {
         .match({
           'modifier_groups_id': modifierGroup.id
         });
-      
+
       if (error) {
         Sentry.captureException(error);
         throw error;
       }
-    
+
       return {
-        ...modifierGroup, modifiers: data 
+        ...modifierGroup, modifiers: data
       };
     });
     setModifierGroups(await Promise.all(hydratedModifierGroups));
@@ -153,7 +155,7 @@ export default function ModifiersPage() {
   return (
     <Box bg="brand.bg" minH="100vh" color='black'>
       <Box h="60px">
-        <Navbar title={merchantStoreName} showBackButton={true}  />
+        <Navbar title={merchantStoreName} showBackButton={true} />
       </Box>
 
       {merchantStoreSelectedProduct?.item?.image_url !== null ? (
@@ -173,11 +175,13 @@ export default function ModifiersPage() {
           {modifierGroups.length > 1 &&
             modifierGroups.map((modifierGroup) => (
               modifierGroup.product_id === merchantStoreSelectedProduct?.item?.id && (
-                <CheckBoxForOptions 
+                <CheckBoxForOptions
                   key={modifierGroup.id}
                   modifierGroup={modifierGroup}
                   allSelectedModifiers={allSelectedModifiers}
                   setAllSelectedModifiers={setAllSelectedModifiers}
+                  selectedModifierGroups={selectedModifierGroups}
+                  setSelectedModifierGroups={setSelectedModifierGroups}
                 />
               )
             ))
@@ -187,8 +191,8 @@ export default function ModifiersPage() {
 
           </Box>
 
-          <HStack 
-            mt="8" 
+          <HStack
+            mt="8"
             mx="6"
           >
             <Flex
@@ -198,7 +202,7 @@ export default function ModifiersPage() {
               border={'2px solid #363636'}
               bg="white"
             >
-              <IconButton 
+              <IconButton
                 icon={<AiOutlinePlus />}
                 color={'black'}
                 _hover={{
@@ -206,21 +210,21 @@ export default function ModifiersPage() {
                 }}
                 _focusVisible={{
                   outline: 'none',
-                  backgroundColor: 'transparent' 
+                  backgroundColor: 'transparent'
                 }}
                 _active={{
-                  backgroundColor: 'transparent' 
+                  backgroundColor: 'transparent'
                 }}
                 fontSize={'25'}
                 bg="transparent"
                 py="4"
                 pl="8"
                 pr="4"
-                h="100%" 
-                maxH="64px" 
+                h="100%"
+                maxH="64px"
                 minW="30px" {...inc} />
 
-              <Input 
+              <Input
                 _focusVisible={{
                   outline: 'none'
                 }}
@@ -236,7 +240,7 @@ export default function ModifiersPage() {
                 h="100%"
                 {...input} />
 
-              <IconButton 
+              <IconButton
                 icon={<AiOutlineMinus />}
                 bg="transparent"
                 _hover={{
@@ -244,19 +248,19 @@ export default function ModifiersPage() {
                 }}
                 _focusVisible={{
                   outline: 'none',
-                  backgroundColor: 'transparent' 
+                  backgroundColor: 'transparent'
                 }}
                 _active={{
-                  backgroundColor: 'transparent' 
+                  backgroundColor: 'transparent'
                 }}
                 color={'black'}
                 fontSize={'25px'}
-                py='4' 
+                py='4'
                 pl="4"
                 pr="8"
-                h="100%" 
-                maxH="64px" 
-                minW="30px" 
+                h="100%"
+                maxH="64px"
+                minW="30px"
                 {...dec} />
             </Flex>
           </HStack>
@@ -264,27 +268,27 @@ export default function ModifiersPage() {
 
         <Flex
           pos="fixed"
-          bottom="0" 
+          bottom="0"
           left="0"
           backdropFilter="blur(5px)"
           borderTop='1px solid rgba(255, 255, 255, 0.1)'
-          bg="RGBA(255, 255, 255, 0.90)" 
-          py="4" 
-          w="100%" 
+          bg="RGBA(255, 255, 255, 0.90)"
+          py="4"
+          w="100%"
           justifyContent="center"
           direction="column"
-          
+
         >
-          <ModifierButton 
+          <ModifierButton
             loading={loading}
-            isItemInCart={isItemInCart} 
-            handleOnClick={handleCartButtoon} 
-            numberOfItems={itemCount} 
+            isItemInCart={isItemInCart}
+            handleOnClick={handleCartButtoon}
+            numberOfItems={itemCount}
             totalPrice={totalPrice}
           />
         </Flex>
       </Box>
-      
+
     </Box>
   );
 }
