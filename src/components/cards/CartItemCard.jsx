@@ -15,8 +15,8 @@ export default function CartItemCard({ item }) {
   let uniqueModGroups = [];
 
   if (itemInCart && itemInCart.modifiers.length > 0) {
-    uniqueModGroups = itemInCart.modifierGroups
-      .filter((value, index, array) => array.findIndex(obj => obj.id === value.id) === index)
+    uniqueModGroups = itemInCart?.modifierGroups
+      ?.filter((value, index, array) => array.findIndex(obj => obj.id === value.id) === index)
       .sort((a, b) => a.id - b.id);
   }
 
