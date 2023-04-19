@@ -57,7 +57,7 @@ function CheckBoxForOptions({ modifierGroup, allSelectedModifiers, setAllSelecte
 
         let cartItemUpdate = {
           id: merchantStoreSelectedProduct.id,
-          items: merchantStoreSelectedProduct.item,
+          item: merchantStoreSelectedProduct.item,
           quantity: 1,
           modifiersGroup: [modifierGroup],
           modifiers: [...selectedModifiers, modifier],
@@ -74,7 +74,7 @@ function CheckBoxForOptions({ modifierGroup, allSelectedModifiers, setAllSelecte
 
       let cartItemUpdate = {
         id: merchantStoreSelectedProduct.id,
-        items: merchantStoreSelectedProduct.item,
+        item: merchantStoreSelectedProduct.item,
         quantity: 1,
         modifiersGroup: [modifierGroup],
         modifiers: selectedModifiers,

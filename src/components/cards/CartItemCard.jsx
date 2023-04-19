@@ -28,7 +28,8 @@ export default function CartItemCard({ item }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const itemTotalCost = item.quantity * item.items?.price;
+  const itemTotalCost = item.quantity * item.item?.price;
+
 
   const handleRemoveFromCart = () => {
     dispatch(removeFromCart(item));

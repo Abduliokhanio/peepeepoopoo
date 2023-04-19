@@ -86,7 +86,7 @@ export default function ModifiersPage() {
     if (isItemInCart) {
       let cartItemUpdate = {
         id: merchantStoreSelectedProduct.id,
-        items: merchantStoreSelectedProduct.item,
+        item: merchantStoreSelectedProduct.item,
         quantity: parseInt(itemCount),
         modifiers: allSelectedModifiers,
         specialRequest: 'specialRequest - cartItemUpdate',
@@ -97,7 +97,7 @@ export default function ModifiersPage() {
     } else {
       let cartOrderInsert = {
         id: merchantStoreSelectedProduct.id,
-        items: merchantStoreSelectedProduct.item,
+        item: merchantStoreSelectedProduct.item,
         quantity: parseInt(itemCount),
         modifierGroups: selectedModifierGroups,
         modifiers: allSelectedModifiers,

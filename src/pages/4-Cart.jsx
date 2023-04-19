@@ -27,16 +27,29 @@ export default function Cart() {
 
   const pendingOrders = cart.filter((item) => item.status === 'pending');
 
-  const subTotal = pendingOrders.reduce(
-    (acc, item) => acc + parseInt(item.items?.price) * item.quantity,
+  const subTotal = Number(pendingOrders.reduce(
+    (acc, item) => acc + parseInt(item.item?.price) * item.quantity,
     0
-  );
+  ))
+
+  console.log(`Subtotal: ${subTotal}`)
 
   const subTotalWithTax = (subTotal + subTotal * (orderTax / 100)).toFixed(2);
 
+  console.log(`Subtotal With Tax: ${subTotalWithTax}`)
+
   const tip = (subTotalWithTax * orderTip).toFixed(2);
 
-  const totalCost = subTotalWithTax + tip;
+  console.log(`Tip: ${tip}`)
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
+  const totalCost = Number(subTotalWithTax + tip);
+
+  console.log(`Total Cost: ${totalCost}`)
 
   const handleContinue = async () => {
     setLoading(true);
